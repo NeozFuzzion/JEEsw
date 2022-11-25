@@ -29,7 +29,7 @@ public class Artifact {
     private int natural_rank;
 
     @Column
-    private int rank;
+    private int rang;
 
     @Column
     private int level;
@@ -95,12 +95,12 @@ public class Artifact {
     public void setNatural_rank(int natural_rank) {
         this.natural_rank = natural_rank;
     }
-    public int getRank() {
-        return rank;
+    public int getRang() {
+        return rang;
     }
 
-    public void setRank(int rank) {
-        this.rank = rank;
+    public void setRang(int rank) {
+        this.rang = rank;
     }
 
     public int getLevel() {
@@ -137,7 +137,7 @@ public class Artifact {
                 ", attribute=" + attribute +
                 ", unit_style=" + unit_style +
                 ", natural_rank=" + natural_rank +
-                ", rank=" + rank +
+                ", rank=" + rang +
                 ", level=" + level +
                 ", pri_effect='" + pri_effect + '\'' +
                 ", sec_effect='" + sec_effect + '\'' +
