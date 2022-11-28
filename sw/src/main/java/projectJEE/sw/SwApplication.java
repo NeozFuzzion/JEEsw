@@ -39,15 +39,22 @@ public class SwApplication {
 		return (args) -> {
 			System.out.println("Démarrage... ");
 
-			//System.out.println(runeRepository.findAll());
-			//System.out.println(monsterRepository.findAll());
-			//System.out.println(artifactRepository.findAll());
+			System.out.println(runeRepository.findAll());
+			System.out.println(monsterRepository.findAll());
+			System.out.println(artifactRepository.findAll());
 			File file = new ClassPathResource("data/NeozFuzzion-840111.json").getFile();
 
 			JSONParser jsonP = new JSONParser();
 			JSONObject jsonO = (JSONObject)jsonP.parse(new FileReader(file));
 			JSONArray runes = (JSONArray) jsonO.get("runes");
 			JSONArray units=(JSONArray) jsonO.get("unit_list");
+			File fileData = new ClassPathResource("data/monster.json").getFile();
+
+			JSONParser jsonDataP = new JSONParser();
+			JSONObject jsonDataO = (JSONObject)jsonP.parse(new FileReader(fileData));
+
+
+			System.out.println(((JSONObject) jsonDataO.get("rune")).get("substat"));
 
 			Iterator<JSONObject> itUnits = units.iterator();
 			while(itUnits.hasNext()){

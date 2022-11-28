@@ -153,7 +153,7 @@ public class Rune {
                 ", pri_eff='" + pri_eff + '\'' +
                 ", prefix_eff='" + prefix_eff + '\'' +
                 ", sec_eff='" + sec_eff + '\'' +
-                ", efficiency=" + efficiency +
+                ", efficiency=" + efficiency+
                 '}';
     }
 }
