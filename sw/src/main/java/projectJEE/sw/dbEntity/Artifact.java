@@ -40,6 +40,9 @@ public class Artifact {
     @Column
     private String sec_effect;
 
+    @Column
+    private long efficiency;
+
     public long getIdArtifact() {
         return idArtifact;
     }
@@ -125,6 +128,14 @@ public class Artifact {
 
     public void setSec_effect(String sec_effect) {
         this.sec_effect = sec_effect;
+    }
+
+    public long getEfficiency() {
+        return efficiency;
+    }
+
+    public void setEfficiency(long efficiency) {
+        this.efficiency = efficiency;
     }
 
     @Override

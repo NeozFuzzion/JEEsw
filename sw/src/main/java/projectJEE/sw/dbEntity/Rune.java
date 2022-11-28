@@ -132,11 +132,21 @@ public class Rune {
     }
 
     public long getEfficiency() {
-            return efficiency;
+        return efficiency;
     }
 
-    public void setEfficiency(long efficiency) {
+    public void setExtra(long efficiency) {
         this.efficiency = efficiency;
+    }
+
+    public long efficiency(String prefix_eff,String sec_eff){
+        int[] innate=p
+        if(innate[0]!=0){
+
+        }
+        for(int i =0; i<sec_eff.length();i++){
+
+        }
     }
 
     @Override
@@ -153,9 +163,7 @@ public class Rune {
                 ", pri_eff='" + pri_eff + '\'' +
                 ", prefix_eff='" + prefix_eff + '\'' +
                 ", sec_eff='" + sec_eff + '\'' +
-                ", efficiency=" + efficiency +
+                ", efficiency=" + efficiency+
                 '}';
     }
-
-    //public long efficiency
 }
