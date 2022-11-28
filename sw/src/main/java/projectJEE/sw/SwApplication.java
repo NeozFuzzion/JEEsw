@@ -60,9 +60,20 @@ public class SwApplication {
 			while(it.hasNext()){
 				JSONObject element = it.next();
 				Rune rune = new Rune();
-				long rune_id=(long)element.get("rune_id");
-				rune.setClasse((int)element.get("class"));
-				rune.setExtra((int)element.get("extra"));
+
+				rune.setIdRune((Long)element.get("rune_id"));
+				rune.setOccupied_type(((Long)element.get("occupied_type")).intValue());
+				rune.setOccupied_id((Long)element.get("occupied_id"));
+				rune.setSlot_no(((Long)element.get("slot_no")).intValue());
+				rune.setClasse(((Long)element.get("class")).intValue());
+				rune.setRang(((Long)element.get("rank")).intValue());
+				rune.setSet_id(((Long)element.get("set_id")).intValue());
+				rune.setUpgrade_curr(((Long)element.get("upgrade_curr")).intValue());
+				rune.setPri_eff(element.get("pri_eff").toString());
+				rune.setPrefix_eff(element.get("prefix_eff").toString());
+				rune.setSec_eff(element.get("sec_eff").toString());
+				rune.setExtra(((Long)element.get("extra")).intValue());
+				runeRepository.save(rune);
 			}
 
 

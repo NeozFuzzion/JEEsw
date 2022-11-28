@@ -41,7 +41,7 @@ public class Rune {
     private String sec_eff;
 
     @Column
-    private int extra;
+    private long efficiency;
 
     public long getIdRune() {
         return idRune;
@@ -131,12 +131,22 @@ public class Rune {
         this.sec_eff = sec_eff;
     }
 
-    public int getExtra() {
-        return extra;
+    public long getEfficiency() {
+        return efficiency;
     }
 
-    public void setExtra(int extra) {
-        this.extra = extra;
+    public void setExtra(long efficiency) {
+        this.efficiency = efficiency;
+    }
+
+    public long efficiency(String prefix_eff,String sec_eff){
+        int[] innate=p
+        if(innate[0]!=0){
+
+        }
+        for(int i =0; i<sec_eff.length();i++){
+
+        }
     }
 
     @Override
@@ -153,7 +163,7 @@ public class Rune {
                 ", pri_eff='" + pri_eff + '\'' +
                 ", prefix_eff='" + prefix_eff + '\'' +
                 ", sec_eff='" + sec_eff + '\'' +
-                ", extra=" + extra +
+                ", efficiency=" + efficiency+
                 '}';
     }
 }
