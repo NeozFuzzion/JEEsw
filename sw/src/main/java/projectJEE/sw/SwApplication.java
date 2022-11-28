@@ -39,9 +39,9 @@ public class SwApplication {
 		return (args) -> {
 			System.out.println("Démarrage... ");
 
-			System.out.println(runeRepository.findAll());
-			System.out.println(monsterRepository.findAll());
-			System.out.println(artifactRepository.findAll());
+			//System.out.println(runeRepository.findAll());
+			//System.out.println(monsterRepository.findAll());
+			//System.out.println(artifactRepository.findAll());
 			File file = new ClassPathResource("data/NeozFuzzion-840111.json").getFile();
 
 			JSONParser jsonP = new JSONParser();
@@ -72,7 +72,6 @@ public class SwApplication {
 				rune.setPri_eff(element.get("pri_eff").toString());
 				rune.setPrefix_eff(element.get("prefix_eff").toString());
 				rune.setSec_eff(element.get("sec_eff").toString());
-				rune.setExtra(((Long)element.get("extra")).intValue());
 				runeRepository.save(rune);
 			}
 
