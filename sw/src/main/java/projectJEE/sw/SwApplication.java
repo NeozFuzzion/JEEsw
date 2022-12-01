@@ -18,10 +18,7 @@ import org.springframework.context.annotation.Bean;
 import javax.swing.text.html.HTMLDocument;
 import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 @SpringBootApplication
 public class SwApplication {
@@ -56,6 +53,13 @@ public class SwApplication {
 			JSONObject jsonO = (JSONObject)jsonS.parse(new FileReader(file));
 			JSONArray runes = (JSONArray) jsonO.get("runes");
 			JSONArray units = (JSONArray) jsonO.get("unit_list");
+			JSONObject maxMain = (JSONObject)((JSONObject)((JSONObject) jsonDataO.get("rune")).get("mainstat"));
+
+			HashMap<Integer,HashMap> mapMaxMain  = new HashMap<>();
+			for (int i=1; i<=12 ; i++ ){
+				mapMaxMain.put(i, (HashMap) maxMain.get(Integer.toString(i)));
+			}
+
 			JSONObject maxSub = (JSONObject)((JSONObject)((JSONObject) jsonDataO.get("rune")).get("substat"));
 
 			HashMap<Integer,HashMap> mapMaxSub  = new HashMap<>();
@@ -72,12 +76,13 @@ public class SwApplication {
 
 			}
 			Iterator<JSONObject> it = runes.iterator();
-			int i =0;
+			long i =0;
+			List<Rune> saveRune=new ArrayList<>();
 			while(it.hasNext()) {
 				JSONObject element = it.next();
 				Rune rune = new Rune();
-
-				rune.setIdRune((Long) element.get("rune_id"));
+				i++;
+				rune.setIdRune((Long) i);
 				rune.setOccupied_type(((Long) element.get("occupied_type")).intValue());
 				rune.setOccupied_id((Long) element.get("occupied_id"));
 				rune.setSlot_no(((Long) element.get("slot_no")).intValue());
@@ -85,33 +90,40 @@ public class SwApplication {
 				rune.setRang(((Long) element.get("rank")).intValue());
 				rune.setSet_id(((Long) element.get("set_id")).intValue());
 				rune.setUpgrade_curr(((Long) element.get("upgrade_curr")).intValue());
-				rune.setPri_eff(element.get("pri_eff").toString());
+
+				JSONArray pri_eff = (JSONArray) element.get("pri_eff");
 				JSONArray prefix_eff = (JSONArray) element.get("prefix_eff");
-				rune.setPrefix_eff(prefix_eff.toString());
 				JSONArray sec_eff = (JSONArray) element.get("sec_eff");
+
+				rune.setPri_eff(pri_eff.toString());
+				rune.setPrefix_eff(prefix_eff.toString());
 				rune.setSec_eff(sec_eff.toString());
-				float efficiency = (float) ((float) 1/2.8);
+
+				int maxmain = ((Long) (mapMaxMain.get(((Long) ((JSONArray) pri_eff).get(0)).intValue()).get(Integer.toString(((Long) element.get("class")).intValue() % 10)))).intValue();
+				int maxmain6 = ((Long) (mapMaxMain.get(((Long) ((JSONArray) pri_eff).get(0)).intValue()).get(Integer.toString(6)))).intValue();
+
+				float efficiency = (float) ((float) (((float) maxmain)/maxmain6)/2.8);
 				if ((Long) ((JSONArray) prefix_eff).get(0) != 0) {
-					float pre_eff_substat = (float) (((Long) (mapMaxSub.get(((Long) ((JSONArray) prefix_eff).get(0)).intValue()).get(Integer.toString(((Long) element.get("class")).intValue() % 10))))*2.8);
+					float pre_eff_substat = (float) (((Long) (mapMaxSub.get(((Long) ((JSONArray) prefix_eff).get(0)).intValue()).get(Integer.toString(6)))*2.8));
 					efficiency += ((((Long) ((JSONArray) prefix_eff).get(1)).intValue()) / pre_eff_substat);
 				}
-				System.out.println(efficiency);
+
 				for (Object e : (JSONArray) element.get("sec_eff")) {
-					System.out.println(e);
 					if (((JSONArray) e).size() > 0) {
-						int sommesub = ((Long) (((Long) ((JSONArray) e).get(1)) + ((Long) ((JSONArray) e).get(3)))).intValue();
-						int maxsub = ((Long) (mapMaxSub.get(((Long) ((JSONArray) e).get(0)).intValue()).get(Integer.toString(((Long) element.get("class")).intValue() % 10)))).intValue();
-						efficiency += ((float) sommesub / (maxsub * 2.8));
-						System.out.println(sommesub + "/" + maxsub );
+						float sommesub = ((((Long) ((JSONArray) e).get(0)).intValue())==1 || (((Long) ((JSONArray) e).get(0)).intValue())==3 ||( ((Long) ((JSONArray) e).get(0)).intValue())==5 ) ? (float) ((((Long) (((Long) ((JSONArray) e).get(1)) + ((Long) ((JSONArray) e).get(3)))).intValue()) * 0.5) : ((Long) (((Long) ((JSONArray) e).get(1)) + ((Long) ((JSONArray) e).get(3)))).intValue();
+
+						int maxsub = ((Long) (mapMaxSub.get(((Long) ((JSONArray) e).get(0)).intValue()).get(Integer.toString(6)))).intValue();
+						efficiency += ( sommesub / (maxsub * 2.8));
+
 					}
 
 				}
-				System.out.println(efficiency);
-				rune.setEfficiency(efficiency);
-				runeRepository.save(rune);
+
+				rune.setEfficiency(efficiency*100);
+				saveRune.add(rune);
 			}
-
-
+			runeRepository.saveAll(saveRune);
+			System.out.println("Initiated... ");
 
 		};
 	}
