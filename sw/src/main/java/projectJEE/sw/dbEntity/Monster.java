@@ -9,8 +9,29 @@ public class Monster {
     @Id    @Column
     private long idMonster;
 
+    @Id
+    private long id_game;
+
     @Column
-    private String name;
+    private String skills;
+
+    @Column
+    private String rune1;
+
+    @Column
+    private String rune2;
+
+    @Column
+    private String rune3;
+
+    @Column
+    private String rune4;
+
+    @Column
+    private String rune5;
+
+    @Column
+    private String rune6;
 
     public long getIdMonster() {
         return idMonster;

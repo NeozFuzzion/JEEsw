@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.core.io.ClassPathResource;
 import projectJEE.sw.dbEntity.Artifact;
+import projectJEE.sw.dbEntity.Monster;
 import projectJEE.sw.dbEntity.Rune;
 import projectJEE.sw.dbRepository.ArtifactRepository;
 import projectJEE.sw.dbRepository.MonsterRepository;
@@ -50,6 +51,8 @@ public class SwApplication {
 
 			JSONObject jsonDataO = (JSONObject)jsonP.parse(new FileReader(fileData));
 			JSONParser jsonS = new JSONParser();
+			JSONObject monsters = (JSONObject) jsonDataO.get("monster");
+			System.out.println(monsters);
 			JSONObject jsonO = (JSONObject)jsonS.parse(new FileReader(file));
 			JSONArray runes = (JSONArray) jsonO.get("runes");
 			JSONArray units = (JSONArray) jsonO.get("unit_list");
@@ -123,6 +126,9 @@ public class SwApplication {
 				rune.setEfficiency(efficiency*100);
 				saveRune.add(rune);
 			}
+
+			List<Monster> saveMonster = new ArrayList<>();
+
 			runeRepository.saveAll(saveRune);
 			System.out.println("Initiated... ");
 
