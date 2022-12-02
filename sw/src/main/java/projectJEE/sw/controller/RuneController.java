@@ -12,10 +12,14 @@ import java.util.List;
 
 @Controller
 public class RuneController {
+    @GetMapping("/html/runes")
+    public String artifacts() {
+        return "/html/runes";
+    }
     @Autowired
     RuneRepository runeRepository;
 
-    @GetMapping("/rune")
+    @GetMapping("runes")
     public String triRune(){
         System.out.println(runeRepository.findAllByOrderByIdRuneDesc());
         return "redirect:/";

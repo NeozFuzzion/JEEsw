@@ -53,6 +53,7 @@ public class SwApplication {
 			JSONObject jsonO = (JSONObject)jsonS.parse(new FileReader(file));
 			JSONArray runes = (JSONArray) jsonO.get("runes");
 			JSONArray units = (JSONArray) jsonO.get("unit_list");
+			JSONArray artifacts = (JSONArray) jsonO.get("artifacts");
 			JSONObject maxMain = (JSONObject)((JSONObject)((JSONObject) jsonDataO.get("rune")).get("mainstat"));
 
 			HashMap<Integer,HashMap> mapMaxMain  = new HashMap<>();
@@ -75,11 +76,11 @@ public class SwApplication {
 				runes.addAll(occupiedRunes);
 
 			}
-			Iterator<JSONObject> it = runes.iterator();
+			Iterator<JSONObject> itRunes = runes.iterator();
 			long i =0;
 			List<Rune> saveRune=new ArrayList<>();
-			while(it.hasNext()) {
-				JSONObject element = it.next();
+			while(itRunes.hasNext()) {
+				JSONObject element = itRunes.next();
 				Rune rune = new Rune();
 				i++;
 				rune.setIdRune((Long) i);
@@ -124,6 +125,24 @@ public class SwApplication {
 			}
 			runeRepository.saveAll(saveRune);
 			System.out.println("Initiated... ");
+
+
+			for (JSONObject element : (Iterable<JSONObject>) artifacts) {
+				Artifact artifact = new Artifact();
+				artifact.setIdArtifact((Long) element.get("rid"));
+				artifact.setOccupied_id((Long) element.get("occupied_id"));
+				artifact.setSlot(((Long) element.get("slot")).intValue());
+				artifact.setType(((Long) element.get("type")).intValue());
+				artifact.setAttribute(((Long) element.get("attribute")).intValue());
+				artifact.setUnit_style(((Long) element.get("unit_style")).intValue());
+				artifact.setNatural_rank(((Long) element.get("natural_rank")).intValue());
+				artifact.setRang(((Long) element.get("rank")).intValue());
+				artifact.setLevel(((Long) element.get("level")).intValue());
+				artifact.setPri_effect(element.get("pri_effect").toString());
+				artifact.setSec_effect(element.get("sec_effects").toString());
+				artifactRepository.save(artifact);
+
+			}
 
 		};
 	}
