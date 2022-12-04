@@ -55,8 +55,6 @@ public class SwApplication {
 
 			JSONObject jsonDataO = (JSONObject)jsonP.parse(new FileReader(fileData));
 			JSONParser jsonS = new JSONParser();
-			JSONObject monsters = (JSONObject) jsonDataO.get("monster");
-			System.out.println(monsters);
 			JSONObject jsonO = (JSONObject)jsonS.parse(new FileReader(file));
 			JSONArray runes = (JSONArray) jsonO.get("runes");
 			JSONArray units = (JSONArray) jsonO.get("unit_list");
@@ -76,15 +74,44 @@ public class SwApplication {
 			}
 			System.out.println((mapMaxSub.get(1).get("6")));
 
-			Iterator<JSONObject> itUnits = units.iterator();
-			while(itUnits.hasNext()){
-				JSONObject element = itUnits.next();
+
+			long i =0;
+			List<Monster> saveMonster = new ArrayList<>();
+			for (JSONObject element : (Iterable<JSONObject>) units) {
+				Monster monster = new Monster();
+				monster.setIdMonster((Long) element.get("unit_id"));
+				monster.setId_game((Long) element.get("unit_master_id"));
+				monster.setSkills( (element.get("skills").toString()));
+
 				JSONArray occupiedRunes = (JSONArray) element.get("runes");
 				runes.addAll(occupiedRunes);
+				if (occupiedRunes.size()>=1){
+					monster.setRune1((Long) ((JSONObject) occupiedRunes.get(0)).get("rune_id"));
+					if (occupiedRunes.size()>=2){
+						monster.setRune2((Long) ((JSONObject) occupiedRunes.get(1)).get("rune_id"));
+						if (occupiedRunes.size()>=3){
+							monster.setRune3((Long) ((JSONObject) occupiedRunes.get(2)).get("rune_id"));
+							if (occupiedRunes.size()>=4){
+								monster.setRune4((Long) ((JSONObject) occupiedRunes.get(3)).get("rune_id"));
+								if (occupiedRunes.size()>=5){
+									monster.setRune5((Long) ((JSONObject) occupiedRunes.get(4)).get("rune_id"));
+									if (occupiedRunes.size()>=6){
+										monster.setRune6((Long) ((JSONObject) occupiedRunes.get(5)).get("rune_id"));
+									}
+								}
+							}
+						}
+					}
+				}
 
+				monster.setUnit_level((Long) element.get("unit_level"));
+
+				saveMonster.add(monster);
 			}
+
+			monsterRepository.saveAll(saveMonster);
+
 			Iterator<JSONObject> itRunes = runes.iterator();
-			long i =0;
 			List<Rune> saveRune=new ArrayList<>();
 			while(itRunes.hasNext()) {
 				JSONObject element = itRunes.next();
@@ -130,8 +157,6 @@ public class SwApplication {
 				rune.setEfficiency(efficiency*100);
 				saveRune.add(rune);
 			}
-
-			List<Monster> saveMonster = new ArrayList<>();
 
 			runeRepository.saveAll(saveRune);
 
