@@ -5,9 +5,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.core.io.ClassPathResource;
 import projectJEE.sw.dbEntity.Artifact;
+import projectJEE.sw.dbEntity.GameMonster;
 import projectJEE.sw.dbEntity.Monster;
 import projectJEE.sw.dbEntity.Rune;
 import projectJEE.sw.dbRepository.ArtifactRepository;
+import projectJEE.sw.dbRepository.GameMonsterRepository;
 import projectJEE.sw.dbRepository.MonsterRepository;
 import projectJEE.sw.dbRepository.RuneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import javax.swing.text.html.HTMLDocument;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
+import java.net.URL;
 import java.util.*;
 
 @SpringBootApplication
@@ -30,6 +31,9 @@ public class SwApplication {
 
 	@Autowired
 	MonsterRepository monsterRepository;
+
+	@Autowired
+	GameMonsterRepository gameMonsterRepository;
 	@Autowired
 	RuneRepository runeRepository;
 	@Autowired
@@ -130,9 +134,9 @@ public class SwApplication {
 			List<Monster> saveMonster = new ArrayList<>();
 
 			runeRepository.saveAll(saveRune);
-			System.out.println("Initiated... ");
 
 
+			List<Artifact> saveArti = new ArrayList<>();
 			for (JSONObject element : (Iterable<JSONObject>) artifacts) {
 				Artifact artifact = new Artifact();
 				artifact.setIdArtifact((Long) element.get("rid"));
@@ -146,10 +150,103 @@ public class SwApplication {
 				artifact.setLevel(((Long) element.get("level")).intValue());
 				artifact.setPri_effect(element.get("pri_effect").toString());
 				artifact.setSec_effect(element.get("sec_effects").toString());
-				artifactRepository.save(artifact);
+				saveArti.add(artifact);
 
 			}
+			artifactRepository.saveAll(saveArti);
 
+
+
+			List<GameMonster> saveDataMonster = new ArrayList<>();
+			JSONArray data_monster = (JSONArray) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/monsters.json").getFile()))).get("monster");
+			System.out.println(data_monster.size());
+			int vmax = data_monster.size();
+			for (int v=0;v<vmax;v++) {
+				JSONObject mstr = (JSONObject) data_monster.get(v);
+				GameMonster gameMonster = new GameMonster();
+				gameMonster.setIdMonster((Long) mstr.get("com2us_id"));
+				gameMonster.setName((String) mstr.get("name"));
+
+				gameMonster.setHp((Long) mstr.get("max_lvl_hp"));
+				gameMonster.setDef((Long) mstr.get("max_lvl_defense"));
+				gameMonster.setAtk((Long) mstr.get("max_lvl_attack"));
+				gameMonster.setSpd((Long) mstr.get("speed"));
+				gameMonster.setCrate((Long) mstr.get("crit_rate"));
+				gameMonster.setCdmg((Long) mstr.get("crit_damage"));
+				gameMonster.setRes((Long) mstr.get("resistance"));
+				gameMonster.setAcc((Long) mstr.get("resistance"));
+
+				gameMonster.setImage((String) mstr.get("image_filename"));
+
+				if(mstr.get("leader_skill")!=null)
+					gameMonster.setLeader_skill((Long) ((JSONObject) mstr.get("leader_skill")).get("id"));
+
+				gameMonster.setElement((String) mstr.get("element"));
+
+				JSONArray tabSkills = (JSONArray) mstr.get("skills");
+				if(tabSkills.size()>=1){
+					gameMonster.setS1((Long) tabSkills.get(0));
+					if (tabSkills.size()>=2){
+						gameMonster.setS2((Long) tabSkills.get(1));
+						if (tabSkills.size()>=3){
+							gameMonster.setS3((Long) tabSkills.get(2));
+							if (tabSkills.size()>=4){
+								gameMonster.setS4((Long) tabSkills.get(3));
+							}
+						}
+					}
+				}
+
+				gameMonster.setAwaken_lvl((Long) mstr.get("awaken_level"));
+				if(mstr.get("awakens_from")!=null)
+					gameMonster.setAwakens_from((Long) mstr.get("awakens_from"));
+				gameMonster.setCan_awaken((Boolean) mstr.get("can_awaken"));
+				gameMonster.setAwaken_bonus((String) mstr.get("awaken_bonus"));
+
+				gameMonster.setFamily_id((Long) mstr.get("family_id"));
+
+				gameMonster.setNatural_stars((Long) mstr.get("natural_stars"));
+
+				if ((Long) mstr.get("skill_ups_to_max") != null)
+					gameMonster.setSkill_ups_to_max((Long) mstr.get("skill_ups_to_max"));
+
+				gameMonster.setArchetype((String) mstr.get("archetype"));
+
+				gameMonster.setFusion_food((Boolean) mstr.get("fusion_food"));
+
+				saveDataMonster.add(gameMonster);
+			}
+			gameMonsterRepository.saveAll(saveDataMonster);
+			System.out.println("Initiated... ");
+
+			/*
+	System.out.println("AAAAAAAAAAAAAAAA");
+			System.out.println(new ClassPathResource("data/monsters.json").getURL());
+			BufferedWriter out = new BufferedWriter(new FileWriter("monsters.json"));
+			String urlMonster;
+			String inputLine = "";
+			for(i=1;i<=21;i++){
+				inputLine = "";
+				urlMonster="https://swarfarm.com/api/v2/monsters/?format=json&page=" +  i ;
+				URL oracle = new URL(urlMonster);
+				BufferedReader in = new BufferedReader(
+						new InputStreamReader(oracle.openStream()));
+
+				while ((urlMonster = in.readLine()) != null) {
+					inputLine += urlMonster;
+				}
+				JSONObject a = (JSONObject) jsonP.parse(inputLine);
+				out.write(String.valueOf((JSONArray) a.get("results")));
+				out.write('\n');
+				in.close();
+
+			}
+			out.close();
+			System.out.println("AAAAAAAAAAAAAAAA");
+
+			image_filename;
+			skills;
+*/
 		};
 	}
 }
