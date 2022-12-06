@@ -10,5 +10,4 @@ import java.util.List;
 @Repository
 public interface MonsterRepository extends JpaRepository<Monster,Long> {
     public Monster findFirstByIdMonster(long id);
-    public List<Monster> findAllByGameMonsterNatural_stars(long stars);
 }

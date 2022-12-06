@@ -4,47 +4,85 @@
     <meta charset="UTF-8">
     <title>Titre</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/js/functions.js"></script>
 </head>
 <body>
-    <h1>Titre du site</h1>
-<span th:text="${model}"></span>
-    <a href="/">Accueil</a>
-    <a href="">Monstres</a>
-    <a href="">Runes</a>
-    <a href="/html/artifacts">Artefacts</a>
-<!--    <a href="">Upload</a>-->
-.    <table>
-        <thead>
-            <tr>
-                <th>Icone</th>
-                <th>Nom</th>
-                <th>Element</th>
-                <th>Points de vie</th>
-                <th>Attaque</th>
-                <th>Défense</th>
-                <th>Vitesse</th>
-                <th>Taux critique</th>
-                <th>Dégats critiques</th>
-                <th>Résistance</th>
-                <th>Précision</th>
-            </tr>
-        </thead>
-        <tbody>
-        <tr th:each="monster : ${monsters}">
-            <td><img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}"></td>
-            <td><p th:text="${monster.gameMonster.name}"></p></td>
-            <td><p th:text="${monster.gameMonster.element}"></p></td>
-            <td><p th:text="${monster.gameMonster.hp}"></p></td>
-            <td><p th:text="${monster.gameMonster.atk}"></p></td>
-            <td><p th:text="${monster.gameMonster.def}"></p></td>
-            <td><p th:text="${monster.gameMonster.spd}"></p></td>
-            <td><p th:text="${monster.gameMonster.crate}"></p></td>
-            <td><p th:text="${monster.gameMonster.cdmg}"></p></td>
-            <td><p th:text="${monster.gameMonster.res}"></p></td>
-            <td><p th:text="${monster.gameMonster.acc}"></p></td>
-        </tr>
-        </tbody>
-    </table>
-    <footer>Footer du site</footer>
+    <div class="title">
+        <h1>JEE : Summoners Wars Website</h1>
+    </div>
+
+    <div class="menu">
+        <div class="left-side">
+            <a class="button menu-button"><button onclick="showRightSide()"><ion-icon name="menu-outline"></ion-icon></button></a>
+            <a class="button home-button" href="/"><button><ion-icon name="home-outline"></ion-icon></button></a>
+            <a class="button monster-button a_page" href="/monsters"><button><img src="/images/monster.png"></button></a>
+            <a class="button rune-button" href="/runes"><button><img src="/images/rune.png"></button></a>
+            <a class="button artifact-button" href="/artifacts"><button><img src="/images/artefact.png"></button></a>
+            <a class="button upload-button" href="/uploadJSON"><button><ion-icon name="cloud-upload-outline"></ion-icon></button></a>
+        </div>
+        <div class="right-side">
+            <a class="button menu-button"><button><p>Menu</p></button></a>
+            <a class="button home-button" href="/"><button><p>Accueil</p></button></a>
+            <a class="button monster-button a_page" href="/monsters"><button><p>Monstres</p></button></a>
+            <a class="button rune-button" href="/runes"><button><p>Runes</p></button></a>
+            <a class="button artifact-button" href="/ar"><button><p>Artefacts</p></button></a>
+            <a class="button upload-button" href="/uploadJSON"><button><p>Upload</p></button></a>
+        </div>
+    </div>
+
+    <div class="content">
+<!--        <table>-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th>Icone</th>-->
+<!--                <th>Nom</th>-->
+<!--                <th>Element</th>-->
+<!--                <th>Points de vie</th>-->
+<!--                <th>Attaque</th>-->
+<!--                <th>Défense</th>-->
+<!--                <th>Vitesse</th>-->
+<!--                <th>Taux critique</th>-->
+<!--                <th>Dégats critiques</th>-->
+<!--                <th>Résistance</th>-->
+<!--                <th>Précision</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="monster : ${monsters}">-->
+<!--                <td><img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}"></td>-->
+<!--                <td><p th:text="${monster.gameMonster.name}"></p></td>-->
+<!--                <td><p th:text="${monster.gameMonster.element}"></p></td>-->
+<!--                <td><p th:text="${monster.gameMonster.hp}"></p></td>-->
+<!--                <td><p th:text="${monster.gameMonster.atk}"></p></td>-->
+<!--                <td><p th:text="${monster.gameMonster.def}"></p></td>-->
+<!--                <td><p th:text="${monster.gameMonster.spd}"></p></td>-->
+<!--                <td><p th:text="${monster.gameMonster.crate}"></p></td>-->
+<!--                <td><p th:text="${monster.gameMonster.cdmg}"></p></td>-->
+<!--                <td><p th:text="${monster.gameMonster.res}"></p></td>-->
+<!--                <td><p th:text="${monster.gameMonster.acc}"></p></td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+
+        <div class="search-bar">
+            <input type="text">
+        </div>
+        <div class="monster-grid">
+            <div th:each="monster : ${monsters}">
+                <img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}">
+            </div>
+        </div>
+    </div>
+
+
+    <footer>
+        <div>
+            <p>DURANTEAU Damien - LANTA Axel - OUTREBOND Edouard</p>
+            <p>CY Tech 2022</p>
+        </div>
+    </footer>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

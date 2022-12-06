@@ -16,7 +16,7 @@ public class RuneController {
     @Autowired
     RuneRepository runeRepository;
     @GetMapping("/runes")
-    public String artifacts(Model model) {
+    public String runes(Model model) {
         model.addAttribute("runes",runeRepository.findAll());
         return "/html/runes";
     }

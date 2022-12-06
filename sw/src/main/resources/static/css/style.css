@@ -1,17 +1,187 @@
+:root {
+    --footer-height: 50px;
+    --left-side-menu-width: 50px;
+    --right-side-menu-width: 150px;
+}
+
+h1, p, button {
+    all:initial;
+}
+
 body {
-    background-color: rgb(30, 30, 30);
+    background-color: #20252b;
+    position: relative;
     color: white;
+    width: 100%;
+    min-height: 100vh;
     margin: 0;
-    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    margin-left: var(--left-side-menu-width);
+    max-width: 100%;
+    height: 50px;
+    display: flex;
+}
+
+.title h1 {
+    color: white;
+    font-size: 25px;
+    margin: auto 15px;
+}
+
+.menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+}
+
+.left-side {
+    width: var(--left-side-menu-width);
+    display: flex;
+    flex-direction: column;
+    background-color: #13181e;
+}
+
+.left-side a {
+    text-decoration: none;
+}
+
+.left-side a button {
+    width: var(--left-side-menu-width);
+    height: var(--left-side-menu-width);
+    display: flex;
+}
+
+.left-side a button ion-icon {
+    color: #FFFFFF;
+    width: 30px;
+    height: 30px;
+    margin: auto;
+}
+
+.left-side a button img {
+    width: 30px;
+    height: 30px;
+    margin: auto;
+}
+
+.left-side a button p {
+    color: #FFFFFF;
+    font-size: 20px;
+    margin: auto;
+}
+
+.right-side {
+    width: var(--right-side-menu-width);
+    display: none;
+    flex-direction: column;
+    background-color: #13181e;
+}
+
+.right-side a {
+    text-decoration: none;
+}
+
+.right-side a button {
+    width: var(--right-side-menu-width);
+    height: var(--left-side-menu-width);
+    display: flex;
+}
+
+.right-side a button p {
+    color: #FFFFFF;
+    font-size: 20px;
+    margin-top: auto;
+    margin-right: auto;
+    margin-left: 10px;
+    margin-bottom: auto;
+}
+
+.button .menu-button:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.a_page {
+    background-color: #d3af65;
+}
+
+.content {
+    margin-left: var(--left-side-menu-width);
+    display: flex;
+    flex-direction: column;
+}
+
+.search-bar {
+    margin-top: 50px;
+    margin-left: 10%;
+}
+
+.search-bar input {
+    border: 1px solid #d3af65;
+    background-color: rgba(255, 255, 255, 0.25);
+    width: 300px;
+    height: 25px;
+    color: #FFFFFF;
+}
+
+.monster-grid {
+    margin-top: 25px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: calc(50px + var(--footer-height));
+    display: grid;
+    min-width: 80%;
+    grid-template-columns: repeat(auto-fill, 100px);
+    grid-auto-rows: 100px;
+    grid-gap: 10px;
+}
+
+.content table {
+    margin-top: 50px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: calc(var(--footer-height) + 50px);
+    width: 80%;
+    border: 3px solid rgba(255, 255, 255, 0.25);
+    border-radius: 1px;
+    background-color: #13181e;
+}
+
+.content table thead tr th {
+    border: 1px solid #d3af65;
+}
+
+.content table tr td {
+    border: 1px solid #d3af65;
+    text-align: center;
+}
+
+.content table tr td p {
+    color: #FFFFFF;
 }
 
 footer {
-    position:absolute;
-    bottom:0;
-    width:100%;
-    height:25px;
-    background-color: rgb(145, 145, 145);
-    text-align: center;
+    background-color: #13181e;
+    width: 100%;
+    height: var(--footer-height);
+    margin-top: auto;
+    position: absolute;
+    top: calc(100% - var(--footer-height));
+    display: flex;
+}
+
+footer div {
+    display: flex;
+    flex-direction: column;
     margin: auto;
-    padding: 0;
+}
+
+footer p {
+    color: white;
+    margin: 0px auto;
 }

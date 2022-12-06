@@ -22,9 +22,9 @@ public class MonstersController {
     public String monsters(Model model) {
 
 
-        model.addAttribute("5nat",monsterRepository.findAllByGameMonsterNatural_stars(5L));
-        model.addAttribute("4nat",monsterRepository.findAllByGameMonsterNatural_stars(4L));
-        model.addAttribute("3nat",monsterRepository.findAllByGameMonsterNatural_stars(3L));
+        model.addAttribute("monsters",monsterRepository.findAll());
+//        model.addAttribute("4nat",monsterRepository.findAllByGameMonsterNatural_stars(4L));
+//        model.addAttribute("3nat",monsterRepository.findAllByGameMonsterNatural_stars(3L));
 
         return "/html/monsters";
     }

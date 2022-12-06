@@ -44,7 +44,7 @@ public class ExtractController {
     ArtifactRepository artifactRepository;
 
 
-    @GetMapping("/")
+    @GetMapping("/uploadJSON")
     public String index() {
         return "/html/uploadJSON";
     }
@@ -111,7 +111,6 @@ public class ExtractController {
             rune.setOccupied_type((long) ((Long) element.get("occupied_type")).intValue());
             if((Long) element.get("occupied_id")!=0)
                 rune.setOccupied_id(monsterRepository.getReferenceById((Long) element.get("occupied_id")));
-
             rune.setSlot_no(((Long) element.get("slot_no")).intValue());
             rune.setClasse(((Long) element.get("class")).intValue());
             rune.setRang(((Long) element.get("rank")).intValue());
@@ -220,7 +219,7 @@ public class ExtractController {
 
     @GetMapping("/uploadStatus")
     public String uploadStatus() {
-        return "/html/monsters";
+        return "/index";
     }
 
 }
