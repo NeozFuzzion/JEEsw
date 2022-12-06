@@ -43,15 +43,13 @@ public class ExtractController {
     @Autowired
     ArtifactRepository artifactRepository;
 
-    //Save the uploaded file to this folder
-    private static String UPLOADED_FOLDER = "F://temp//";
 
     @GetMapping("/")
     public String index() {
         return "/html/uploadJSON";
     }
 
-    @PostMapping("/upload") // //new annotation since 4.3
+    @PostMapping("/upload")
     public String singleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) throws IOException, ParseException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
@@ -85,7 +83,6 @@ public class ExtractController {
         for (int i=1; i<=12 ; i++ ){
             mapMaxSub.put(i, (HashMap) maxSub.get(Integer.toString(i)));
         }
-        System.out.println((mapMaxSub.get(1).get("6")));
 
 
         long i =0;
@@ -93,10 +90,17 @@ public class ExtractController {
         for (JSONObject element : (Iterable<JSONObject>) units) {
             JSONArray occupiedRunes = (JSONArray) element.get("runes");
             JSONArray occupiedArtifacts = (JSONArray) element.get("artifacts");
+
+            Monster tmp_mstr = new Monster();
+            tmp_mstr.setIdMonster((Long) element.get("unit_id"));
+            tmp_mstr.setGameMonster(gameMonsterRepository.getReferenceById((Long) element.get("unit_master_id")));
+
+            saveMonster.add(tmp_mstr);
             runes.addAll(occupiedRunes);
             artifacts.addAll(occupiedArtifacts);
         }
-        System.out.println(runes);
+        monsterRepository.saveAll(saveMonster);
+
 
         Iterator<JSONObject> itRunes = runes.iterator();
         List<Rune> saveRune=new ArrayList<>();
@@ -105,7 +109,7 @@ public class ExtractController {
             Rune rune = new Rune();
             rune.setIdRune((Long) element.get("rune_id"));
             rune.setOccupied_type((long) ((Long) element.get("occupied_type")).intValue());
-            rune.setOccupied_id((Long) element.get("occupied_id"));
+            rune.setOccupied_id(monsterRepository.getReferenceById((Long) element.get("occupied_id")));
             rune.setSlot_no(((Long) element.get("slot_no")).intValue());
             rune.setClasse(((Long) element.get("class")).intValue());
             rune.setRang(((Long) element.get("rank")).intValue());
@@ -124,10 +128,12 @@ public class ExtractController {
             long maxmain6 = rune.getStatPri().getMaxMain6();
 
             float efficiency = (float) ((float) (((float) maxmain)/maxmain6)/2.8);
+
             if ((Long) ((JSONArray) prefix_eff).get(0) != 0) {
                 rune.setStatInnate(statRuneRepository.getReferenceById((Long) prefix_eff.get(0)));
                 rune.setInnate((Long) prefix_eff.get(1));
-                float pre_eff_substat = (float) ((rune.getStatPri().getMaxSub6()*2.8));
+                StatRune temp_statinnate=rune.getStatInnate();
+                float pre_eff_substat = (temp_statinnate.getIdStat()==1 || temp_statinnate.getIdStat()==3 ||temp_statinnate.getIdStat()==5 ) ? (float) ((float) (((rune.getStatInnate().getMaxSub6()*2.8))) * 2) : (float) ((rune.getStatInnate().getMaxSub6() * 2.8));
                 efficiency += (rune.getInnate() / pre_eff_substat);
             }
             i=0;
@@ -147,7 +153,7 @@ public class ExtractController {
                     method4.invoke(rune, subMeule);
                     float sommesub = (temp_SR.getIdStat()==1 || temp_SR.getIdStat()==3 ||temp_SR.getIdStat()==5 ) ? (float) ((float) ((subValue) + (subMeule)) * 0.5) : (subValue) + (subMeule);
 
-                    long maxsub =  temp_SR.getMaxSub6();
+                    float maxsub =  temp_SR.getMaxSub6();
                     efficiency += ( sommesub / (maxsub * 2.8));
                 }
                 i++;
@@ -178,6 +184,7 @@ public class ExtractController {
         }
         artifactRepository.saveAll(saveArti);
 
+        saveMonster = new ArrayList<>();
         for (JSONObject element : (Iterable<JSONObject>) units) {
             Monster monster = new Monster();
             monster.setIdMonster((Long) element.get("unit_id"));
@@ -185,18 +192,16 @@ public class ExtractController {
             monster.setSkills( (element.get("skills").toString()));
 
             JSONArray occupiedRunes = (JSONArray) element.get("runes");
-            int sizeR = occupiedRunes.size();
 
-            for (int k=0 ; k<sizeR; k++){
-                Method method = Monster.class.getMethod("setRune" + (k + 1), Rune.class);
-                method.invoke(monster, runeRepository.getReferenceById((Long) ((JSONObject) occupiedRunes.get(k)).get("rune_id")));
+            for (JSONObject e : (Iterable<JSONObject>) occupiedRunes){
+                Method method = Monster.class.getMethod("setRune" + (e.get("slot_no")), Rune.class);
+                method.invoke(monster, runeRepository.getReferenceById((Long) e.get("rune_id")));
             }
 
             JSONArray occupiedArtifacts = (JSONArray) element.get("artifacts");
-            int sizeA = occupiedArtifacts.size();
-            for (int k=0 ; k<sizeA; k++){
-                Method method = Monster.class.getMethod("setArtifact" + (k + 1), Artifact.class);
-                method.invoke(monster, artifactRepository.getReferenceById((Long) ((JSONObject) occupiedArtifacts.get(k)).get("rid")));
+            for (JSONObject e : (Iterable<JSONObject>) occupiedArtifacts){
+                Method method = Monster.class.getMethod("setArtifact" + (e.get("slot")), Artifact.class);
+                method.invoke(monster, artifactRepository.getReferenceById((Long) e.get("rid")));
             }
 
             monster.setUnit_level((Long) element.get("unit_level"));
@@ -205,7 +210,6 @@ public class ExtractController {
         }
 
         monsterRepository.saveAll(saveMonster);
-
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded '" + file.getOriginalFilename() + "'");
 

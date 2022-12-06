@@ -38,8 +38,9 @@ public class GameMonster {
     @Column
     private String image;
 
-    @Column
-    private long leader_skill;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "leader_skill")
+    private LeaderSkill leader_skill;
 
     @Column
     private String element;
@@ -131,7 +132,7 @@ public class GameMonster {
         return image;
     }
 
-    public long getLeader_skill() {
+    public LeaderSkill getLeader_skill() {
         return leader_skill;
     }
 
@@ -235,7 +236,7 @@ public class GameMonster {
         this.image = image;
     }
 
-    public void setLeader_skill(long leader_skill) {
+    public void setLeader_skill(LeaderSkill leader_skill) {
         this.leader_skill = leader_skill;
     }
 

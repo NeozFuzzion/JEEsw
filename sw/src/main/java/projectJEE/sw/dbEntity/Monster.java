@@ -49,7 +49,7 @@ public class Monster {
     @Column
     private long unit_level;
 
-    public long getIdMonster() {
+    public long getIdMonster(Long unit_id) {
         return idMonster;
     }
 

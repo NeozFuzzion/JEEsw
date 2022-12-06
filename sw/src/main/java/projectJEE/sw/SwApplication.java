@@ -34,6 +34,9 @@ public class SwApplication {
 	@Autowired
 	StatRuneRepository statRuneRepository;
 
+	@Autowired
+	LeaderSkillRepository leaderSkillRepository;
+
 	@Bean
 	public MultipartResolver multipartResolver() {
 		CommonsMultipartResolver multipartResolver
@@ -47,136 +50,161 @@ public class SwApplication {
 		return (args) -> {
 			System.out.println("Démarrage... ");
 			JSONParser jsonP = new JSONParser();
+
+			if (statRuneRepository.findAll().size()!=11){
+
+				JSONArray leaderS = (JSONArray) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/lskill.json").getFile()))).get("leader_skills");
+				int vmax = leaderS.size();
+				List<LeaderSkill> saveLS = new ArrayList<>();
+				for (int v=0;v<vmax;v++){
+					JSONObject ls= (JSONObject) leaderS.get(v);
+					LeaderSkill leaderSkill = new LeaderSkill();
+					leaderSkill.setAmount((Long) ls.get("amount"));
+					leaderSkill.setArea((String) ls.get("area"));
+					leaderSkill.setAttribute((String) ls.get("attribute"));
+					leaderSkill.setIdLs((Long) ls.get("id"));
+
+					String image = "/leader/leader_skill_"+leaderSkill.getAttribute();
+					if(ls.get("element")!=null){
+						leaderSkill.setElement((String) ls.get("element"));
+						image = image + "_"+leaderSkill.getElement() ;
+					}
+					leaderSkill.setImage(image+".png");
+					saveLS.add(leaderSkill);
+				}
+				leaderSkillRepository.saveAll(saveLS);
+
+				JSONObject statrune = (JSONObject) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/monster.json").getFile()))).get("rune");
+
+				List<StatRune> savestrune = new ArrayList<>();
+				for (int v=1;v<=6;v++){
+					StatRune statRune = new StatRune();
+					statRune.setIdStat((long) v);
+					JSONObject maxMain = (JSONObject) ((JSONObject) statrune.get("mainstat")).get(Integer.toString(v));
+					JSONObject maxSub = (JSONObject) ((JSONObject) statrune.get("substat")).get(Integer.toString(v));
+					for (int k=0 ; k<6; k++) {
+						Method method1 = StatRune.class.getMethod("setMaxMain" + (k + 1), Long.class);
+						method1.invoke(statRune, maxMain.get(Integer.toString(k+1)));
+						Method method2 = StatRune.class.getMethod("setMaxSub" + (k + 1), Long.class);
+						method2.invoke(statRune, maxSub.get(Integer.toString(k+1)));
+					}
+					statRune.setName((String) ((JSONObject) statrune.get("effectTypes")).get(Integer.toString(v)));
+					savestrune.add(statRune);
+				}
+
+				for (int v=8;v<=12;v++){
+					StatRune statRune = new StatRune();
+					statRune.setIdStat((long) v);
+					JSONObject maxMain = (JSONObject) ((JSONObject) statrune.get("mainstat")).get(Integer.toString(v));
+					JSONObject maxSub = (JSONObject) ((JSONObject) statrune.get("substat")).get(Integer.toString(v));
+					for (int k=0 ; k<6; k++) {
+						Method method1 = StatRune.class.getMethod("setMaxMain" + (k + 1), Long.class);
+						method1.invoke(statRune, maxMain.get(Integer.toString(k+1)));
+						Method method2 = StatRune.class.getMethod("setMaxSub" + (k + 1), Long.class);
+						method2.invoke(statRune, maxSub.get(Integer.toString(k+1)));
+					}
+					statRune.setName((String) ((JSONObject) statrune.get("effectTypes")).get(Integer.toString(v)));
+					savestrune.add(statRune);
+				}
+				statRuneRepository.saveAll(savestrune);
+
+				List<Skill> saveSkill = new ArrayList<>();
+
+				JSONArray data_skill = (JSONArray) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/skills.json").getFile()))).get("skills");
+				System.out.println(data_skill.size());
+				vmax = data_skill.size();
+				for (int v=0;v<vmax;v++) {
+					JSONObject skl = (JSONObject) data_skill.get(v);
+					Skill skill	= new Skill();
+					skill.setAoe((Boolean) skl.get("aoe"));
+					skill.setIdSkill((Long) skl.get("id"));
+					if(skl.get("cooltime")!=null)
+						skill.setCooltime((Long) skl.get("cooltime"));
+					skill.setGameSkill((Long) skl.get("com2us_id"));
+					skill.setDescription((String) skl.get("description"));
+					skill.setEffects(skl.get("effects").toString());
+					skill.setHits((Long) skl.get("hits"));
+					skill.setMax_level((Long) skl.get("max_level"));
+					skill.setMultiplier_formula((String) skl.get("multiplier_formula"));
+					skill.setUpgrades(skl.get("upgrades").toString());
+					skill.setPassive((Boolean) skl.get("passive"));
+					skill.setSlot((Long) skl.get("slot"));
+					skill.setImage((String) skl.get("icon_filename"));
+					skill.setName((String) skl.get("name"));
+					saveSkill.add(skill);
+				}
+				skillRepository.saveAll(saveSkill);
+
+				List<GameMonster> saveDataMonster = new ArrayList<>();
+
+				JSONArray data_monster = (JSONArray) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/monsters.json").getFile()))).get("monster");
+				System.out.println(data_monster.size());
+				vmax = data_monster.size();
+				for (int v=0;v<vmax;v++) {
+					JSONObject mstr = (JSONObject) data_monster.get(v);
+					GameMonster gameMonster = new GameMonster();
+					gameMonster.setIdMonster((Long) mstr.get("com2us_id"));
+					gameMonster.setName((String) mstr.get("name"));
+
+					gameMonster.setHp((Long) mstr.get("max_lvl_hp"));
+					gameMonster.setDef((Long) mstr.get("max_lvl_defense"));
+					gameMonster.setAtk((Long) mstr.get("max_lvl_attack"));
+					gameMonster.setSpd((Long) mstr.get("speed"));
+					gameMonster.setCrate((Long) mstr.get("crit_rate"));
+					gameMonster.setCdmg((Long) mstr.get("crit_damage"));
+					gameMonster.setRes((Long) mstr.get("resistance"));
+					gameMonster.setAcc((Long) mstr.get("resistance"));
+
+					gameMonster.setImage((String) mstr.get("image_filename"));
+
+					if(mstr.get("leader_skill")!=null)
+						gameMonster.setLeader_skill(leaderSkillRepository.getReferenceById((Long) ((JSONObject) mstr.get("leader_skill")).get("id")));
+
+					gameMonster.setElement((String) mstr.get("element"));
+
+					JSONArray tabSkills = (JSONArray) mstr.get("skills");
+					int size = tabSkills.size();
+					for (int k=0 ; k<size; k++){
+						Method method = GameMonster.class.getMethod("setS" + (k + 1), Skill.class);
+						method.invoke(gameMonster, skillRepository.getReferenceById((Long) tabSkills.get(k)));
+					}
+
+
+					gameMonster.setAwaken_lvl((Long) mstr.get("awaken_level"));
+					if(mstr.get("awakens_from")!=null)
+						gameMonster.setAwakens_from((Long) mstr.get("awakens_from"));
+					gameMonster.setCan_awaken((Boolean) mstr.get("can_awaken"));
+					gameMonster.setAwaken_bonus((String) mstr.get("awaken_bonus"));
+
+					gameMonster.setFamily_id((Long) mstr.get("family_id"));
+
+					gameMonster.setNatural_stars((Long) mstr.get("natural_stars"));
+
+					if ((Long) mstr.get("skill_ups_to_max") != null)
+						gameMonster.setSkill_ups_to_max((Long) mstr.get("skill_ups_to_max"));
+
+					gameMonster.setArchetype((String) mstr.get("archetype"));
+
+					gameMonster.setFusion_food((Boolean) mstr.get("fusion_food"));
+
+					saveDataMonster.add(gameMonster);
+				}
+				gameMonsterRepository.saveAll(saveDataMonster);
+				System.out.println("Initiated... ");
+			} else {
+				System.out.println("Database already completed");
+			}
+
+
 /*
-
-			JSONObject statrune = (JSONObject) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/monster.json").getFile()))).get("rune");
-
-			List<StatRune> savestrune = new ArrayList<>();
-			for (int v=1;v<=6;v++){
-				StatRune statRune = new StatRune();
-				statRune.setIdStat((long) v);
-				JSONObject maxMain = (JSONObject) ((JSONObject) statrune.get("mainstat")).get(Integer.toString(v));
-				JSONObject maxSub = (JSONObject) ((JSONObject) statrune.get("substat")).get(Integer.toString(v));
-				for (int k=0 ; k<6; k++) {
-					Method method1 = StatRune.class.getMethod("setMaxMain" + (k + 1), Long.class);
-					method1.invoke(statRune, maxMain.get(Integer.toString(k+1)));
-					Method method2 = StatRune.class.getMethod("setMaxSub" + (k + 1), Long.class);
-					method2.invoke(statRune, maxSub.get(Integer.toString(k+1)));
-				}
-				statRune.setName((String) ((JSONObject) statrune.get("effectTypes")).get(Integer.toString(v)));
-				savestrune.add(statRune);
-			}
-
-			for (int v=8;v<=12;v++){
-				StatRune statRune = new StatRune();
-				statRune.setIdStat((long) v);
-				JSONObject maxMain = (JSONObject) ((JSONObject) statrune.get("mainstat")).get(Integer.toString(v));
-				JSONObject maxSub = (JSONObject) ((JSONObject) statrune.get("substat")).get(Integer.toString(v));
-				for (int k=0 ; k<6; k++) {
-					Method method1 = StatRune.class.getMethod("setMaxMain" + (k + 1), Long.class);
-					method1.invoke(statRune, maxMain.get(Integer.toString(k+1)));
-					Method method2 = StatRune.class.getMethod("setMaxSub" + (k + 1), Long.class);
-					method2.invoke(statRune, maxSub.get(Integer.toString(k+1)));
-				}
-				statRune.setName((String) ((JSONObject) statrune.get("effectTypes")).get(Integer.toString(v)));
-				savestrune.add(statRune);
-			}
-			statRuneRepository.saveAll(savestrune);
-
-			List<Skill> saveSkill = new ArrayList<>();
-
-			JSONArray data_skill = (JSONArray) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/skills.json").getFile()))).get("skills");
-			System.out.println(data_skill.size());
-			int vmax = data_skill.size();
-			for (int v=0;v<vmax;v++) {
-				JSONObject skl = (JSONObject) data_skill.get(v);
-				Skill skill	= new Skill();
-				skill.setAoe((Boolean) skl.get("aoe"));
-				skill.setIdSkill((Long) skl.get("id"));
-				if(skl.get("cooltime")!=null)
-					skill.setCooltime((Long) skl.get("cooltime"));
-				skill.setGameSkill((Long) skl.get("com2us_id"));
-				skill.setDescription((String) skl.get("description"));
-				skill.setEffects(skl.get("effects").toString());
-				skill.setHits((Long) skl.get("hits"));
-				skill.setMax_level((Long) skl.get("max_level"));
-				skill.setMultiplier_formula((String) skl.get("multiplier_formula"));
-				skill.setUpgrades(skl.get("upgrades").toString());
-				skill.setPassive((Boolean) skl.get("passive"));
-				skill.setSlot((Long) skl.get("slot"));
-				skill.setImage((String) skl.get("icon_filename"));
-				skill.setName((String) skl.get("name"));
-				saveSkill.add(skill);
-			}
-			skillRepository.saveAll(saveSkill);
-
-			List<GameMonster> saveDataMonster = new ArrayList<>();
-
-			JSONArray data_monster = (JSONArray) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/monsters.json").getFile()))).get("monster");
-			System.out.println(data_monster.size());
-			int vmax = data_monster.size();
-			for (int v=0;v<vmax;v++) {
-				JSONObject mstr = (JSONObject) data_monster.get(v);
-				GameMonster gameMonster = new GameMonster();
-				gameMonster.setIdMonster((Long) mstr.get("com2us_id"));
-				gameMonster.setName((String) mstr.get("name"));
-
-				gameMonster.setHp((Long) mstr.get("max_lvl_hp"));
-				gameMonster.setDef((Long) mstr.get("max_lvl_defense"));
-				gameMonster.setAtk((Long) mstr.get("max_lvl_attack"));
-				gameMonster.setSpd((Long) mstr.get("speed"));
-				gameMonster.setCrate((Long) mstr.get("crit_rate"));
-				gameMonster.setCdmg((Long) mstr.get("crit_damage"));
-				gameMonster.setRes((Long) mstr.get("resistance"));
-				gameMonster.setAcc((Long) mstr.get("resistance"));
-
-				gameMonster.setImage((String) mstr.get("image_filename"));
-
-				if(mstr.get("leader_skill")!=null)
-					gameMonster.setLeader_skill((Long) ((JSONObject) mstr.get("leader_skill")).get("id"));
-
-				gameMonster.setElement((String) mstr.get("element"));
-
-				JSONArray tabSkills = (JSONArray) mstr.get("skills");
-				int size = tabSkills.size();
-				for (int k=0 ; k<size; k++){
-					Method method = GameMonster.class.getMethod("setS" + (k + 1), Skill.class);
-					method.invoke(gameMonster, skillRepository.getReferenceById((Long) tabSkills.get(k)));
-				}
-
-
-				gameMonster.setAwaken_lvl((Long) mstr.get("awaken_level"));
-				if(mstr.get("awakens_from")!=null)
-					gameMonster.setAwakens_from((Long) mstr.get("awakens_from"));
-				gameMonster.setCan_awaken((Boolean) mstr.get("can_awaken"));
-				gameMonster.setAwaken_bonus((String) mstr.get("awaken_bonus"));
-
-				gameMonster.setFamily_id((Long) mstr.get("family_id"));
-
-				gameMonster.setNatural_stars((Long) mstr.get("natural_stars"));
-
-				if ((Long) mstr.get("skill_ups_to_max") != null)
-					gameMonster.setSkill_ups_to_max((Long) mstr.get("skill_ups_to_max"));
-
-				gameMonster.setArchetype((String) mstr.get("archetype"));
-
-				gameMonster.setFusion_food((Boolean) mstr.get("fusion_food"));
-
-				saveDataMonster.add(gameMonster);
-			}
-			gameMonsterRepository.saveAll(saveDataMonster);
-			System.out.println("Initiated... ");
-
-
 	System.out.println("AAAAAAAAAAAAAAAA");
-			System.out.println(new ClassPathResource("data/monsters.json").getURL());
-			BufferedWriter out = new BufferedWriter(new FileWriter("skills.json"));
+			BufferedWriter out = new BufferedWriter(new FileWriter("lskill.json"));
 			String urlMonster;
 			String inputLine = "";
 
-			for(int i=1;i<=35;i++){
+			for(int i=1;i<=3;i++){
 				inputLine = "";
-				urlMonster="https://swarfarm.com/api/v2/skills/?format=json&page=" +  i ;
+				urlMonster="https://swarfarm.com/api/v2/leader-skills/?format=json&page=" +  i ;
 				URL oracle = new URL(urlMonster);
 				BufferedReader in = new BufferedReader(
 						new InputStreamReader(oracle.openStream()));
@@ -192,7 +220,8 @@ public class SwApplication {
 			}
 			out.close();
 			System.out.println("AAAAAAAAAAAAAAAA");
-*/
+
+ */
 		};
 	}
 }

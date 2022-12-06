@@ -11,8 +11,9 @@ public class Rune {
     @Column
     private Long occupied_type;
 
-    @Column
-    private Long occupied_id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "occupied_id")
+    private Monster occupied_id;
 
     @Column
     private int slot_no;
@@ -114,11 +115,11 @@ public class Rune {
         this.occupied_type = occupied_type;
     }
 
-    public Long getOccupied_id() {
+    public Monster getOccupied_id() {
         return occupied_id;
     }
 
-    public void setOccupied_id(Long occupied_id) {
+    public void setOccupied_id(Monster occupied_id) {
         this.occupied_id = occupied_id;
     }
 
