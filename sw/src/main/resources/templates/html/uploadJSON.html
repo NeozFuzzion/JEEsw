@@ -1,26 +1,13 @@
-<html xmlns:th="https://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <body>
 
-<div th:if="${message}">
-  <h2 th:text="${message}"/>
-</div>
+<img src="/images/kek.gif" alt="BIG oof">
+<form method="POST" action="/upload" enctype="multipart/form-data">
+    <input type="file" name="file" /><br/><br/>
+    <input type="submit" value="Submit" />
+</form>
 
-<div>
-  <form method="POST" enctype="multipart/form-data" action="/static">
-    <table>
-      <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
-      <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
-    </table>
-  </form>
-</div>
-
-<div>
-  <ul>
-    <li th:each="file : ${files}">
-      <a th:href="${file}" th:text="${file}" />
-    </li>
-  </ul>
-</div>
 
 </body>
 </html>

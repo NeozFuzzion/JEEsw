@@ -1,20 +1,18 @@
 package projectJEE.sw.dbEntity;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Rune {
     @Id @Column
-    private long idRune;
+    private Long idRune;
 
     @Column
-    private long occupied_type;
+    private Long occupied_type;
 
     @Column
-    private long occupied_id;
+    private Long occupied_id;
 
     @Column
     private int slot_no;
@@ -31,39 +29,96 @@ public class Rune {
     @Column
     private int upgrade_curr;
 
-    @Column
-    private String pri_eff;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "statPri", nullable = false)
+    private StatRune statPri;
 
     @Column
-    private String prefix_eff;
+    private Long pri;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "statInnate")
+    private StatRune statInnate;
 
     @Column
-    private String sec_eff;
+    private Long innate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subStat1")
+    private StatRune subStat1;
+
+    @Column
+    private Long subStat1Value;
+
+    @Column
+    private Long subStat1Meule;
+
+    @Column
+    private Long subStat1Gemme;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subStat2")
+    private StatRune subStat2;
+
+    @Column
+    private Long subStat2Value;
+
+    @Column
+    private Long subStat2Meule;
+
+    @Column
+    private Long subStat2Gemme;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subStat3")
+    private StatRune subStat3;
+
+    @Column
+    private Long subStat3Value;
+
+    @Column
+    private Long subStat3Meule;
+
+    @Column
+    private Long subStat3Gemme;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subStat4")
+    private StatRune subStat4;
+
+    @Column
+    private Long subStat4Value;
+
+    @Column
+    private Long subStat4Meule;
+
+    @Column
+    private Long subStat4Gemme;
 
     @Column
     private float efficiency;
 
-    public long getIdRune() {
+    public Long getIdRune() {
         return idRune;
     }
 
-    public void setIdRune(long idRune) {
+    public void setIdRune(Long idRune) {
         this.idRune = idRune;
     }
 
-    public long getOccupied_type() {
+    public Long getOccupied_type() {
         return occupied_type;
     }
 
-    public void setOccupied_type(long occupied_type) {
+    public void setOccupied_type(Long occupied_type) {
         this.occupied_type = occupied_type;
     }
 
-    public long getOccupied_id() {
+    public Long getOccupied_id() {
         return occupied_id;
     }
 
-    public void setOccupied_id(long occupied_id) {
+    public void setOccupied_id(Long occupied_id) {
         this.occupied_id = occupied_id;
     }
 
@@ -107,28 +162,164 @@ public class Rune {
         this.upgrade_curr = upgrade_curr;
     }
 
-    public String getPri_eff() {
-        return pri_eff;
+    public StatRune getStatPri() {
+        return statPri;
     }
 
-    public void setPri_eff(String pri_eff) {
-        this.pri_eff = pri_eff;
+    public void setStatPri(StatRune statPri) {
+        this.statPri = statPri;
     }
 
-    public String getPrefix_eff() {
-        return prefix_eff;
+    public Long getPri() {
+        return pri;
     }
 
-    public void setPrefix_eff(String prefix_eff) {
-        this.prefix_eff = prefix_eff;
+    public void setPri(Long pri) {
+        this.pri = pri;
     }
 
-    public String getSec_eff() {
-        return sec_eff;
+    public StatRune getStatInnate() {
+        return statInnate;
     }
 
-    public void setSec_eff(String sec_eff) {
-        this.sec_eff = sec_eff;
+    public void setStatInnate(StatRune statInnate) {
+        this.statInnate = statInnate;
+    }
+
+    public Long getInnate() {
+        return innate;
+    }
+
+    public void setInnate(Long innate) {
+        this.innate = innate;
+    }
+
+    public StatRune getSubStat1() {
+        return subStat1;
+    }
+
+    public void setSubStat1(StatRune subStat1) {
+        this.subStat1 = subStat1;
+    }
+
+    public Long getSubStat1Value() {
+        return subStat1Value;
+    }
+
+    public void setSubStat1Value(Long subStat1Value) {
+        this.subStat1Value = subStat1Value;
+    }
+
+    public Long getSubStat1Meule() {
+        return subStat1Meule;
+    }
+
+    public void setSubStat1Meule(Long subStat1Meule) {
+        this.subStat1Meule = subStat1Meule;
+    }
+
+    public Long getSubStat1Gemme() {
+        return subStat1Gemme;
+    }
+
+    public void setSubStat1Gemme(Long subStat1Gemme) {
+        this.subStat1Gemme = subStat1Gemme;
+    }
+
+    public StatRune getSubStat2() {
+        return subStat2;
+    }
+
+    public void setSubStat2(StatRune subStat2) {
+        this.subStat2 = subStat2;
+    }
+
+    public Long getSubStat2Value() {
+        return subStat2Value;
+    }
+
+    public void setSubStat2Value(Long subStat2Value) {
+        this.subStat2Value = subStat2Value;
+    }
+
+    public Long getSubStat2Meule() {
+        return subStat2Meule;
+    }
+
+    public void setSubStat2Meule(Long subStat2Meule) {
+        this.subStat2Meule = subStat2Meule;
+    }
+
+    public Long getSubStat2Gemme() {
+        return subStat2Gemme;
+    }
+
+    public void setSubStat2Gemme(Long subStat2Gemme) {
+        this.subStat2Gemme = subStat2Gemme;
+    }
+
+    public StatRune getSubStat3() {
+        return subStat3;
+    }
+
+    public void setSubStat3(StatRune subStat3) {
+        this.subStat3 = subStat3;
+    }
+
+    public Long getSubStat3Value() {
+        return subStat3Value;
+    }
+
+    public void setSubStat3Value(Long subStat3Value) {
+        this.subStat3Value = subStat3Value;
+    }
+
+    public Long getSubStat3Meule() {
+        return subStat3Meule;
+    }
+
+    public void setSubStat3Meule(Long subStat3Meule) {
+        this.subStat3Meule = subStat3Meule;
+    }
+
+    public Long getSubStat3Gemme() {
+        return subStat3Gemme;
+    }
+
+    public void setSubStat3Gemme(Long subStat3Gemme) {
+        this.subStat3Gemme = subStat3Gemme;
+    }
+
+    public StatRune getSubStat4() {
+        return subStat4;
+    }
+
+    public void setSubStat4(StatRune subStat4) {
+        this.subStat4 = subStat4;
+    }
+
+    public Long getSubStat4Value() {
+        return subStat4Value;
+    }
+
+    public void setSubStat4Value(Long subStat4Value) {
+        this.subStat4Value = subStat4Value;
+    }
+
+    public Long getSubStat4Meule() {
+        return subStat4Meule;
+    }
+
+    public void setSubStat4Meule(Long subStat4Meule) {
+        this.subStat4Meule = subStat4Meule;
+    }
+
+    public Long getSubStat4Gemme() {
+        return subStat4Gemme;
+    }
+
+    public void setSubStat4Gemme(Long subStat4Gemme) {
+        this.subStat4Gemme = subStat4Gemme;
     }
 
     public float getEfficiency() {
@@ -150,10 +341,27 @@ public class Rune {
                 ", classe=" + classe +
                 ", set_id=" + set_id +
                 ", upgrade_curr=" + upgrade_curr +
-                ", pri_eff='" + pri_eff + '\'' +
-                ", prefix_eff='" + prefix_eff + '\'' +
-                ", sec_eff='" + sec_eff + '\'' +
-                ", efficiency=" + efficiency+
+                ", statPri=" + statPri +
+                ", pri=" + pri +
+                ", statInnate=" + statInnate +
+                ", innate=" + innate +
+                ", subStat1=" + subStat1 +
+                ", subStat1Value=" + subStat1Value +
+                ", subStat1Meule=" + subStat1Meule +
+                ", subStat1Gemme=" + subStat1Gemme +
+                ", subStat2=" + subStat2 +
+                ", subStat2Value=" + subStat2Value +
+                ", subStat2Meule=" + subStat2Meule +
+                ", subStat2Gemme=" + subStat2Gemme +
+                ", subStat3=" + subStat3 +
+                ", subStat3Value=" + subStat3Value +
+                ", subStat3Meule=" + subStat3Meule +
+                ", subStat3Gemme=" + subStat3Gemme +
+                ", subStat4=" + subStat4 +
+                ", subStat4Value=" + subStat4Value +
+                ", subStat4Meule=" + subStat4Meule +
+                ", subStat4Gemme=" + subStat4Gemme +
+                ", efficiency=" + efficiency +
                 '}';
     }
 }

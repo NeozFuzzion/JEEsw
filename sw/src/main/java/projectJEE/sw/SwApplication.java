@@ -4,14 +4,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.core.io.ClassPathResource;
-import projectJEE.sw.dbEntity.Artifact;
-import projectJEE.sw.dbEntity.GameMonster;
-import projectJEE.sw.dbEntity.Monster;
-import projectJEE.sw.dbEntity.Rune;
-import projectJEE.sw.dbRepository.ArtifactRepository;
-import projectJEE.sw.dbRepository.GameMonsterRepository;
-import projectJEE.sw.dbRepository.MonsterRepository;
-import projectJEE.sw.dbRepository.RuneRepository;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import projectJEE.sw.dbEntity.*;
+import projectJEE.sw.dbRepository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.io.*;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.*;
 
@@ -30,159 +27,91 @@ public class SwApplication {
 	}
 
 	@Autowired
-	MonsterRepository monsterRepository;
-
+	SkillRepository skillRepository;
 	@Autowired
 	GameMonsterRepository gameMonsterRepository;
+
 	@Autowired
-	RuneRepository runeRepository;
-	@Autowired
-	ArtifactRepository artifactRepository;
+	StatRuneRepository statRuneRepository;
+
+	@Bean
+	public MultipartResolver multipartResolver() {
+		CommonsMultipartResolver multipartResolver
+				= new CommonsMultipartResolver();
+		multipartResolver.setMaxUploadSize(5242880);
+		return multipartResolver;
+	}
 
 	@Bean
 	public CommandLineRunner CommandLineRunnerBean() {
 		return (args) -> {
 			System.out.println("Démarrage... ");
-
-			System.out.println(runeRepository.findAll());
-			System.out.println(monsterRepository.findAll());
-			System.out.println(artifactRepository.findAll());
-			File file = new ClassPathResource("data/NeozFuzzion-840111.json").getFile();
-
 			JSONParser jsonP = new JSONParser();
+/*
 
-			File fileData = new ClassPathResource("data/monster.json").getFile();
+			JSONObject statrune = (JSONObject) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/monster.json").getFile()))).get("rune");
 
-			JSONObject jsonDataO = (JSONObject)jsonP.parse(new FileReader(fileData));
-			JSONParser jsonS = new JSONParser();
-			JSONObject jsonO = (JSONObject)jsonS.parse(new FileReader(file));
-			JSONArray runes = (JSONArray) jsonO.get("runes");
-			JSONArray units = (JSONArray) jsonO.get("unit_list");
-			JSONArray artifacts = (JSONArray) jsonO.get("artifacts");
-			JSONObject maxMain = (JSONObject)((JSONObject)((JSONObject) jsonDataO.get("rune")).get("mainstat"));
-
-			HashMap<Integer,HashMap> mapMaxMain  = new HashMap<>();
-			for (int i=1; i<=12 ; i++ ){
-				mapMaxMain.put(i, (HashMap) maxMain.get(Integer.toString(i)));
-			}
-
-			JSONObject maxSub = (JSONObject)((JSONObject)((JSONObject) jsonDataO.get("rune")).get("substat"));
-
-			HashMap<Integer,HashMap> mapMaxSub  = new HashMap<>();
-			for (int i=1; i<=12 ; i++ ){
-				mapMaxSub.put(i, (HashMap) maxSub.get(Integer.toString(i)));
-			}
-			System.out.println((mapMaxSub.get(1).get("6")));
-
-
-			long i =0;
-			List<Monster> saveMonster = new ArrayList<>();
-			for (JSONObject element : (Iterable<JSONObject>) units) {
-				Monster monster = new Monster();
-				monster.setIdMonster((Long) element.get("unit_id"));
-				monster.setId_game((Long) element.get("unit_master_id"));
-				monster.setSkills( (element.get("skills").toString()));
-
-				JSONArray occupiedRunes = (JSONArray) element.get("runes");
-				runes.addAll(occupiedRunes);
-				if (occupiedRunes.size()>=1){
-					monster.setRune1((Long) ((JSONObject) occupiedRunes.get(0)).get("rune_id"));
-					if (occupiedRunes.size()>=2){
-						monster.setRune2((Long) ((JSONObject) occupiedRunes.get(1)).get("rune_id"));
-						if (occupiedRunes.size()>=3){
-							monster.setRune3((Long) ((JSONObject) occupiedRunes.get(2)).get("rune_id"));
-							if (occupiedRunes.size()>=4){
-								monster.setRune4((Long) ((JSONObject) occupiedRunes.get(3)).get("rune_id"));
-								if (occupiedRunes.size()>=5){
-									monster.setRune5((Long) ((JSONObject) occupiedRunes.get(4)).get("rune_id"));
-									if (occupiedRunes.size()>=6){
-										monster.setRune6((Long) ((JSONObject) occupiedRunes.get(5)).get("rune_id"));
-									}
-								}
-							}
-						}
-					}
+			List<StatRune> savestrune = new ArrayList<>();
+			for (int v=1;v<=6;v++){
+				StatRune statRune = new StatRune();
+				statRune.setIdStat((long) v);
+				JSONObject maxMain = (JSONObject) ((JSONObject) statrune.get("mainstat")).get(Integer.toString(v));
+				JSONObject maxSub = (JSONObject) ((JSONObject) statrune.get("substat")).get(Integer.toString(v));
+				for (int k=0 ; k<6; k++) {
+					Method method1 = StatRune.class.getMethod("setMaxMain" + (k + 1), Long.class);
+					method1.invoke(statRune, maxMain.get(Integer.toString(k+1)));
+					Method method2 = StatRune.class.getMethod("setMaxSub" + (k + 1), Long.class);
+					method2.invoke(statRune, maxSub.get(Integer.toString(k+1)));
 				}
-
-				monster.setUnit_level((Long) element.get("unit_level"));
-
-				saveMonster.add(monster);
+				statRune.setName((String) ((JSONObject) statrune.get("effectTypes")).get(Integer.toString(v)));
+				savestrune.add(statRune);
 			}
 
-			monsterRepository.saveAll(saveMonster);
-
-			Iterator<JSONObject> itRunes = runes.iterator();
-			List<Rune> saveRune=new ArrayList<>();
-			while(itRunes.hasNext()) {
-				JSONObject element = itRunes.next();
-				Rune rune = new Rune();
-				i++;
-				rune.setIdRune((Long) i);
-				rune.setOccupied_type(((Long) element.get("occupied_type")).intValue());
-				rune.setOccupied_id((Long) element.get("occupied_id"));
-				rune.setSlot_no(((Long) element.get("slot_no")).intValue());
-				rune.setClasse(((Long) element.get("class")).intValue());
-				rune.setRang(((Long) element.get("rank")).intValue());
-				rune.setSet_id(((Long) element.get("set_id")).intValue());
-				rune.setUpgrade_curr(((Long) element.get("upgrade_curr")).intValue());
-
-				JSONArray pri_eff = (JSONArray) element.get("pri_eff");
-				JSONArray prefix_eff = (JSONArray) element.get("prefix_eff");
-				JSONArray sec_eff = (JSONArray) element.get("sec_eff");
-
-				rune.setPri_eff(pri_eff.toString());
-				rune.setPrefix_eff(prefix_eff.toString());
-				rune.setSec_eff(sec_eff.toString());
-
-				int maxmain = ((Long) (mapMaxMain.get(((Long) ((JSONArray) pri_eff).get(0)).intValue()).get(Integer.toString(((Long) element.get("class")).intValue() % 10)))).intValue();
-				int maxmain6 = ((Long) (mapMaxMain.get(((Long) ((JSONArray) pri_eff).get(0)).intValue()).get(Integer.toString(6)))).intValue();
-
-				float efficiency = (float) ((float) (((float) maxmain)/maxmain6)/2.8);
-				if ((Long) ((JSONArray) prefix_eff).get(0) != 0) {
-					float pre_eff_substat = (float) (((Long) (mapMaxSub.get(((Long) ((JSONArray) prefix_eff).get(0)).intValue()).get(Integer.toString(6)))*2.8));
-					efficiency += ((((Long) ((JSONArray) prefix_eff).get(1)).intValue()) / pre_eff_substat);
+			for (int v=8;v<=12;v++){
+				StatRune statRune = new StatRune();
+				statRune.setIdStat((long) v);
+				JSONObject maxMain = (JSONObject) ((JSONObject) statrune.get("mainstat")).get(Integer.toString(v));
+				JSONObject maxSub = (JSONObject) ((JSONObject) statrune.get("substat")).get(Integer.toString(v));
+				for (int k=0 ; k<6; k++) {
+					Method method1 = StatRune.class.getMethod("setMaxMain" + (k + 1), Long.class);
+					method1.invoke(statRune, maxMain.get(Integer.toString(k+1)));
+					Method method2 = StatRune.class.getMethod("setMaxSub" + (k + 1), Long.class);
+					method2.invoke(statRune, maxSub.get(Integer.toString(k+1)));
 				}
-
-				for (Object e : (JSONArray) element.get("sec_eff")) {
-					if (((JSONArray) e).size() > 0) {
-						float sommesub = ((((Long) ((JSONArray) e).get(0)).intValue())==1 || (((Long) ((JSONArray) e).get(0)).intValue())==3 ||( ((Long) ((JSONArray) e).get(0)).intValue())==5 ) ? (float) ((((Long) (((Long) ((JSONArray) e).get(1)) + ((Long) ((JSONArray) e).get(3)))).intValue()) * 0.5) : ((Long) (((Long) ((JSONArray) e).get(1)) + ((Long) ((JSONArray) e).get(3)))).intValue();
-
-						int maxsub = ((Long) (mapMaxSub.get(((Long) ((JSONArray) e).get(0)).intValue()).get(Integer.toString(6)))).intValue();
-						efficiency += ( sommesub / (maxsub * 2.8));
-
-					}
-
-				}
-
-				rune.setEfficiency(efficiency*100);
-				saveRune.add(rune);
+				statRune.setName((String) ((JSONObject) statrune.get("effectTypes")).get(Integer.toString(v)));
+				savestrune.add(statRune);
 			}
+			statRuneRepository.saveAll(savestrune);
 
-			runeRepository.saveAll(saveRune);
+			List<Skill> saveSkill = new ArrayList<>();
 
-
-			List<Artifact> saveArti = new ArrayList<>();
-			for (JSONObject element : (Iterable<JSONObject>) artifacts) {
-				Artifact artifact = new Artifact();
-				artifact.setIdArtifact((Long) element.get("rid"));
-				artifact.setOccupied_id((Long) element.get("occupied_id"));
-				artifact.setSlot(((Long) element.get("slot")).intValue());
-				artifact.setType(((Long) element.get("type")).intValue());
-				artifact.setAttribute(((Long) element.get("attribute")).intValue());
-				artifact.setUnit_style(((Long) element.get("unit_style")).intValue());
-				artifact.setNatural_rank(((Long) element.get("natural_rank")).intValue());
-				artifact.setRang(((Long) element.get("rank")).intValue());
-				artifact.setLevel(((Long) element.get("level")).intValue());
-				artifact.setPri_effect(element.get("pri_effect").toString());
-				artifact.setSec_effect(element.get("sec_effects").toString());
-				saveArti.add(artifact);
-
+			JSONArray data_skill = (JSONArray) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/skills.json").getFile()))).get("skills");
+			System.out.println(data_skill.size());
+			int vmax = data_skill.size();
+			for (int v=0;v<vmax;v++) {
+				JSONObject skl = (JSONObject) data_skill.get(v);
+				Skill skill	= new Skill();
+				skill.setAoe((Boolean) skl.get("aoe"));
+				skill.setIdSkill((Long) skl.get("id"));
+				if(skl.get("cooltime")!=null)
+					skill.setCooltime((Long) skl.get("cooltime"));
+				skill.setGameSkill((Long) skl.get("com2us_id"));
+				skill.setDescription((String) skl.get("description"));
+				skill.setEffects(skl.get("effects").toString());
+				skill.setHits((Long) skl.get("hits"));
+				skill.setMax_level((Long) skl.get("max_level"));
+				skill.setMultiplier_formula((String) skl.get("multiplier_formula"));
+				skill.setUpgrades(skl.get("upgrades").toString());
+				skill.setPassive((Boolean) skl.get("passive"));
+				skill.setSlot((Long) skl.get("slot"));
+				skill.setImage((String) skl.get("icon_filename"));
+				skill.setName((String) skl.get("name"));
+				saveSkill.add(skill);
 			}
-			artifactRepository.saveAll(saveArti);
-
-
+			skillRepository.saveAll(saveSkill);
 
 			List<GameMonster> saveDataMonster = new ArrayList<>();
+
 			JSONArray data_monster = (JSONArray) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/monsters.json").getFile()))).get("monster");
 			System.out.println(data_monster.size());
 			int vmax = data_monster.size();
@@ -209,18 +138,12 @@ public class SwApplication {
 				gameMonster.setElement((String) mstr.get("element"));
 
 				JSONArray tabSkills = (JSONArray) mstr.get("skills");
-				if(tabSkills.size()>=1){
-					gameMonster.setS1((Long) tabSkills.get(0));
-					if (tabSkills.size()>=2){
-						gameMonster.setS2((Long) tabSkills.get(1));
-						if (tabSkills.size()>=3){
-							gameMonster.setS3((Long) tabSkills.get(2));
-							if (tabSkills.size()>=4){
-								gameMonster.setS4((Long) tabSkills.get(3));
-							}
-						}
-					}
+				int size = tabSkills.size();
+				for (int k=0 ; k<size; k++){
+					Method method = GameMonster.class.getMethod("setS" + (k + 1), Skill.class);
+					method.invoke(gameMonster, skillRepository.getReferenceById((Long) tabSkills.get(k)));
 				}
+
 
 				gameMonster.setAwaken_lvl((Long) mstr.get("awaken_level"));
 				if(mstr.get("awakens_from")!=null)
@@ -244,15 +167,16 @@ public class SwApplication {
 			gameMonsterRepository.saveAll(saveDataMonster);
 			System.out.println("Initiated... ");
 
-			/*
+
 	System.out.println("AAAAAAAAAAAAAAAA");
 			System.out.println(new ClassPathResource("data/monsters.json").getURL());
-			BufferedWriter out = new BufferedWriter(new FileWriter("monsters.json"));
+			BufferedWriter out = new BufferedWriter(new FileWriter("skills.json"));
 			String urlMonster;
 			String inputLine = "";
-			for(i=1;i<=21;i++){
+
+			for(int i=1;i<=35;i++){
 				inputLine = "";
-				urlMonster="https://swarfarm.com/api/v2/monsters/?format=json&page=" +  i ;
+				urlMonster="https://swarfarm.com/api/v2/skills/?format=json&page=" +  i ;
 				URL oracle = new URL(urlMonster);
 				BufferedReader in = new BufferedReader(
 						new InputStreamReader(oracle.openStream()));
@@ -268,9 +192,6 @@ public class SwApplication {
 			}
 			out.close();
 			System.out.println("AAAAAAAAAAAAAAAA");
-
-			image_filename;
-			skills;
 */
 		};
 	}

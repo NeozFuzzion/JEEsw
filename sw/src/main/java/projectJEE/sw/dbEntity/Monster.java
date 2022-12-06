@@ -1,37 +1,50 @@
 package projectJEE.sw.dbEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Monster {
     @Id    @Column
     private long idMonster;
 
-    @Column
-    private long id_game;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_game", nullable = false)
+    private GameMonster gameMonster;
 
     @Column
     private String skills;
 
-    @Column
-    private long rune1;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rune1")
+    private Rune rune1;
 
-    @Column
-    private long rune2;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rune2")
+    private Rune rune2;
 
-    @Column
-    private long rune3;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rune3")
+    private Rune rune3;
 
-    @Column
-    private long rune4;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rune4")
+    private Rune rune4;
 
-    @Column
-    private long rune5;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rune5")
+    private Rune rune5;
 
-    @Column
-    private long rune6;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rune6")
+    private Rune rune6;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "artifact1")
+    private Artifact artifact1;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "artifact2")
+    private Artifact artifact2;
 
     @Column
     private long unit_level;
@@ -40,75 +53,83 @@ public class Monster {
         return idMonster;
     }
 
-    public long getId_game() {
-        return id_game;
+    public GameMonster getGameMonster() {
+        return gameMonster;
     }
 
     public String getSkills() {
         return skills;
     }
 
-    public long getRune1() {
+    public long getUnit_level() {
+        return unit_level;
+    }
+
+    public Rune getRune1() {
         return rune1;
     }
 
-    public long getRune2() {
+    public Rune getRune2() {
         return rune2;
     }
 
-    public long getRune3() {
+    public Rune getRune3() {
         return rune3;
     }
 
-    public long getRune4() {
+    public Rune getRune4() {
         return rune4;
     }
 
-    public long getRune5() {
+    public Rune getRune5() {
         return rune5;
     }
 
-    public long getRune6() {
+    public Rune getRune6() {
         return rune6;
     }
 
-    public long getUnit_level() {
-        return unit_level;
+    public Artifact getArtifact1() {
+        return artifact1;
+    }
+
+    public Artifact getArtifact2() {
+        return artifact2;
     }
 
     public void setIdMonster(long idMonster) {
         this.idMonster = idMonster;
     }
 
-    public void setId_game(long id_game) {
-        this.id_game = id_game;
+    public void setGameMonster(GameMonster gameMonster) {
+        this.gameMonster = gameMonster;
     }
 
     public void setSkills(String skills) {
         this.skills = skills;
     }
 
-    public void setRune1(long rune1) {
+    public void setRune1(Rune rune1) {
         this.rune1 = rune1;
     }
 
-    public void setRune2(long rune2) {
+    public void setRune2(Rune rune2) {
         this.rune2 = rune2;
     }
 
-    public void setRune3(long rune3) {
+    public void setRune3(Rune rune3) {
         this.rune3 = rune3;
     }
 
-    public void setRune4(long rune4) {
+    public void setRune4(Rune rune4) {
         this.rune4 = rune4;
     }
 
-    public void setRune5(long rune5) {
+    public void setRune5(Rune rune5) {
         this.rune5 = rune5;
     }
 
-    public void setRune6(long rune6) {
+    public void setRune6(Rune rune6) {
         this.rune6 = rune6;
     }
 
@@ -116,11 +137,19 @@ public class Monster {
         this.unit_level = unit_level;
     }
 
+    public void setArtifact1(Artifact artifact1) {
+        this.artifact1 = artifact1;
+    }
+
+    public void setArtifact2(Artifact artifact2) {
+        this.artifact2 = artifact2;
+    }
+
     @Override
     public String toString() {
         return "Monster{" +
                 "idMonster=" + idMonster +
-                ", id_game=" + id_game +
+                ", id_game=" + gameMonster +
                 ", skills='" + skills + '\'' +
                 ", rune1='" + rune1 + '\'' +
                 ", rune2='" + rune2 + '\'' +

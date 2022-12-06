@@ -1,8 +1,6 @@
 package projectJEE.sw.dbEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class GameMonster {
@@ -46,17 +44,21 @@ public class GameMonster {
     @Column
     private String element;
 
-    @Column
-    private long S1;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "s1")
+    private Skill S1;
 
-    @Column
-    private long S2;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "s2")
+    private Skill S2;
 
-    @Column
-    private long S3;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "s3")
+    private Skill S3;
 
-    @Column
-    private long S4;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "s4")
+    private Skill S4;
 
     @Column
     private long awaken_lvl;
@@ -137,19 +139,19 @@ public class GameMonster {
         return element;
     }
 
-    public long getS1() {
+    public Skill getS1() {
         return S1;
     }
 
-    public long getS2() {
+    public Skill getS2() {
         return S2;
     }
 
-    public long getS3() {
+    public Skill getS3() {
         return S3;
     }
 
-    public long getS4() {
+    public Skill getS4() {
         return S4;
     }
 
@@ -241,19 +243,19 @@ public class GameMonster {
         this.element = element;
     }
 
-    public void setS1(long s1) {
+    public void setS1(Skill s1) {
         S1 = s1;
     }
 
-    public void setS2(long s2) {
+    public void setS2(Skill s2) {
         S2 = s2;
     }
 
-    public void setS3(long s3) {
+    public void setS3(Skill s3) {
         S3 = s3;
     }
 
-    public void setS4(long s4) {
+    public void setS4(Skill s4) {
         S4 = s4;
     }
 
