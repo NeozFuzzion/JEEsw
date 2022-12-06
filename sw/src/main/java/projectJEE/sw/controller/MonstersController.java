@@ -21,10 +21,9 @@ public class MonstersController {
     @GetMapping("/monsters")
     public String monsters(Model model) {
 
-
-        model.addAttribute("monsters",monsterRepository.findAll());
-//        model.addAttribute("4nat",monsterRepository.findAllByGameMonsterNatural_stars(4L));
-//        model.addAttribute("3nat",monsterRepository.findAllByGameMonsterNatural_stars(3L));
+        model.addAttribute("nat5",monsterRepository.findAllNatural5Monsters());
+        model.addAttribute("nat4",monsterRepository.findAllNatural4Monsters());
+        model.addAttribute("nat3",monsterRepository.findAllNatural3Monsters());
 
         return "/html/monsters";
     }
