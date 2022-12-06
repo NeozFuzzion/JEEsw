@@ -109,7 +109,9 @@ public class ExtractController {
             Rune rune = new Rune();
             rune.setIdRune((Long) element.get("rune_id"));
             rune.setOccupied_type((long) ((Long) element.get("occupied_type")).intValue());
-            rune.setOccupied_id(monsterRepository.getReferenceById((Long) element.get("occupied_id")));
+            if((Long) element.get("occupied_id")!=0)
+                rune.setOccupied_id(monsterRepository.getReferenceById((Long) element.get("occupied_id")));
+
             rune.setSlot_no(((Long) element.get("slot_no")).intValue());
             rune.setClasse(((Long) element.get("class")).intValue());
             rune.setRang(((Long) element.get("rank")).intValue());

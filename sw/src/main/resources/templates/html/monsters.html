@@ -13,7 +13,38 @@
     <a href="">Runes</a>
     <a href="/html/artifacts">Artefacts</a>
 <!--    <a href="">Upload</a>-->
-
+.    <table>
+        <thead>
+            <tr>
+                <th>Icone</th>
+                <th>Nom</th>
+                <th>Element</th>
+                <th>Points de vie</th>
+                <th>Attaque</th>
+                <th>Défense</th>
+                <th>Vitesse</th>
+                <th>Taux critique</th>
+                <th>Dégats critiques</th>
+                <th>Résistance</th>
+                <th>Précision</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr th:each="monster : ${monsters}">
+            <td><img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}"></td>
+            <td><p th:text="${monster.gameMonster.name}"></p></td>
+            <td><p th:text="${monster.gameMonster.element}"></p></td>
+            <td><p th:text="${monster.gameMonster.hp}"></p></td>
+            <td><p th:text="${monster.gameMonster.atk}"></p></td>
+            <td><p th:text="${monster.gameMonster.def}"></p></td>
+            <td><p th:text="${monster.gameMonster.spd}"></p></td>
+            <td><p th:text="${monster.gameMonster.crate}"></p></td>
+            <td><p th:text="${monster.gameMonster.cdmg}"></p></td>
+            <td><p th:text="${monster.gameMonster.res}"></p></td>
+            <td><p th:text="${monster.gameMonster.acc}"></p></td>
+        </tr>
+        </tbody>
+    </table>
     <footer>Footer du site</footer>
 </body>
 </html>
