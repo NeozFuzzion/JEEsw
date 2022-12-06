@@ -153,7 +153,7 @@ public class SwApplication {
 					gameMonster.setCrate((Long) mstr.get("crit_rate"));
 					gameMonster.setCdmg((Long) mstr.get("crit_damage"));
 					gameMonster.setRes((Long) mstr.get("resistance"));
-					gameMonster.setAcc((Long) mstr.get("resistance"));
+					gameMonster.setAcc((Long) mstr.get("accuracy"));
 
 					gameMonster.setImage((String) mstr.get("image_filename"));
 

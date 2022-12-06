@@ -44,7 +44,7 @@ public class ExtractController {
     ArtifactRepository artifactRepository;
 
 
-    @GetMapping("/uploadJSON")
+    @GetMapping("/uploadJson")
     public String index() {
         return "/html/uploadJSON";
     }
@@ -55,7 +55,7 @@ public class ExtractController {
 
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
-            return "redirect:/uploadStatus";
+            return "redirect:/monsters";
         }
 
         // Get the file and save it somewhere
@@ -109,8 +109,11 @@ public class ExtractController {
             Rune rune = new Rune();
             rune.setIdRune((Long) element.get("rune_id"));
             rune.setOccupied_type((long) ((Long) element.get("occupied_type")).intValue());
+
             if((Long) element.get("occupied_id")!=0)
                 rune.setOccupied_id(monsterRepository.getReferenceById((Long) element.get("occupied_id")));
+
+
             rune.setSlot_no(((Long) element.get("slot_no")).intValue());
             rune.setClasse(((Long) element.get("class")).intValue());
             rune.setRang(((Long) element.get("rank")).intValue());
@@ -217,9 +220,9 @@ public class ExtractController {
         return "redirect:/uploadStatus";
     }
 
-    @GetMapping("/uploadStatus")
+    @GetMapping("/monster")
     public String uploadStatus() {
-        return "/index";
+        return "/html/monsters";
     }
 
 }

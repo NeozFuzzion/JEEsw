@@ -1,8 +1,7 @@
 package projectJEE.sw.dbEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 public class Artifact {
@@ -42,6 +41,7 @@ public class Artifact {
 
     @Column
     private long efficiency;
+
 
     public long getIdArtifact() {
         return idArtifact;

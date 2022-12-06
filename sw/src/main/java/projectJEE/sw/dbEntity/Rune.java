@@ -2,6 +2,7 @@ package projectJEE.sw.dbEntity;
 
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 public class Rune {
@@ -98,6 +99,7 @@ public class Rune {
 
     @Column
     private float efficiency;
+
 
     public Long getIdRune() {
         return idRune;
