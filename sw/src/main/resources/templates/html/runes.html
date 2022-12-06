@@ -13,7 +13,54 @@
   <a href="">Runes</a>
   <a href="html/artifacts">Artefacts</a>
 <!--  <a href="">Upload</a>-->
+  <table>
+    <thead>
+    <tr>
+      <th>Set</th>
+      <th>Slot</th>
+      <th>Rank</th>
+      <th>Class</th>
+      <th>Current upgrade</th>
+      <th>Main stat</th>
+      <th>Innate stat</th>
+      <th>Substat1</th>
+      <th>Substat2</th>
+      <th>Substat3</th>
+      <th>Substat4</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="rune : ${runes}">
+      <td><p th:text="${rune.set_id} "></p></td>
+      <td><p th:text="${rune.slot_no} "></p></td>
+      <td><p th:text="${rune.rang} "></p></td>
+      <td><p th:text="${rune.classe} "></p></td>
+      <td><p th:text="${rune.upgrade_curr} "></p></td>
+      <td><p  th:text="${rune.pri} + ' ' + ${rune.statPri.name}"></p></td>
+      <td>
+        <p th:if="${rune.innate}!=null" th:text="${rune?.innate} + ' ' +${rune?.statInnate?.name} "></p>
+        <p th:unless="${rune.innate}!=null" >0</p>
+      </td>
+      <td>
+        <p th:if="${rune.subStat1}!=null" th:text="${rune.subStat1Value} "></p>
+        <p th:unless="${rune.subStat1}!=null" >0</p>
+      </td>
+      <td>
+        <p th:if="${rune.subStat2}!=null" th:text="${rune.subStat2Value} "></p>
+        <p th:unless="${rune.subStat2}!=null" >0</p>
+      </td>
+      <td>
+        <p th:if="${rune.subStat3}!=null" th:text="${rune.subStat3Value} "></p>
+        <p th:unless="${rune.subStat3}!=null" >0</p>
+      </td>
+      <td>
+        <p th:if="${rune.subStat4}!=null" th:text="${rune.subStat4Value} "></p>
+        <p th:unless="${rune.subStat4}!=null" >0</p>
+      </td>
 
+    </tr>
+    </tbody>
+  </table>
   <footer>Footer du site</footer>
 </body>
 </html>

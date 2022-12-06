@@ -15,12 +15,9 @@ import java.util.List;
 public class RuneController {
     @Autowired
     RuneRepository runeRepository;
-    @GetMapping("/html/runes")
+    @GetMapping("/runes")
     public String artifacts(Model model) {
         model.addAttribute("runes",runeRepository.findAll());
         return "/html/runes";
     }
-
-
-
 }
