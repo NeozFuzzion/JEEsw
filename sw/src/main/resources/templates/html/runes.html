@@ -27,6 +27,7 @@
       <th>Substat2</th>
       <th>Substat3</th>
       <th>Substat4</th>
+      <th>Efficiency</th>
     </tr>
     </thead>
     <tbody>
@@ -57,7 +58,9 @@
         <p th:if="${rune.subStat4}!=null" th:text="${rune.subStat4Value} "></p>
         <p th:unless="${rune.subStat4}!=null" >0</p>
       </td>
-
+     <td>
+        <p th:text="${rune.efficiency} "></p>
+     </td>
     </tr>
     </tbody>
   </table>
