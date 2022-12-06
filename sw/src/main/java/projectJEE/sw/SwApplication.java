@@ -64,10 +64,18 @@ public class SwApplication {
 					leaderSkill.setAttribute((String) ls.get("attribute"));
 					leaderSkill.setIdLs((Long) ls.get("id"));
 
-					String image = "/leader/leader_skill_"+leaderSkill.getAttribute();
+					String att = leaderSkill.getAttribute();
+					att=att.replace(" ","_");
+
+					String image = "/leader/leader_skill_"+att;
 					if(ls.get("element")!=null){
 						leaderSkill.setElement((String) ls.get("element"));
-						image = image + "_"+leaderSkill.getElement() ;
+
+						String elemt = leaderSkill.getElement();
+						elemt = elemt.replace(" ","_");
+
+						image = image +"_"+elemt ;
+
 					}
 					leaderSkill.setImage(image+".png");
 					saveLS.add(leaderSkill);

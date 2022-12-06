@@ -44,7 +44,7 @@ public class ExtractController {
     ArtifactRepository artifactRepository;
 
 
-    @GetMapping("/uploadJson")
+    @GetMapping("/uploadJSON")
     public String index() {
         return "/html/uploadJSON";
     }
