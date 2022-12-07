@@ -7,3 +7,7 @@ function hideRightSide() {
     document.getElementsByClassName('right-side')[0].style.display = "none";
     document.getElementsByClassName('menu-button')[0].children[0].onclick = showRightSide;
 }
+
+function showKEK() {
+    document.getElementsByClassName('kek')[0].style.display = "flex";
+}

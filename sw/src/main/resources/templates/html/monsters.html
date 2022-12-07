@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Titre</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/js/functions.js"></script>
 </head>
 <body>
 <div class="title">
@@ -28,22 +29,19 @@
     </div>
 </div>
 <div class="content">
-    <span th:each="monster : ${nat5}">
-        <p><a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}"></a></p>
-    </span>
-    <span th:each="monster : ${nat4}">
-        <p><a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}"></a></p>
-    </span>
-    <span th:each="monster : ${nat3}">
-        <p><a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}"></a></p>
-    </span>
     <div class="search-bar">
         <input type="text">
     </div>
     <div class="monster-grid">
-        <div th:each="monster : ${monsters}">
-            <img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}">
-        </div>
+        <span th:each="monster : ${nat5}">
+        <p><a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}"></a></p>
+    </span>
+        <span th:each="monster : ${nat4}">
+        <p><a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}"></a></p>
+    </span>
+        <span th:each="monster : ${nat3}">
+        <p><a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}"></a></p>
+    </span>
     </div>
 </div>
     <footer>
@@ -52,5 +50,8 @@
             <p>CY Tech 2022</p>
         </div>
     </footer>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

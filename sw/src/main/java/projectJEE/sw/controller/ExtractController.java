@@ -217,12 +217,7 @@ public class ExtractController {
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded '" + file.getOriginalFilename() + "'");
 
-        return "redirect:/uploadStatus";
-    }
-
-    @GetMapping("/monster")
-    public String uploadStatus() {
-        return "/html/monsters";
+        return "redirect:/monsters";
     }
 
 }

@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import projectJEE.sw.dbEntity.GameMonster;
 import projectJEE.sw.dbEntity.Monster;
+import projectJEE.sw.dbRepository.GameMonsterRepository;
 import projectJEE.sw.dbRepository.MonsterRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,19 @@ import java.util.List;
 public class MonstersController {
     @Autowired
     MonsterRepository monsterRepository;
+
+    @Autowired
+    GameMonsterRepository gameMonsterRepository ;
+
+    @GetMapping("/bestiary")
+    public String gameMonsters(Model model) {
+
+        model.addAttribute("nat5",gameMonsterRepository.findAllNatural5Monsters());
+        model.addAttribute("nat4",gameMonsterRepository.findAllNatural4Monsters());
+        model.addAttribute("nat3",gameMonsterRepository.findAllNatural3Monsters());
+
+        return "/html/abon";
+    }
 
     @GetMapping("/monsters")
     public String monsters(Model model) {

@@ -1,35 +1,49 @@
+<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
-  <title>Users</title>
+  <title>Titre</title>
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<main>
-  <h1>Create user</h1>
-  <form th:object="${user}"
-        th:action="@{/register}"
-        method="post">
-    <div>
-      <label for="username">Username</label>
-      <input id="username" type="text" th:field="*{username}">
-      <p th:if="${#fields.hasErrors('username')}"
-         th:text="${#strings.listJoin(#fields.errors('username'), ', ')}"></p>
-    </div>
-    <div>
-      <label for="password">Password</label>
-      <input id="password" type="password" th:field="*{password}">
-      <p th:if="${#fields.hasErrors('password')}"
-         th:text="${#strings.listJoin(#fields.errors('password'), ', ')}"></p>
-    </div>
+  <!--  <div class="sub-title">-->
+  <!--    <h1>Login</h1>-->
+  <!--  </div>-->
 
-    <div>
-      <label for="confirmPassword">Confirm Password</label>
-      <input id="confirmPassword" type="password" th:field="*{confirmPassword}">
-      <p th:if="${#fields.hasErrors('confirmPassword')}"
-         th:text="${#strings.listJoin(#fields.errors('confirmPassword'), ', ')}"></p>
+  <div class="login-content">
+    <div class="login-infos">
+      <form th:object="${user}"
+            th:action="@{/register}"
+            method="post">
+        <div>
+          <label for="username">Username</label>
+          <input id="username" type="text" th:field="*{username}">
+          <p th:if="${#fields.hasErrors('username')}"
+             th:text="${#strings.listJoin(#fields.errors('username'), ', ')}"></p>
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input id="password" type="password" th:field="*{password}">
+          <p th:if="${#fields.hasErrors('password')}"
+             th:text="${#strings.listJoin(#fields.errors('password'), ', ')}"></p>
+        </div>
+
+        <div>
+          <label for="confirmPassword">Confirm Password</label>
+          <input id="confirmPassword" type="password" th:field="*{confirmPassword}">
+          <p th:if="${#fields.hasErrors('confirmPassword')}"
+             th:text="${#strings.listJoin(#fields.errors('confirmPassword'), ', ')}"></p>
+        </div>
+        <input type="submit" value="Register">
+      </form>
     </div>
-    <button type="submit">Create user</button>
-  </form>
-</main>
+  </div>
+
+  <footer>
+    <div>
+      <p>DURANTEAU Damien - LANTA Axel - OUTREBOND Edouard</p>
+      <p>CY Tech 2022</p>
+    </div>
+  </footer>
 
 </body>
 </html>

@@ -13,11 +13,11 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
     private static final String[] EVERYONE_LIST_URLS = {
-            "/", "/index", "/register", "/login"
+            "/", "/index", "/register", "/login", "/bestiary"
     };
 
     private static final String[] USER_LIST_URLS = {
-            "/monsters", "/runes", "/artifacts", "/uploadJson"
+            "/monsters", "/runes", "/artifacts", "/uploadJSON"
     };
 
     @Bean

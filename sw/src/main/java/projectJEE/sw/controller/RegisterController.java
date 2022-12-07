@@ -11,6 +11,8 @@ import projectJEE.sw.dbRepository.UserRepository;
 import projectJEE.sw.service.UserForm;
 import projectJEE.sw.service.UserService;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Timestamp;
 import java.time.Instant;
 import java.util.Date;
@@ -32,7 +34,7 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String registerUser(UserForm userForm){
+    public String registerUser(HttpServletRequest request, UserForm userForm) throws ServletException {
         if (userRepository.findUserWithName(userForm.getUsername()).isEmpty() && userForm.getPassword().equals(userForm.getConfirmPassword())){
             User user = new User();
             user.setId(UUID.randomUUID());
@@ -41,7 +43,8 @@ public class RegisterController {
             user.setPassword(passwordEncoder.encode(userForm.getPassword()));
             user.setRole("SUMMONER");
             userRepository.save(user);System.out.println(userForm.getConfirmPassword());
-            return ("index");
+            request.login(userForm.getUsername(), userForm.getPassword());
+            return ("/index");
         }
         System.out.println(userForm.getPassword() == userForm.getConfirmPassword());
         return ("redirect:/register");
