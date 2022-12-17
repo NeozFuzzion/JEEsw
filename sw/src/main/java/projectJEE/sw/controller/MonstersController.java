@@ -28,7 +28,9 @@ public class MonstersController {
         model.addAttribute("nat5",gameMonsterRepository.findAllNatural5Monsters());
         model.addAttribute("nat4",gameMonsterRepository.findAllNatural4Monsters());
         model.addAttribute("nat3",gameMonsterRepository.findAllNatural3Monsters());
-
+        model.addAttribute("a2",gameMonsterRepository.findAllNatural2AMonsters());
+        model.addAttribute("nat2",gameMonsterRepository.findAllNatural2Monsters());
+        model.addAttribute("nat1",gameMonsterRepository.findAllNatural1Monsters());
         return "/html/abon";
     }
 
@@ -37,7 +39,7 @@ public class MonstersController {
 
         model.addAttribute("nat5",monsterRepository.findAllNatural5Monsters());
         model.addAttribute("nat4",monsterRepository.findAllNatural4Monsters());
-        model.addAttribute("nat3",monsterRepository.findAllNatural3Monsters());
+        model.addAttribute("a2",monsterRepository.findAllNatural2AMonsters());
 
         return "/html/monsters";
     }

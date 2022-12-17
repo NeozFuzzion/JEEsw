@@ -5,6 +5,7 @@
   <title>Titre</title>
   <link rel="stylesheet" href="/css/style.css">
   <script type="text/javascript" src="/js/functions.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
   <div class="title">
@@ -29,8 +30,81 @@
       <a class="button upload-button" href="/uploadJSON"><button><p>Upload</p></button></a>
     </div>
   </div>
-
   <div class="content">
+    <canvas id="myChart" style="width:100%;max-width:1000px;max-height:500px"> </canvas>
+    <script th:inline="javascript">
+        const yValues = [[${eff}]];
+        let xValues = [];
+        for (let i = 0; i < 400; i++) {
+          xValues[i]=i+1;
+        }
+        new Chart("myChart",{
+          type: "line",
+          data: {
+            labels:xValues,
+            datasets :[{
+              label:"Current Efficiency",
+              fill: false,
+              lineTension: 0,
+              backgroundColor: "#3437eb",
+              borderColor: "#3437eb",
+              pointRadius:0,
+              data:yValues
+            },{
+              label:"Efficiency - Max hero",
+              fill: false,
+              lineTension: 0,
+              backgroundColor: "red",
+              borderColor: "red",
+              pointRadius:0,
+
+            },{
+              label:"Efficiency - Max legend",
+              fill: false,
+              lineTension: 0,
+              backgroundColor: "green",
+              borderColor: "green",
+              pointRadius:0,
+
+            }
+            ],
+
+          },
+          options:{
+            plugins: {
+              title: {
+                display: true,
+                text: 'Efficiency - 400 first Runes'
+              },
+              legend: {
+                position:'bottom'
+              },
+            },
+
+            scales: {
+
+              x: {
+
+                min:1,
+                type:'linear',
+                ticks:{
+                  stepSize:25,
+
+                }
+
+              },
+              y:{
+                type:'linear',
+                ticks:{
+
+                }
+              }
+            }
+          },
+        });
+    </script>
+  </div>
+  <!--<div class="content">
     <table>
       <thead>
       <tr>
@@ -83,7 +157,7 @@
       </tbody>
     </table>
   </div>
-
+  -->.
   <footer>
     <div>
       <p>DURANTEAU Damien - LANTA Axel - OUTREBOND Edouard</p>

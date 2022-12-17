@@ -11,10 +11,10 @@ import java.util.List;
 @Repository
 public interface MonsterRepository extends JpaRepository<Monster,Long> {
     public Monster findFirstByIdMonster(long id);
-    @Query("SELECT m from Monster m WHERE m.gameMonster.natural_stars = 5L AND m.gameMonster.obtainable = True")
+    @Query("SELECT m from Monster m WHERE m.gameMonster.natural_stars = 5L and m.gameMonster.obtainable = true")
     public List<Monster> findAllNatural5Monsters();
-    @Query("SELECT m from Monster m WHERE m.gameMonster.natural_stars = 4L AND m.gameMonster.obtainable = True")
+    @Query("SELECT m from Monster m WHERE m.gameMonster.natural_stars = 4L and m.gameMonster.obtainable = true")
     public List<Monster> findAllNatural4Monsters();
-    @Query("SELECT m from Monster m WHERE m.gameMonster.natural_stars = 3L AND m.gameMonster.obtainable = True")
-    public List<Monster> findAllNatural3Monsters();
+    @Query("SELECT m from Monster m WHERE m.gameMonster.awaken_lvl = 2 and m.gameMonster.obtainable = true")
+    public List<Monster> findAllNatural2AMonsters();
 }

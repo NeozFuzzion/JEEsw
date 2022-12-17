@@ -39,14 +39,23 @@
     <span th:each="monster : ${nat4}">
         <p><a th:href="@{'/bestiary/'+${monster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.image}}"></a></p>
     </span>
+    <span th:each="monster : ${a2}">
+        <p><a th:href="@{'/bestiary/'+${monster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.image}}"></a></p>
+    </span>
     <span th:each="monster : ${nat3}">
+        <p><a th:href="@{'/bestiary/'+${monster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.image}}"></a></p>
+    </span>
+    <span th:each="monster : ${nat2}">
+        <p><a th:href="@{'/bestiary/'+${monster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.image}}"></a></p>
+    </span>
+    <span th:each="monster : ${nat1}">
         <p><a th:href="@{'/bestiary/'+${monster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.image}}"></a></p>
     </span>
   </div>
 </div>
 <footer>
   <div>
-    <p>DURANTEAU Damien - LANTA Axel - OUTREBOND Edouard</p>
+    <p>DURANTEAU Damien - LANTA Axel - OUTREBON Edouard</p>
     <p>CY Tech 2022</p>
   </div>
 </footer>

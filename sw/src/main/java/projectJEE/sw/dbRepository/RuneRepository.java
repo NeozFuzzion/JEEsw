@@ -12,4 +12,5 @@ public interface RuneRepository extends JpaRepository<Rune, Long> {
     public Rune findFirstByIdRune(long id);
 
     public List<Rune> findAllByOrderByIdRuneDesc();
+    List<Rune> findAllByOrderByEfficiencyDesc();
 }
