@@ -11,6 +11,9 @@ public class GameMonster {
     @Column
     private String name;
 
+
+    @Column
+    private boolean obtainable;
     @Column
     private long hp;
 
@@ -186,6 +189,14 @@ public class GameMonster {
 
     public String getArchetype() {
         return archetype;
+    }
+
+    public boolean isObtainable() {
+        return obtainable;
+    }
+
+    public void setObtainable(boolean obtainable) {
+        this.obtainable = obtainable;
     }
 
     public boolean isFusion_food() {

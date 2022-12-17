@@ -51,6 +51,8 @@ public class SwApplication {
 			System.out.println("Démarrage... ");
 			JSONParser jsonP = new JSONParser();
 
+
+
 			if (statRuneRepository.findAll().size()!=11){
 
 				JSONArray leaderS = (JSONArray) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/lskill.json").getFile()))).get("leader_skills");
@@ -153,7 +155,7 @@ public class SwApplication {
 					GameMonster gameMonster = new GameMonster();
 					gameMonster.setIdMonster((Long) mstr.get("com2us_id"));
 					gameMonster.setName((String) mstr.get("name"));
-
+					gameMonster.setObtainable((Boolean) mstr.get("obtainable"));
 					gameMonster.setHp((Long) mstr.get("max_lvl_hp"));
 					gameMonster.setDef((Long) mstr.get("max_lvl_defense"));
 					gameMonster.setAtk((Long) mstr.get("max_lvl_attack"));
@@ -228,7 +230,41 @@ public class SwApplication {
 			}
 			out.close();
 			System.out.println("AAAAAAAAAAAAAAAA");
+System.out.println("AAAAAAAAAAAAAAAA");
+			BufferedWriter out = new BufferedWriter(new FileWriter("./src/main/resources/data/skills.json"));
+			String urlMonster="https://swarfarm.com/api/v2/skills/?format=json&page=1";
+			String inputLine = "";
+			URL oracle = new URL(urlMonster);
+			BufferedReader in = new BufferedReader(
+					new InputStreamReader(oracle.openStream()));
+			int i=1;
+			while(in!=null){
 
+
+				while ((urlMonster = in.readLine()) != null) {
+					inputLine += urlMonster;
+				}
+
+				JSONObject a = (JSONObject) jsonP.parse(inputLine);
+				out.write(String.valueOf((JSONArray) a.get("results")));
+				out.write('\n');
+				in.close();
+				i++;
+
+				inputLine = "";
+				urlMonster="https://swarfarm.com/api/v2/skills/?format=json&page=" +  i ;
+
+				oracle = new URL(urlMonster);
+				try{
+					in = new BufferedReader(new InputStreamReader(oracle.openStream()));
+				} catch (Exception e){
+					break;
+				}
+
+			}
+			in.close();
+			out.close();
+			System.out.println("AAAAAAAAAAAAAAAA");
  */
 		};
 	}
