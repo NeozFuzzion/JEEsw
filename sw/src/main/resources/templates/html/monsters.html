@@ -30,18 +30,33 @@
 </div>
 <div class="content">
     <div class="search-bar">
-        <input type="text">
+        <input id="search-monsters-bar" type="text" placeholder="Search Monster" onkeyup="searchMonster()">
     </div>
     <div class="monster-grid">
-        <span th:each="monster : ${nat5}">
-        <p><a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}"></a></p>
-    </span>
-        <span th:each="monster : ${nat4}">
-        <p><a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}"></a></p>
-    </span>
-        <span th:each="monster : ${a2}">
-        <p><a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}"></a></p>
-    </span>
+        <span class="monster-grid-image" th:each="monster : ${nat5}">
+            <div>
+                <p class="which-monster" th:text="${monster.gameMonster.name}"></p>
+                <a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}">
+                    <img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}">
+                </a>
+            </div>
+        </span>
+        <span class="monster-grid-image" th:each="monster : ${nat4}">
+            <div>
+                <p class="which-monster" th:text="${monster.gameMonster.name}"></p>
+                <a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}">
+                    <img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}">
+                </a>
+            </div>
+        </span>
+        <span class="monster-grid-image" th:each="monster : ${a2}">
+            <div>
+                <p class="which-monster" th:text="${monster.gameMonster.name}"></p>
+                <a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}">
+                    <img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}">
+                </a>
+            </div>
+        </span>
     </div>
 </div>
     <footer>

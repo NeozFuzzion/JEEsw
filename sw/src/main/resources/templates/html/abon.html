@@ -7,60 +7,90 @@
   <script type="text/javascript" src="/js/functions.js"></script>
 </head>
 <body>
-<div class="title">
-  <h1>JEE : Summoners Wars Website</h1>
-</div>
-<div class="menu">
-  <div class="left-side">
-    <a class="button menu-button"><button onclick="showRightSide()"><ion-icon name="menu-outline"></ion-icon></button></a>
-    <a class="button home-button" href="/"><button><ion-icon name="home-outline"></ion-icon></button></a>
-    <a class="button monster-button a_page" href="/monsters"><button><img src="/images/monster.png"></button></a>
-    <a class="button rune-button" href="/runes"><button><img src="/images/rune.png"></button></a>
-    <a class="button artifact-button" href="/artifacts"><button><img src="/images/artefact.png"></button></a>
-    <a class="button upload-button" href="/uploadJSON"><button><ion-icon name="cloud-upload-outline"></ion-icon></button></a>
+  <div class="title">
+    <h1>JEE : Summoners Wars Website</h1>
   </div>
-  <div class="right-side">
-    <a class="button menu-button"><button><p>Menu</p></button></a>
-    <a class="button home-button" href="/"><button><p>Accueil</p></button></a>
-    <a class="button monster-button a_page" href="/monsters"><button><p>Monstres</p></button></a>
-    <a class="button rune-button" href="/runes"><button><p>Runes</p></button></a>
-    <a class="button artifact-button" href="/ar"><button><p>Artefacts</p></button></a>
-    <a class="button upload-button" href="/uploadJSON"><button><p>Upload</p></button></a>
+  <div class="menu">
+    <div class="left-side">
+      <a class="button menu-button"><button onclick="showRightSide()"><ion-icon name="menu-outline"></ion-icon></button></a>
+      <a class="button home-button" href="/"><button><ion-icon name="home-outline"></ion-icon></button></a>
+      <a class="button monster-button a_page" href="/monsters"><button><img src="/images/monster.png"></button></a>
+      <a class="button rune-button" href="/runes"><button><img src="/images/rune.png"></button></a>
+      <a class="button artifact-button" href="/artifacts"><button><img src="/images/artefact.png"></button></a>
+      <a class="button upload-button" href="/uploadJSON"><button><ion-icon name="cloud-upload-outline"></ion-icon></button></a>
+    </div>
+    <div class="right-side">
+      <a class="button menu-button"><button><p>Menu</p></button></a>
+      <a class="button home-button" href="/"><button><p>Accueil</p></button></a>
+      <a class="button monster-button a_page" href="/monsters"><button><p>Monstres</p></button></a>
+      <a class="button rune-button" href="/runes"><button><p>Runes</p></button></a>
+      <a class="button artifact-button" href="/ar"><button><p>Artefacts</p></button></a>
+      <a class="button upload-button" href="/uploadJSON"><button><p>Upload</p></button></a>
+    </div>
   </div>
-</div>
-<div class="content">
-  <div class="search-bar">
-    <input type="text">
+  <div class="content">
+    <div class="search-bar">
+      <input id="search-monsters-bar" type="text" placeholder="Search Monster" onkeyup="searchMonster()">
+    </div>
+    <div class="monster-grid">
+      <span class="monster-grid-image" th:each="monster : ${nat5}">
+          <div>
+            <p class="which-monster" th:text="${monster.name}"></p>
+            <a th:href="@{'/bestiary/'+${monster.idMonster}}">
+              <img th:src="@{'/images/monsters/' + ${monster.image}}">
+            </a>
+          </div>
+      </span>
+      <span class="monster-grid-image" th:each="monster : ${nat4}">
+          <div>
+            <p class="which-monster" th:text="${monster.name}"></p>
+            <a th:href="@{'/bestiary/'+${monster.idMonster}}">
+              <img th:src="@{'/images/monsters/' + ${monster.image}}">
+            </a>
+          </div>
+      </span>
+      <span class="monster-grid-image" th:each="monster : ${a2}">
+          <div>
+            <p class="which-monster" th:text="${monster.name}"></p>
+            <a th:href="@{'/bestiary/'+${monster.idMonster}}">
+              <img th:src="@{'/images/monsters/' + ${monster.image}}">
+            </a>
+          </div>
+      </span>
+      <span class="monster-grid-image" th:each="monster : ${nat3}">
+          <div>
+            <p class="which-monster" th:text="${monster.name}"></p>
+            <a th:href="@{'/bestiary/'+${monster.idMonster}}">
+              <img th:src="@{'/images/monsters/' + ${monster.image}}">
+            </a>
+          </div>
+      </span>
+      <span class="monster-grid-image" th:each="monster : ${nat2}">
+          <div>
+            <p class="which-monster" th:text="${monster.name}"></p>
+            <a th:href="@{'/bestiary/'+${monster.idMonster}}">
+              <img th:src="@{'/images/monsters/' + ${monster.image}}">
+            </a>
+          </div>
+      </span>
+      <span class="monster-grid-image" th:each="monster : ${nat1}">
+          <div>
+            <p class="which-monster" th:text="${monster.name}"></p>
+            <a th:href="@{'/bestiary/'+${monster.idMonster}}">
+              <img th:src="@{'/images/monsters/' + ${monster.image}}">
+            </a>
+          </div>
+      </span>
+    </div>
   </div>
-  <div class="monster-grid">
-        <span th:each="monster : ${nat5}">
-        <p><a th:href="@{'/bestiary/'+${monster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.image}}"></a></p>
-    </span>
-    <span th:each="monster : ${nat4}">
-        <p><a th:href="@{'/bestiary/'+${monster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.image}}"></a></p>
-    </span>
-    <span th:each="monster : ${a2}">
-        <p><a th:href="@{'/bestiary/'+${monster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.image}}"></a></p>
-    </span>
-    <span th:each="monster : ${nat3}">
-        <p><a th:href="@{'/bestiary/'+${monster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.image}}"></a></p>
-    </span>
-    <span th:each="monster : ${nat2}">
-        <p><a th:href="@{'/bestiary/'+${monster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.image}}"></a></p>
-    </span>
-    <span th:each="monster : ${nat1}">
-        <p><a th:href="@{'/bestiary/'+${monster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.image}}"></a></p>
-    </span>
-  </div>
-</div>
-<footer>
-  <div>
-    <p>DURANTEAU Damien - LANTA Axel - OUTREBON Edouard</p>
-    <p>CY Tech 2022</p>
-  </div>
-</footer>
+  <footer>
+    <div>
+      <p>DURANTEAU Damien - LANTA Axel - OUTREBON Edouard</p>
+      <p>CY Tech 2022</p>
+    </div>
+  </footer>
 
-<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

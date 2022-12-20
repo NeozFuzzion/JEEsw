@@ -34,7 +34,7 @@ public class RuneController {
             i++;
         }
 
-        /*model.addAttribute("runes",runes);*/
+        model.addAttribute("runes",runes);
         model.addAttribute("eff",efficiency);
         return "/html/runes";
 

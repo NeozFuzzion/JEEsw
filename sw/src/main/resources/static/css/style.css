@@ -136,6 +136,10 @@ body {
     grid-gap: 10px;
 }
 
+.which-monster {
+    display: none;
+}
+
 .monster-infos {
     margin: 50px auto;
     display: flex;
