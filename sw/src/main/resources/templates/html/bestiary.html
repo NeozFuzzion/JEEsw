@@ -5,6 +5,7 @@
     <title>Titre</title>
     <link rel="stylesheet" href="/css/style.css">
     <script type="text/javascript" src="/js/functions.js"></script>
+    <script type="text/javascript" src="/js/monsterTypeImage.js"></script>
 </head>
 <body>
 <div class="title">
@@ -30,126 +31,174 @@
 </div>
 <div class="content">
     <div class="monster-infos">
-        <h1 class="monster-name" th:text="${monster.name}"></h1>
-        <img th:src="@{'/images/monsters/' + ${monster.image}}">
-        <p class="monster-type" th:text="${monster.element}"></p>
+        <div class="monster-infos-side-left">
+            <div class="monster">
+                <div class="monster-sub-infos">
+                    <p id="monster-type" th:text="${monster.element}"></p>
+                    <div class="monster-type-image"><img id="type-image" src=""></div>
+                    <h1 class="monster-name" th:text="${monster.name}"></h1>
+                    <p id="monster-stars" th:text="${monster.getNatural_stars()}"></p>
+                    <p id="awakening_level" th:text="${monster.getAwaken_lvl()}"></p>
+                    <div class="monster-stars-images"></div>
+                </div>
+                <div class="monster-image">
+                    <img th:src="@{'/images/monsters/' + ${monster.image}}">
+                </div>
+            </div>
+            <div class="monster-stats">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="left">HP</td>
+                            <td class="right" th:text="${monster.hp}"></td>
+                        </tr>
+                        <tr>
+                            <td class="left">ATK</td>
+                            <td class="right" th:text="${monster.atk}"></td>
+                        </tr>
+                        <tr>
+                            <td class="left">DEF</td>
+                            <td class="right" th:text="${monster.def}"></td>
+                        </tr>
+                        <tr>
+                            <td class="left">SPD</td>
+                            <td class="right" th:text="${monster.spd}"></td>
+                        </tr>
+                        <tr>
+                            <td class="left">CRI Rate</td>
+                            <td class="right"><p th:text="${monster.crate}"></p><p>%</p></td>
+                        </tr>
+                        <tr>
+                            <td class="left">CRI Dmg</td>
+                            <td class="right"><p th:text="${monster.cdmg}"></p><p>%</p></td>
+                        </tr>
+                        <tr>
+                            <td class="left">Resistance</td>
+                            <td class="right"><p th:text="${monster.res}"></p><p>%</p></td>
+                        </tr>
+                        <tr>
+                            <td class="left">Accuracy</td>
+                            <td class="right"><p th:text="${monster.acc}"></p><p>%</p></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="monster-infos-side-right">
+            <div class="monster-skills-infos">
+                <div class="monster-skills">
+                    <button onclick="showSkillDescription(this.id)" id="skill-1" class="skill-selected">
+                        <img th:src="@{'/images/skills/'+${monster.s1.image}}">
+                    </button>
+                    <button onclick="showSkillDescription(this.id)" id="skill-2" class="skill-not-selected" th:styleappend="${monster.s2}==null ? 'display: none' : 'display: block'">
+                        <img th:if="${monster.s2}!=null" th:src="@{'/images/skills/'+${monster.s2.image}}">
+                    </button>
+                    <button onclick="showSkillDescription(this.id)" id="skill-3" class="skill-not-selected" th:styleappend="${monster.s3}==null ? 'display: none' : 'display: block'">
+                        <img th:if="${monster.s3}!=null" th:src="@{'/images/skills/'+${monster.s3.image}}">
+                    </button>
+                    <button onclick="showSkillDescription(this.id)" id="skill-4" class="skill-not-selected" th:styleappend="${monster.s4}==null ? 'display: none' : 'display: block'">
+                        <img th:if="${monster.s4}!=null" th:src="@{'/images/skills/'+${monster.s4.image}}">
+                    </button>
+                    <button onclick="showSkillDescription(this.id)" id="leader-skill" class="skill-not-selected" th:styleappend="${monster.leader_skill}==null ? 'display: none' : 'display: block'">
+                        <img th:if="${monster.leader_skill}!=null" th:src="@{'/images/skills'+${monster.leader_skill.image}}">
+                    </button>
+                </div>
+                <div class="skill-infos">
+                    <div id="skill-1-description">
+                        <div class="skill-description">
+                            <h1 th:text="${monster.s1.name}"></h1>
+                            <p th:text="${monster.s1.description}"></p>
+                        </div>
+
+                        <table>
+                            <tr>
+                                <td>Multiplier</td>
+                                <td>Upgrades</td>
+                            </tr>
+                            <tr>
+                                <td th:text="${monster.s1.multiplier_formula}!='' ? ${monster.s1.multiplier_formula}: '∅'"></td>
+                                <td th:utext="${monster.s1.upgrades}!='[]' ? ${#strings.replace( #strings.escapeJava(ups1),'\n','&lt;br /&gt;')} : 'This skill can\'t be upgraded'"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="skill-2-description" th:if="${monster.s2}!=null">
+                        <div class="skill-description">
+                            <h1 th:text="${monster.s2.name}"></h1>
+                            <p th:text="${monster.s2.description}"></p>
+                        </div>
+
+                        <table>
+                            <tr>
+                                <td>Multiplier</td>
+                                <td>Upgrades</td>
+                            </tr>
+                            <tr>
+                                <td th:text="${monster.s2.multiplier_formula}!='' ? ${monster.s2.multiplier_formula}: '∅'"></td>
+                                <td th:utext="${monster.s2.upgrades}!='[]' ? ${#strings.replace( #strings.escapeJava(ups2),'\n','&lt;br /&gt;')} : 'This skill can\'t be upgraded'"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="skill-3-description" th:if="${monster.s3}!=null">
+                        <div class="skill-description">
+                            <h1 th:text="${monster.s3.name}"></h1>
+                            <p th:text="${monster.s3.description}"></p>
+                        </div>
+
+                        <table>
+                            <tr>
+                                <td>Multiplier</td>
+                                <td>Upgrades</td>
+                            </tr>
+                            <tr>
+                                <td th:text="${monster.s3.multiplier_formula}!='' ? ${monster.s3.multiplier_formula}: '∅'"></td>
+                                <td th:utext="${monster.s3.upgrades}!='[]' ? ${#strings.replace( #strings.escapeJava(ups3),'\n','&lt;br /&gt;')} : 'This skill can\'t be upgraded'"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="skill-4-description" th:if="${monster.s4}!=null">
+                        <div class="skill-description">
+                            <h1 th:text="${monster.s4.name}"></h1>
+                            <p th:text="${monster.s4.description}"></p>
+                        </div>
+
+                        <table>
+                            <tr>
+                                <td>Multiplier</td>
+                                <td>Upgrades</td>
+                            </tr>
+                            <tr>
+                                <td th:text="${monster.s4.multiplier_formula}!='' ? ${monster.s4.multiplier_formula}: '∅'"></td>
+                                <td th:utext="${monster.s4.upgrades}!='[]' ? ${#strings.replace( #strings.escapeJava(ups4),'\n','&lt;br /&gt;')} : 'This skill can\'t be upgraded'"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="leader-skill-description" th:if="${monster.leader_skill}!=null">
+                        <div class="skill-description">
+                            <h1>Leader Skill</h1>
+                        </div>
+                        <table>
+                            <tr>
+                                <td>Amount</td>
+                                <td>Area</td>
+                                <td>Effect</td>
+                            </tr>
+                            <tr>
+                                <td th:text="${monster.leader_skill.amount}+'%'"></td>
+                                <td th:text="${monster.leader_skill.area}"></td>
+                                <td th:text="${monster.leader_skill.attribute}"></td>
+                                <td th:if="${monster.leader_skill.element!=null}"
+                                    th:text="${monster.leader_skill.element}"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <table>
-        <thead>
-        <tr>
-            <th>Health Points</th>
-            <th>Attack</th>
-            <th>Defense</th>
-            <th>Speed</th>
-            <th>Crit Rate</th>
-            <th>Crit Damage</th>
-            <th>Resistance</th>
-            <th>Accuracy</th>
-        </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td th:text="${monster.hp}"></td>
-                <td th:text="${monster.atk}"></td>
-                <td th:text="${monster.def}"></td>
-                <td th:text="${monster.spd}"></td>
-                <td th:text="${monster.crate}"></td>
-                <td th:text="${monster.cdmg}"></td>
-                <td th:text="${monster.res}"></td>
-                <td th:text="${monster.acc}"></td>
-            </tr>
-        </tbody>
-    </table>
-    <table>
-        <thead>
-            <tr>
-                <th>Skill</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Multiplier</th>
-                <th>Upgrades</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><img th:src="@{'/images/skills/'+${monster.s1.image}}"></td>
-                <td th:text="${monster.s1.name}"></td>
-                <td th:text="${monster.s1.description}"></td>
-                <td>
-                    <span th:if="${monster.s1.multiplier_formula}!=''"  th:text="${monster.s1.multiplier_formula}"></span>
-                    <span th:unless="${monster.s1.multiplier_formula}!=''" th:text="'∅'"></span>
-                </td>
-                <td>
-                    <span th:if="${monster.s1.upgrades}!='[]'"  th:utext="${#strings.replace( #strings.escapeJava(ups1),'\n','&lt;br /&gt;')}"></span>
-                    <span th:unless="${monster.s1.upgrades}!='[]'" th:text="'This skill can\'t be upgraded"></span>
-                </td>
-            </tr>
-            <tr th:if="${monster.s2}!=null">
-                <td><img th:src="@{'/images/skills/'+${monster.s2.image}}"></td>
-                <td th:text="${monster.s2.name}"></td>
-                <td th:text="${monster.s2.description}"></td>
-                <td>
-                    <span th:if="${monster.s2.multiplier_formula}!=''"  th:text="${monster.s2.multiplier_formula}"></span>
-                    <span th:unless="${monster.s2.multiplier_formula}!=''" th:text="'∅'"></span>
-                </td>
-                <td>
-                    <span th:if="${monster.s2.upgrades}!='[]'"  th:utext="${#strings.replace( #strings.escapeJava(ups2),'\n','&lt;br /&gt;')}"></span>
-                    <span th:unless="${monster.s2.upgrades}!='[]'" th:text="'This skill can\'t be upgraded'"></span>
-                </td>
-            </tr>
-            <tr th:if="${monster.s3}!=null">
-                <td><img th:src="@{'/images/skills/'+${monster.s3.image}}"></td>
-                <td th:text="${monster.s3.name}"></td>
-                <td th:text="${monster.s3.description}"></td>
-                <td>
-                    <span th:if="${monster.s3.multiplier_formula}!=''"  th:text="${monster.s3.multiplier_formula}"></span>
-                    <span th:unless="${monster.s3.multiplier_formula}!=''" th:text="'∅'"></span>
-                </td>
-                <td>
-                    <span th:if="${monster.s3.upgrades}!='[]'"  th:utext="${#strings.replace( #strings.escapeJava(ups3),'\n','&lt;br /&gt;')}"></span>
-                    <span th:unless="${monster.s3.upgrades}!='[]'" th:text="'This skill can\'t be upgraded'"></span>
-                </td>
-            </tr >
-            <tr th:if="${monster.s4}!=null">
-                <td><img th:src="@{'/images/skills/'+${monster.s4.image}}"></td>
-                <td th:text="${monster.s4.name}"></td>
-                <td th:text="${monster.s4.description}"></td>
-                <td>
-                    <span th:if="${monster.s4.multiplier_formula}!=''"  th:text="${monster.s4.multiplier_formula}"></span>
-                    <span th:unless="${monster.s4.multiplier_formula}!=''" th:text="'∅'"></span>
-                </td>
-                <td>
-                    <span th:if="${monster.s4.upgrades}!='[]'"  th:utext="${#strings.replace( #strings.escapeJava(ups4),'\n','&lt;br /&gt;')}"></span>
-                    <span th:unless="${monster.s4.upgrades}!='[]'" th:text="'This skill can\'t be upgraded'"></span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table th:if="${monster.leader_skill}!=null">
-        <thead>
-            <tr>
-                <th>Icon</th>
-                <th>Amount</th>
-                <th>Area</th>
-                <th>Effect</th>
-                <th th:if="${monster.leader_skill.element!=null}">Element</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><img th:src="@{'/images/skills'+${monster.leader_skill.image}}"></td>
-                <td th:text="${monster.leader_skill.amount}+'%'"></td>
-                <td th:text="${monster.leader_skill.area}"></td>
-                <td th:text="${monster.leader_skill.attribute}"></td>
-                <td th:if="${monster.leader_skill.element!=null}"
-                    th:text="${monster.leader_skill.element}"></td>
-            </tr>
-        </tbody>
-    </table>
 </div>
 
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 <footer>
     <div>

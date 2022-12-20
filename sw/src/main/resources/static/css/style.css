@@ -109,6 +109,7 @@ body {
 
 .content {
     margin-left: var(--left-side-menu-width);
+    margin-bottom: calc(var(--footer-height) + 50px);
     display: flex;
     flex-direction: column;
 }
@@ -136,46 +137,183 @@ body {
 }
 
 .monster-infos {
-    margin: 0px auto;
+    margin: 50px auto;
+    display: flex;
+}
+
+.monster-infos-side-left{
+    display: flex;
+    flex-direction: column;
+    margin: auto 25px;
+}
+
+.monster-infos-side-right{
+    display: flex;
+    margin: auto 25px;
+}
+
+.monster {
     display: flex;
     flex-direction: column;
 }
 
-.monster-name {
+.monster-image {
     margin: 0px auto;
-    color: #FFFFFF;
-    font-size: 30px;
 }
 
-.monster-infos img {
-    margin: 0px auto;
+.monster-image img {
     width: 150px;
     height: 150px;
 }
 
-.monster-type {
+.monster-sub-infos {
+    margin: 25px auto;
+    display: flex;
+}
+
+#monster-type {
+    display: none;
+}
+
+.monster-type-image {
     margin: 0px auto;
+    width: 50px;
+    height: 50px;
+    display: flex;
+}
+
+.monster-type-image img {
+    margin: auto 0px;
+    width: 40px;
+    height: 40px;
+}
+
+.monster-name {
     color: #FFFFFF;
+    font-size: 40px;
+    margin: auto;
 }
 
-.content table {
-    margin: 50px auto calc(var(--footer-height) + 50px) auto;
-    width: 80%;
-    border-radius: 1px;
-    background-color: #13181e;
+.monster-stars-images {
+    padding-left: 10px;
+    margin: 0px auto;
+    height: 50px;
+    display: flex;
 }
 
-.content table thead tr th {
-    border: 1px solid #d3af65;
+.monster-stars-images img {
+    margin: auto 0px;
+    width: 30px;
+    height: 30px;
 }
 
-.content table tr td    {
-    border: 1px solid #d3af65;
+#monster-stars {
+    display: none;
+}
+
+#awakening_level {
+    display: none;
+}
+
+.monster-stats {
+    margin: 25px auto;
+    display: flex;
+}
+
+.monster-stats table {
+    margin: 0px auto;
+    width: 250px;
+}
+
+.monster-stats table tr .left {
+    text-align: left;
+}
+
+.monster-stats table tr .right {
+    text-align: right;
+}
+
+.monster-stats table tr td {
+    font-size: 20px;
+}
+
+.monster-stats table tr td p {
+    font-size: 20px;
+    color: white;
+}
+
+.monster-skills-infos {
+    display: flex;
+}
+
+.monster-skills {
+    margin: auto 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.monster-skills button {
+    margin: 15px;
+}
+
+.monster-skills button img {
+    width: 75px;
+    height: 75px;
+}
+
+.skill-infos {
+    margin: auto 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.skill-infos div {
+    display: flex;
+    flex-direction: column;
+}
+
+.skill-description {
+    margin: 0px auto;
+    width: 450px;
+}
+
+.skill-infos div h1 {
+    margin: 0px auto;
+    font-size: 30px;
+    color: white;
+}
+
+.skill-infos div table {
+    margin: 10px auto;
+    table-layout: auto;
+    width: 100%;
+}
+
+.skill-infos div table tr td {
     text-align: center;
+    font-size: 20px;
 }
 
-.content table tr td p {
-    color: #FFFFFF;
+.skill-infos div p {
+    margin: 0px auto;
+    font-size: 20px;
+    color: white;
+    text-align: justify;
+}
+
+.skill-selected {
+    border: 3px solid rgba(255, 255, 255, 0.75);
+}
+
+.skill-not-selected{
+    border: 3px solid #20252b;
+}
+
+#skill-2-description,
+#skill-3-description,
+#skill-4-description,
+#leader-skill-description {
+    display: none;
 }
 
 .kek {
