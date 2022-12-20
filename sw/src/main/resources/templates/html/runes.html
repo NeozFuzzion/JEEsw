@@ -6,6 +6,8 @@
   <link rel="stylesheet" href="/css/style.css">
   <script type="text/javascript" src="/js/functions.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="js/runeFilter.js"></script>
 </head>
 <body>
   <div class="title">
@@ -31,77 +33,50 @@
     </div>
   </div>
   <div class="content">
-    <canvas id="myChart" style="width:100%;max-width:1000px;max-height:500px"> </canvas>
+    <div>
+      <div>Set :
+        <select name="set" id="set">
+          <option value="">Select a rune set</option>
+          <option value="0">All</option>
+          <option value="1">Energy</option>
+          <option value="2">Guard</option>
+          <option value="3">Swift</option>
+          <option value="4">Blade</option>
+          <option value="5">Rage</option>
+          <option value="6">Focus</option>
+          <option value="7">Endure</option>
+          <option value="8">Fatal</option>
+          <option value="10">Despair</option>
+          <option value="11">Vampire</option>
+          <option value="13">Violent</option>
+          <option value="14">Nemesis</option>
+          <option value="15">Will</option>
+          <option value="16">Shield</option>
+          <option value="17">Revenge</option>
+          <option value="18">Destroy</option>
+          <option value="19">Fight</option>
+          <option value="20">Determination</option>
+          <option value="21">Enhance</option>
+          <option value="22">Accuracy</option>
+          <option value="23">Tolerance</option>
+        </select>
+      </div>
+      <div>Ancient :
+        <select name="ancient" id="ancient">
+          <option value="0">Include all</option>
+          <option value="1">No ancient</option>
+          <option value="2">Only ancient</option>
+        </select>
+      </div>
+      <div>Number of runes to select :
+        <input type="range" name="nbRunes" id="nbRunes" value="400" min="50" max="1000" step="50">
+        <div id="rangeVal"></div>
+      </div>
+      <button onclick="sortRune()" value="Submit">Submit</button>
+    </div>
+    <canvas id="myChart" style="width:100%;max-width:1000px;max-height:500px"></canvas>
     <script th:inline="javascript">
-        const yValues = [[${eff}]];
-        let xValues = [];
-        for (let i = 0; i < 400; i++) {
-          xValues[i]=i+1;
-        }
-        new Chart("myChart",{
-          type: "line",
-          data: {
-            labels:xValues,
-            datasets :[{
-              label:"Current Efficiency",
-              fill: false,
-              lineTension: 0,
-              backgroundColor: "#3437eb",
-              borderColor: "#3437eb",
-              pointRadius:0,
-              data:yValues
-            },{
-              label:"Efficiency - Max hero",
-              fill: false,
-              lineTension: 0,
-              backgroundColor: "red",
-              borderColor: "red",
-              pointRadius:0,
-
-            },{
-              label:"Efficiency - Max legend",
-              fill: false,
-              lineTension: 0,
-              backgroundColor: "green",
-              borderColor: "green",
-              pointRadius:0,
-
-            }
-            ],
-
-          },
-          options:{
-            plugins: {
-              title: {
-                display: true,
-                text: 'Efficiency - 400 first Runes'
-              },
-              legend: {
-                position:'bottom'
-              },
-            },
-
-            scales: {
-
-              x: {
-
-                min:1,
-                type:'linear',
-                ticks:{
-                  stepSize:25,
-
-                }
-
-              },
-              y:{
-                type:'linear',
-                ticks:{
-
-                }
-              }
-            }
-          },
-        });
+      createChart([[${eff}]],400);
     </script>
   </div>
   <div class="content">
