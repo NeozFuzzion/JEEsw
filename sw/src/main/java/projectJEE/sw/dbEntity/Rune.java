@@ -1,19 +1,26 @@
 package projectJEE.sw.dbEntity;
 
 
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
+import projectJEE.sw.model.RuneId;
+
 import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
 public class Rune {
-    @Id @Column
-    private Long idRune;
+    @EmbeddedId
+    private RuneId idRune;
 
     @Column
     private Long occupied_type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "occupied_id")
+    @JoinColumnsOrFormulas(value = {
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "user_id", referencedColumnName = "user_id")),
+            @JoinColumnOrFormula(column = @JoinColumn(name = "occupied_id", referencedColumnName = "idMonster"))})
     private Monster occupied_id;
 
     @Column
@@ -107,11 +114,10 @@ public class Rune {
     private float effMaxLegend;
 
 
-    public Long getIdRune() {
+    public RuneId getIdRune() {
         return idRune;
     }
-
-    public void setIdRune(Long idRune) {
+    public void setIdRune(RuneId idRune) {
         this.idRune = idRune;
     }
 

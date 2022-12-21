@@ -7,11 +7,12 @@ import org.springframework.security.core.parameters.P;
 import projectJEE.sw.dbEntity.Rune;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import projectJEE.sw.model.RuneId;
 
 import java.util.List;
 
 @Repository
-public interface RuneRepository extends JpaRepository<Rune, Long> {
+public interface RuneRepository extends JpaRepository<Rune, RuneId> {
 
     List<Rune> findAll(Sort sort);
 

@@ -1,13 +1,15 @@
 package projectJEE.sw.dbEntity;
 
+import projectJEE.sw.model.ArtifactId;
+
 import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
 public class Artifact {
 
-    @Id @Column
-    private long idArtifact;
+    @EmbeddedId
+    private ArtifactId idArtifact;
 
     @Column
     private long occupied_id;
@@ -42,12 +44,23 @@ public class Artifact {
     @Column
     private long efficiency;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user")
+    private User user;
 
-    public long getIdArtifact() {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public ArtifactId getIdArtifact() {
         return idArtifact;
     }
 
-    public void setIdArtifact(long idArtifact) {
+    public void setIdArtifact(ArtifactId idArtifact) {
         this.idArtifact = idArtifact;
     }
 
