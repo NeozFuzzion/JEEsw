@@ -128,10 +128,10 @@ public class ExtractController {
             rune.setPri((Long) pri_eff.get(1));
 
 
-            long maxmain = (long) (StatRune.class.getMethod("getMaxMain" + rune.getClasse()%10)).invoke(rune.getStatPri());
+            float maxmain = (float) (StatRune.class.getMethod("getMaxMain" + rune.getClasse()%10)).invoke(rune.getStatPri());
             long maxmain6 = rune.getStatPri().getMaxMain6();
 
-            float efficiency = (float) ((float) (((float) maxmain)/maxmain6)/2.8);
+            float efficiency = (maxmain /maxmain6) /2.8f;
 
             if ((Long) ((JSONArray) prefix_eff).get(0) != 0) {
                 rune.setStatInnate(statRuneRepository.getReferenceById((Long) prefix_eff.get(0)));

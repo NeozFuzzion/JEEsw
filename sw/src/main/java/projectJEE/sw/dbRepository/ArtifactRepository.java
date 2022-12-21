@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface ArtifactRepository extends JpaRepository<Artifact, Long> {
-    public Artifact findFirstByIdArtifact(long id);
-    public List<Artifact> findAllByOrderByIdArtifactDesc();
+    Artifact findFirstByIdArtifact(long id);
+    List<Artifact> findAllByOrderByIdArtifactDesc();
 }

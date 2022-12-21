@@ -11,7 +11,6 @@ public class GameMonster {
     @Column
     private String name;
 
-
     @Column
     private boolean obtainable;
     @Column

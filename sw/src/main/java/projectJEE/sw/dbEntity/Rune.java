@@ -100,6 +100,12 @@ public class Rune {
     @Column
     private float efficiency;
 
+    @Column
+    private float effMaxHero;
+
+    @Column
+    private float getEffMaxLegend;
+
 
     public Long getIdRune() {
         return idRune;

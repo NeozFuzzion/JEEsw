@@ -3,21 +3,21 @@ package projectJEE.sw;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import projectJEE.sw.dbEntity.*;
-import projectJEE.sw.dbRepository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import projectJEE.sw.dbEntity.*;
+import projectJEE.sw.dbRepository.*;
 
-import java.io.*;
+import java.io.FileReader;
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 public class SwApplication {
@@ -37,6 +37,15 @@ public class SwApplication {
 	@Autowired
 	LeaderSkillRepository leaderSkillRepository;
 
+	@Autowired
+	GrindstoneRepository grindstoneRepository;
+
+	@Autowired
+	GemstoneRepository gemstoneRepository;
+
+	@Autowired
+	RuneSetRepository runeSetRepository;
+
 	@Bean
 	public MultipartResolver multipartResolver() {
 		CommonsMultipartResolver multipartResolver
@@ -50,8 +59,6 @@ public class SwApplication {
 		return (args) -> {
 			System.out.println("Démarrage... ");
 			JSONParser jsonP = new JSONParser();
-
-
 
 			if (statRuneRepository.findAll().size()!=11){
 
@@ -84,8 +91,9 @@ public class SwApplication {
 				}
 				leaderSkillRepository.saveAll(saveLS);
 
-				JSONObject statrune = (JSONObject) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/monster.json").getFile()))).get("rune");
+				JSONObject fileData =  ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/monster.json").getFile())));
 
+				JSONObject statrune =(JSONObject)fileData.get("rune");
 				List<StatRune> savestrune = new ArrayList<>();
 				for (int v=1;v<=6;v++){
 					StatRune statRune = new StatRune();
@@ -101,7 +109,6 @@ public class SwApplication {
 					statRune.setName((String) ((JSONObject) statrune.get("effectTypes")).get(Integer.toString(v)));
 					savestrune.add(statRune);
 				}
-
 				for (int v=8;v<=12;v++){
 					StatRune statRune = new StatRune();
 					statRune.setIdStat((long) v);
@@ -118,8 +125,54 @@ public class SwApplication {
 				}
 				statRuneRepository.saveAll(savestrune);
 
-				List<Skill> saveSkill = new ArrayList<>();
+				JSONObject setsInfos = (JSONObject) statrune.get("sets");
+				List<RuneSet> saveRuneSets = new ArrayList<>();
+				for(int v=1;v<=23;v++){
+					String name=(String) setsInfos.get(String.valueOf(v));
+					if(name!=null){
+						RuneSet runeSet = new RuneSet();
+						runeSet.setIdSet(v);
+						runeSet.setName(name);
+						runeSet.setImage(name.toLowerCase()+".png");
+						saveRuneSets.add(runeSet);
+					}
 
+				}
+				runeSetRepository.saveAll(saveRuneSets);
+
+				List<Grindstone> saveGrind = new ArrayList<>();
+				List<Gemstone> saveGem = new ArrayList<>();
+				JSONObject grindInfos = (JSONObject) fileData.get("grindstone");
+				JSONObject gemInfos = (JSONObject) fileData.get("enchanted_gem");
+				for(int v=1;v <=12;v++){
+					if(v!=7){
+						Grindstone grind = new Grindstone();
+						grind.setIdGrind(v);
+						JSONObject grindRange = (JSONObject) ((JSONObject) grindInfos.get(String.valueOf(v))).get("range");
+						JSONObject grindRangeHero = (JSONObject) grindRange.get("4");
+						JSONObject grindRangeLegend = (JSONObject) grindRange.get("5");
+						grind.setMinHero((long)grindRangeHero.get("min"));
+						grind.setMaxHero((long)grindRangeHero.get("max"));
+						grind.setMinLegend((long)grindRangeLegend.get("min"));
+						grind.setMaxLegend((long)grindRangeLegend.get("max"));
+						saveGrind.add(grind);
+
+						Gemstone gem = new Gemstone();
+						gem.setIdGem(v);
+						JSONObject gemRange = (JSONObject) ((JSONObject) gemInfos.get(String.valueOf(v))).get("range");
+						JSONObject gemRangeHero = (JSONObject) gemRange.get("4");
+						JSONObject gemRangeLegend = (JSONObject) gemRange.get("5");
+						gem.setMinHero((long)gemRangeHero.get("min"));
+						gem.setMaxHero((long)gemRangeHero.get("max"));
+						gem.setMinLegend((long)gemRangeLegend.get("min"));
+						gem.setMaxLegend((long)gemRangeLegend.get("max"));
+						saveGem.add(gem);
+					}
+				}
+				grindstoneRepository.saveAll(saveGrind);
+				gemstoneRepository.saveAll(saveGem);
+
+				List<Skill> saveSkill = new ArrayList<>();
 				JSONArray data_skill = (JSONArray) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/skills.json").getFile()))).get("skills");
 				System.out.println(data_skill.size());
 				vmax = data_skill.size();
