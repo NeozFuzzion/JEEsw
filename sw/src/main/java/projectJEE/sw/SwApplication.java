@@ -144,7 +144,7 @@ public class SwApplication {
 				List<Gemstone> saveGem = new ArrayList<>();
 				JSONObject grindInfos = (JSONObject) fileData.get("grindstone");
 				JSONObject gemInfos = (JSONObject) fileData.get("enchanted_gem");
-				for(int v=1;v <=12;v++){
+				for(int v=1;v <=8;v++){
 					if(v!=7){
 						Grindstone grind = new Grindstone();
 						grind.setIdGrind(v);

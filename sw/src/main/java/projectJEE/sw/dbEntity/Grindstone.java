@@ -1,9 +1,10 @@
 package projectJEE.sw.dbEntity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Grindstone {
+public class Grindstone implements Serializable {
     @Id @Column
     private int idGrind;
 

@@ -76,62 +76,62 @@
     </div>
     <canvas id="myChart" style="width:100%;max-width:1000px;max-height:500px"></canvas>
     <script th:inline="javascript">
-      createChart([[${eff}]],400);
+      createChart([[${eff}]],[[${effMaxHero}]],[[${effMaxLegend}]],400);
     </script>
   </div>
-  <div class="content">
-    <table>
-      <thead>
-      <tr>
-        <th>Set</th>
-        <th>Slot</th>
-        <th>Rank</th>
-        <th>Class</th>
-        <th>Current upgrade</th>
-        <th>Main stat</th>
-        <th>Innate stat</th>
-        <th>Substat1</th>
-        <th>Substat2</th>
-        <th>Substat3</th>
-        <th>Substat4</th>
-        <th>Efficiency</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="rune : ${runes}">
-        <td><p th:text="${rune.set_id} "></p></td>
-        <td><p th:text="${rune.slot_no} "></p></td>
-        <td><p th:text="${rune.rang} "></p></td>
-        <td><p th:text="${rune.classe} "></p></td>
-        <td><p th:text="${rune.upgrade_curr} "></p></td>
-        <td><p  th:text="${rune.pri} + ' ' + ${rune.statPri.name}"></p></td>
-        <td>
-          <p th:if="${rune.innate}!=null" th:text="${rune?.innate} + ' ' +${rune?.statInnate?.name} "></p>
-          <p th:unless="${rune.innate}!=null" >0</p>
-        </td>
-        <td>
-          <p th:if="${rune.subStat1}!=null" th:text="${rune.subStat1Value} "></p>
-          <p th:unless="${rune.subStat1}!=null" >0</p>
-        </td>
-        <td>
-          <p th:if="${rune.subStat2}!=null" th:text="${rune.subStat2Value} "></p>
-          <p th:unless="${rune.subStat2}!=null" >0</p>
-        </td>
-        <td>
-          <p th:if="${rune.subStat3}!=null" th:text="${rune.subStat3Value} "></p>
-          <p th:unless="${rune.subStat3}!=null" >0</p>
-        </td>
-        <td>
-          <p th:if="${rune.subStat4}!=null" th:text="${rune.subStat4Value} "></p>
-          <p th:unless="${rune.subStat4}!=null" >0</p>
-        </td>
-       <td>
-          <p th:text="${rune.efficiency} "></p>
-       </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+<!--  <div class="content">-->
+<!--    <table>-->
+<!--      <thead>-->
+<!--      <tr>-->
+<!--        <th>Set</th>-->
+<!--        <th>Slot</th>-->
+<!--        <th>Rank</th>-->
+<!--        <th>Class</th>-->
+<!--        <th>Current upgrade</th>-->
+<!--        <th>Main stat</th>-->
+<!--        <th>Innate stat</th>-->
+<!--        <th>Substat1</th>-->
+<!--        <th>Substat2</th>-->
+<!--        <th>Substat3</th>-->
+<!--        <th>Substat4</th>-->
+<!--        <th>Efficiency</th>-->
+<!--      </tr>-->
+<!--      </thead>-->
+<!--      <tbody>-->
+<!--      <tr th:each="rune : ${runes}">-->
+<!--        <td><p th:text="${rune.set_id} "></p></td>-->
+<!--        <td><p th:text="${rune.slot_no} "></p></td>-->
+<!--        <td><p th:text="${rune.rang} "></p></td>-->
+<!--        <td><p th:text="${rune.classe} "></p></td>-->
+<!--        <td><p th:text="${rune.upgrade_curr} "></p></td>-->
+<!--        <td><p  th:text="${rune.pri} + ' ' + ${rune.statPri.name}"></p></td>-->
+<!--        <td>-->
+<!--          <p th:if="${rune.innate}!=null" th:text="${rune?.innate} + ' ' +${rune?.statInnate?.name} "></p>-->
+<!--          <p th:unless="${rune.innate}!=null" >0</p>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--          <p th:if="${rune.subStat1}!=null" th:text="${rune.subStat1Value} "></p>-->
+<!--          <p th:unless="${rune.subStat1}!=null" >0</p>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--          <p th:if="${rune.subStat2}!=null" th:text="${rune.subStat2Value} "></p>-->
+<!--          <p th:unless="${rune.subStat2}!=null" >0</p>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--          <p th:if="${rune.subStat3}!=null" th:text="${rune.subStat3Value} "></p>-->
+<!--          <p th:unless="${rune.subStat3}!=null" >0</p>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--          <p th:if="${rune.subStat4}!=null" th:text="${rune.subStat4Value} "></p>-->
+<!--          <p th:unless="${rune.subStat4}!=null" >0</p>-->
+<!--        </td>-->
+<!--       <td>-->
+<!--          <p th:text="${rune.efficiency} "></p>-->
+<!--       </td>-->
+<!--      </tr>-->
+<!--      </tbody>-->
+<!--    </table>-->
+<!--  </div>-->
   <footer>
     <div>
       <p>DURANTEAU Damien - LANTA Axel - OUTREBON Edouard</p>

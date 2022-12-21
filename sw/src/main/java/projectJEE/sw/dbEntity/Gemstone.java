@@ -1,9 +1,10 @@
 package projectJEE.sw.dbEntity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Gemstone {
+public class Gemstone  {
     @Id @Column
     private int idGem;
 

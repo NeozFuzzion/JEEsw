@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import projectJEE.sw.dbEntity.Artifact;
-import projectJEE.sw.dbEntity.Monster;
-import projectJEE.sw.dbEntity.Rune;
-import projectJEE.sw.dbEntity.StatRune;
+import projectJEE.sw.dbEntity.*;
 import projectJEE.sw.dbRepository.*;
 
 import java.io.ByteArrayInputStream;
@@ -42,6 +39,9 @@ public class ExtractController {
     RuneRepository runeRepository;
     @Autowired
     ArtifactRepository artifactRepository;
+
+    @Autowired
+    GrindstoneRepository grindstoneRepository;
 
 
     @GetMapping("/uploadJSON")
@@ -128,22 +128,26 @@ public class ExtractController {
             rune.setPri((Long) pri_eff.get(1));
 
 
-            float maxmain = (float) (StatRune.class.getMethod("getMaxMain" + rune.getClasse()%10)).invoke(rune.getStatPri());
+            long maxmain = (long)(StatRune.class.getMethod("getMaxMain" + rune.getClasse()%10)).invoke(rune.getStatPri());
             long maxmain6 = rune.getStatPri().getMaxMain6();
 
-            float efficiency = (maxmain /maxmain6) /2.8f;
+            float efficiency = (((float)maxmain) /maxmain6) /2.8f;
 
-            if ((Long) ((JSONArray) prefix_eff).get(0) != 0) {
+            if ((Long) prefix_eff.get(0) != 0) {
                 rune.setStatInnate(statRuneRepository.getReferenceById((Long) prefix_eff.get(0)));
                 rune.setInnate((Long) prefix_eff.get(1));
                 StatRune temp_statinnate=rune.getStatInnate();
                 float pre_eff_substat = (temp_statinnate.getIdStat()==1 || temp_statinnate.getIdStat()==3 ||temp_statinnate.getIdStat()==5 ) ? (float) ((float) (((rune.getStatInnate().getMaxSub6()*2.8))) * 2) : (float) ((rune.getStatInnate().getMaxSub6() * 2.8));
                 efficiency += (rune.getInnate() / pre_eff_substat);
             }
+            float effMaxHero = efficiency;
+            float effMaxLegend = efficiency;
+
             i=0;
             for (Object e : sec_eff) {
                 if (((JSONArray) e).size() > 0) {
                     StatRune temp_SR = statRuneRepository.getReferenceById((Long) ((JSONArray) e).get(0));
+
                     long subValue = (Long) ((JSONArray) e).get(1) ;
                     long subGemme = (Long) ((JSONArray) e).get(2);
                     long subMeule = (Long) ((JSONArray) e).get(3) ;
@@ -156,14 +160,28 @@ public class ExtractController {
                     method3.invoke(rune, subGemme);
                     method4.invoke(rune, subMeule);
                     float sommesub = (temp_SR.getIdStat()==1 || temp_SR.getIdStat()==3 ||temp_SR.getIdStat()==5 ) ? (float) ((float) ((subValue) + (subMeule)) * 0.5) : (subValue) + (subMeule);
-
                     float maxsub =  temp_SR.getMaxSub6();
                     efficiency += ( sommesub / (maxsub * 2.8));
+                    if(((Long) ((JSONArray) e).get(0)).intValue()<=8){
+                        Grindstone grindstone = grindstoneRepository.getReferenceById(((Long) ((JSONArray) e).get(0)).intValue());
+
+                        float sommesubMaxHero =  (temp_SR.getIdStat()==1 || temp_SR.getIdStat()==3 ||temp_SR.getIdStat()==5 ) ? (float) ((float) ((subValue) + (grindstone.getMaxHero())) * 0.5) : (subValue) + (grindstone.getMaxHero());
+                        float sommesubMaxLegend =  (temp_SR.getIdStat()==1 || temp_SR.getIdStat()==3 ||temp_SR.getIdStat()==5 ) ? (float) ((float) ((subValue) + (grindstone.getMaxLegend())) * 0.5) : (subValue) + (grindstone.getMaxLegend());
+
+
+                        effMaxLegend += ( sommesubMaxLegend / (maxsub * 2.8));
+                        effMaxHero += ( sommesubMaxHero / (maxsub * 2.8));
+                    }else{
+                        effMaxLegend+=( sommesub / (maxsub * 2.8));
+                        effMaxHero+=( sommesub / (maxsub * 2.8));
+                    }
                 }
                 i++;
             }
 
             rune.setEfficiency(efficiency*100);
+            rune.setEffMaxLegend(effMaxLegend*100);
+            rune.setEffMaxHero(effMaxHero*100);
             saveRune.add(rune);
         }
 

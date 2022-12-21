@@ -7,16 +7,16 @@ $(function() {
 
 function sortRune(){
     $.post("/runes/filter", {
-            set:$("#set").val(),
+            set:$("#runeSet").val(),
             ancient:$("#ancient").val(),
             nbRunes:$("#nbRunes").val()
         },
         function(data,status){
-            createChart(data.efficiency,data.totalRunes)
+            createChart(data.efficiency,data.effMaxHero,data.effMaxLegend,data.totalRunes);
         }
     )
 }
-function createChart(yValues,nbRunes){
+function createChart(eff,effMaxHero,effMaxLegend,nbRunes){
     let chartStatus = Chart.getChart("myChart");
     if (chartStatus != undefined) {
         chartStatus.destroy();
@@ -36,7 +36,7 @@ function createChart(yValues,nbRunes){
                 backgroundColor: "#3437eb",
                 borderColor: "#3437eb",
                 pointRadius: 0,
-                data: yValues
+                data: eff
             }, {
                 label: "Efficiency - Max hero",
                 fill: false,
@@ -44,6 +44,7 @@ function createChart(yValues,nbRunes){
                 backgroundColor: "red",
                 borderColor: "red",
                 pointRadius: 0,
+                data: effMaxHero
             }, {
                 label: "Efficiency - Max legend",
                 fill: false,
@@ -51,6 +52,7 @@ function createChart(yValues,nbRunes){
                 backgroundColor: "green",
                 borderColor: "green",
                 pointRadius: 0,
+                data: effMaxLegend
             }],
         },
         options: {

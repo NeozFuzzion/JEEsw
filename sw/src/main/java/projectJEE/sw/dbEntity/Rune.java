@@ -104,7 +104,7 @@ public class Rune {
     private float effMaxHero;
 
     @Column
-    private float getEffMaxLegend;
+    private float effMaxLegend;
 
 
     public Long getIdRune() {
@@ -337,6 +337,22 @@ public class Rune {
 
     public void setEfficiency(float efficiency) {
         this.efficiency = efficiency;
+    }
+
+    public float getEffMaxHero() {
+        return effMaxHero;
+    }
+
+    public void setEffMaxHero(float effMaxHero) {
+        this.effMaxHero = effMaxHero;
+    }
+
+    public float getEffMaxLegend() {
+        return effMaxLegend;
+    }
+
+    public void setEffMaxLegend(float effMaxLegend) {
+        this.effMaxLegend = effMaxLegend;
     }
 
     @Override
