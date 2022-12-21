@@ -55,34 +55,64 @@ public class SwApplication {
 
 			if (statRuneRepository.findAll().size()!=11){
 
-				JSONArray leaderS = (JSONArray) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/lskill.json").getFile()))).get("leader_skills");
-				int vmax = leaderS.size();
+				String urlMonster="https://swarfarm.com/api/v2/leader-skills/?format=json&page=1";
+				String inputLine = "";
+				URL oracle = new URL(urlMonster);
 				List<LeaderSkill> saveLS = new ArrayList<>();
-				for (int v=0;v<vmax;v++){
-					JSONObject ls= (JSONObject) leaderS.get(v);
-					LeaderSkill leaderSkill = new LeaderSkill();
-					leaderSkill.setAmount((Long) ls.get("amount"));
-					leaderSkill.setArea((String) ls.get("area"));
-					leaderSkill.setAttribute((String) ls.get("attribute"));
-					leaderSkill.setIdLs((Long) ls.get("id"));
-
-					String att = leaderSkill.getAttribute();
-					att=att.replace(" ","_");
-
-					String image = "/leader/leader_skill_"+att;
-					if(ls.get("element")!=null){
-						leaderSkill.setElement((String) ls.get("element"));
-
-						String elemt = leaderSkill.getElement();
-						elemt = elemt.replace(" ","_");
-
-						image = image +"_"+elemt ;
-
+				BufferedReader in = new BufferedReader(
+						new InputStreamReader(oracle.openStream()));
+				int i=1;
+				int vmax;
+				while(in!=null){
+					while ((urlMonster = in.readLine()) != null) {
+						inputLine += urlMonster;
 					}
-					leaderSkill.setImage(image+".png");
-					saveLS.add(leaderSkill);
+
+					JSONObject a = (JSONObject) jsonP.parse(inputLine);
+					JSONArray leaderS = (JSONArray) a.get("results");
+
+					vmax = leaderS.size();
+					for (int v=0;v<vmax;v++){
+						JSONObject ls= (JSONObject) leaderS.get(v);
+						LeaderSkill leaderSkill = new LeaderSkill();
+						leaderSkill.setAmount((Long) ls.get("amount"));
+						leaderSkill.setArea((String) ls.get("area"));
+						leaderSkill.setAttribute((String) ls.get("attribute"));
+						leaderSkill.setIdLs((Long) ls.get("id"));
+
+						String att = leaderSkill.getAttribute();
+						att=att.replace(" ","_");
+
+						String image = "/leader/leader_skill_"+att;
+						if(ls.get("element")!=null){
+							leaderSkill.setElement((String) ls.get("element"));
+
+							String elemt = leaderSkill.getElement();
+							elemt = elemt.replace(" ","_");
+
+							image = image +"_"+elemt ;
+
+						}
+						leaderSkill.setImage(image+".png");
+						saveLS.add(leaderSkill);
+					}
+
+					in.close();
+					i++;
+
+					inputLine = "";
+					urlMonster="https://swarfarm.com/api/v2/leader-skills/?format=json&page=" +  i ;
+
+					oracle = new URL(urlMonster);
+					try{
+						in = new BufferedReader(new InputStreamReader(oracle.openStream()));
+					} catch (Exception e){
+						break;
+					}
 				}
+				in.close();
 				leaderSkillRepository.saveAll(saveLS);
+
 
 				JSONObject statrune = (JSONObject) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/monster.json").getFile()))).get("rune");
 
@@ -118,87 +148,147 @@ public class SwApplication {
 				}
 				statRuneRepository.saveAll(savestrune);
 
+
+				urlMonster="https://swarfarm.com/api/v2/skills/?format=json&page=1";
+				inputLine = "";
+				oracle = new URL(urlMonster);
+
 				List<Skill> saveSkill = new ArrayList<>();
 
-				JSONArray data_skill = (JSONArray) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/skills.json").getFile()))).get("skills");
-				System.out.println(data_skill.size());
-				vmax = data_skill.size();
-				for (int v=0;v<vmax;v++) {
-					JSONObject skl = (JSONObject) data_skill.get(v);
-					Skill skill	= new Skill();
-					skill.setAoe((Boolean) skl.get("aoe"));
-					skill.setIdSkill((Long) skl.get("id"));
-					if(skl.get("cooltime")!=null)
-						skill.setCooltime((Long) skl.get("cooltime"));
-					skill.setGameSkill((Long) skl.get("com2us_id"));
-					skill.setDescription((String) skl.get("description"));
-					skill.setEffects(skl.get("effects").toString());
-					skill.setHits((Long) skl.get("hits"));
-					skill.setMax_level((Long) skl.get("max_level"));
-					skill.setMultiplier_formula((String) skl.get("multiplier_formula"));
-					skill.setUpgrades(skl.get("upgrades").toString());
-					skill.setPassive((Boolean) skl.get("passive"));
-					skill.setSlot((Long) skl.get("slot"));
-					skill.setImage((String) skl.get("icon_filename"));
-					skill.setName((String) skl.get("name"));
-					saveSkill.add(skill);
+				in = new BufferedReader(
+						new InputStreamReader(oracle.openStream()));
+				i=1;
+				while(in!=null){
+					while ((urlMonster = in.readLine()) != null) {
+						inputLine += urlMonster;
+					}
+
+					JSONObject a = (JSONObject) jsonP.parse(inputLine);
+					JSONArray data_skill = (JSONArray) a.get("results");
+
+					vmax = data_skill.size();
+					for (int v=0;v<vmax;v++) {
+						JSONObject skl = (JSONObject) data_skill.get(v);
+						Skill skill	= new Skill();
+						skill.setAoe((Boolean) skl.get("aoe"));
+						skill.setIdSkill((Long) skl.get("id"));
+						if(skl.get("cooltime")!=null)
+							skill.setCooltime((Long) skl.get("cooltime"));
+						skill.setGameSkill((Long) skl.get("com2us_id"));
+						skill.setDescription((String) skl.get("description"));
+						skill.setEffects(skl.get("effects").toString());
+						skill.setHits((Long) skl.get("hits"));
+						skill.setMax_level((Long) skl.get("max_level"));
+						skill.setMultiplier_formula((String) skl.get("multiplier_formula"));
+						skill.setUpgrades(skl.get("upgrades").toString());
+						skill.setPassive((Boolean) skl.get("passive"));
+						skill.setSlot((Long) skl.get("slot"));
+						skill.setImage((String) skl.get("icon_filename"));
+						skill.setName((String) skl.get("name"));
+						saveSkill.add(skill);
+					}
+
+					in.close();
+					i++;
+
+					inputLine = "";
+					urlMonster="https://swarfarm.com/api/v2/skills/?format=json&page=" +  i ;
+
+					oracle = new URL(urlMonster);
+					try{
+						in = new BufferedReader(new InputStreamReader(oracle.openStream()));
+					} catch (Exception e){
+						break;
+					}
 				}
+				in.close();
+
 				skillRepository.saveAll(saveSkill);
 
 				List<GameMonster> saveDataMonster = new ArrayList<>();
 
-				JSONArray data_monster = (JSONArray) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/monsters.json").getFile()))).get("monster");
-				System.out.println(data_monster.size());
-				vmax = data_monster.size();
-				for (int v=0;v<vmax;v++) {
-					JSONObject mstr = (JSONObject) data_monster.get(v);
-					GameMonster gameMonster = new GameMonster();
-					gameMonster.setIdMonster((Long) mstr.get("com2us_id"));
-					gameMonster.setName((String) mstr.get("name"));
-					gameMonster.setObtainable((Boolean) mstr.get("obtainable"));
-					gameMonster.setHp((Long) mstr.get("max_lvl_hp"));
-					gameMonster.setDef((Long) mstr.get("max_lvl_defense"));
-					gameMonster.setAtk((Long) mstr.get("max_lvl_attack"));
-					gameMonster.setSpd((Long) mstr.get("speed"));
-					gameMonster.setCrate((Long) mstr.get("crit_rate"));
-					gameMonster.setCdmg((Long) mstr.get("crit_damage"));
-					gameMonster.setRes((Long) mstr.get("resistance"));
-					gameMonster.setAcc((Long) mstr.get("accuracy"));
+				urlMonster="https://swarfarm.com/api/v2/monsters/?format=json&page=1";
+				inputLine = "";
+				oracle = new URL(urlMonster);
 
-					gameMonster.setImage((String) mstr.get("image_filename"));
-
-					if(mstr.get("leader_skill")!=null)
-						gameMonster.setLeader_skill(leaderSkillRepository.getReferenceById((Long) ((JSONObject) mstr.get("leader_skill")).get("id")));
-
-					gameMonster.setElement((String) mstr.get("element"));
-
-					JSONArray tabSkills = (JSONArray) mstr.get("skills");
-					int size = tabSkills.size();
-					for (int k=0 ; k<size; k++){
-						Method method = GameMonster.class.getMethod("setS" + (k + 1), Skill.class);
-						method.invoke(gameMonster, skillRepository.getReferenceById((Long) tabSkills.get(k)));
+				in = new BufferedReader(
+						new InputStreamReader(oracle.openStream()));
+				i=1;
+				while(in!=null){
+					while ((urlMonster = in.readLine()) != null) {
+						inputLine += urlMonster;
 					}
 
+					JSONObject a = (JSONObject) jsonP.parse(inputLine);
+					JSONArray data_monster =(JSONArray) a.get("results");
 
-					gameMonster.setAwaken_lvl((Long) mstr.get("awaken_level"));
-					if(mstr.get("awakens_from")!=null)
-						gameMonster.setAwakens_from((Long) mstr.get("awakens_from"));
-					gameMonster.setCan_awaken((Boolean) mstr.get("can_awaken"));
-					gameMonster.setAwaken_bonus((String) mstr.get("awaken_bonus"));
+					vmax = data_monster.size();
+					for (int v=0;v<vmax;v++) {
+						JSONObject mstr = (JSONObject) data_monster.get(v);
+						GameMonster gameMonster = new GameMonster();
+						gameMonster.setIdMonster((Long) mstr.get("com2us_id"));
+						gameMonster.setName((String) mstr.get("name"));
+						gameMonster.setObtainable((Boolean) mstr.get("obtainable"));
+						gameMonster.setHp((Long) mstr.get("max_lvl_hp"));
+						gameMonster.setDef((Long) mstr.get("max_lvl_defense"));
+						gameMonster.setAtk((Long) mstr.get("max_lvl_attack"));
+						gameMonster.setSpd((Long) mstr.get("speed"));
+						gameMonster.setCrate((Long) mstr.get("crit_rate"));
+						gameMonster.setCdmg((Long) mstr.get("crit_damage"));
+						gameMonster.setRes((Long) mstr.get("resistance"));
+						gameMonster.setAcc((Long) mstr.get("accuracy"));
 
-					gameMonster.setFamily_id((Long) mstr.get("family_id"));
+						gameMonster.setImage((String) mstr.get("image_filename"));
 
-					gameMonster.setNatural_stars((Long) mstr.get("natural_stars"));
+						if(mstr.get("leader_skill")!=null)
+							gameMonster.setLeader_skill(leaderSkillRepository.getReferenceById((Long) ((JSONObject) mstr.get("leader_skill")).get("id")));
 
-					if ((Long) mstr.get("skill_ups_to_max") != null)
-						gameMonster.setSkill_ups_to_max((Long) mstr.get("skill_ups_to_max"));
+						gameMonster.setElement((String) mstr.get("element"));
 
-					gameMonster.setArchetype((String) mstr.get("archetype"));
+						JSONArray tabSkills = (JSONArray) mstr.get("skills");
+						int size = tabSkills.size();
+						for (int k=0 ; k<size; k++){
+							Method method = GameMonster.class.getMethod("setS" + (k + 1), Skill.class);
+							method.invoke(gameMonster, skillRepository.getReferenceById((Long) tabSkills.get(k)));
+						}
 
-					gameMonster.setFusion_food((Boolean) mstr.get("fusion_food"));
 
-					saveDataMonster.add(gameMonster);
+						gameMonster.setAwaken_lvl((Long) mstr.get("awaken_level"));
+						if(mstr.get("awakens_from")!=null)
+							gameMonster.setAwakens_from((Long) mstr.get("awakens_from"));
+						gameMonster.setCan_awaken((Boolean) mstr.get("can_awaken"));
+						gameMonster.setAwaken_bonus((String) mstr.get("awaken_bonus"));
+
+						gameMonster.setFamily_id((Long) mstr.get("family_id"));
+
+						gameMonster.setNatural_stars((Long) mstr.get("natural_stars"));
+
+						if ((Long) mstr.get("skill_ups_to_max") != null)
+							gameMonster.setSkill_ups_to_max((Long) mstr.get("skill_ups_to_max"));
+
+						gameMonster.setArchetype((String) mstr.get("archetype"));
+
+						gameMonster.setFusion_food((Boolean) mstr.get("fusion_food"));
+
+						saveDataMonster.add(gameMonster);
+					}
+
+					in.close();
+					i++;
+
+					inputLine = "";
+					urlMonster="https://swarfarm.com/api/v2/monsters/?format=json&page=" +  i ;
+
+					oracle = new URL(urlMonster);
+					try{
+						in = new BufferedReader(new InputStreamReader(oracle.openStream()));
+					} catch (Exception e){
+						break;
+					}
 				}
+				in.close();
+
+
 				gameMonsterRepository.saveAll(saveDataMonster);
 				System.out.println("Initiated... ");
 			} else {

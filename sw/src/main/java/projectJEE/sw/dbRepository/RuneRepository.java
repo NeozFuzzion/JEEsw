@@ -5,12 +5,13 @@ import org.springframework.data.repository.query.Param;
 import projectJEE.sw.dbEntity.Rune;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import projectJEE.sw.model.RuneId;
 
 import java.util.List;
 
 @Repository
-public interface RuneRepository extends JpaRepository<Rune, Long> {
-    Rune findFirstByIdRune(long id);
+public interface RuneRepository extends JpaRepository<Rune, RuneId> {
+    Rune findFirstByIdRune(Long id);
     List<Rune> findAllByOrderByIdRuneDesc();
     List<Rune> findAllByOrderByEfficiencyDesc();
     @Query("select r from Rune r where r.set_id=:set and r.classe > 6 order by efficiency desc")
