@@ -13,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import projectJEE.sw.dbEntity.Rune;
+import projectJEE.sw.dbEntity.RuneSet;
 import projectJEE.sw.dbRepository.RuneRepository;
+import projectJEE.sw.dbRepository.RuneSetRepository;
 
 import javax.persistence.NamedQuery;
 import java.util.Arrays;
@@ -24,6 +26,9 @@ import java.util.List;
 public class RuneController {
     @Autowired
     RuneRepository runeRepository;
+    @Autowired
+    RuneSetRepository runeSetRepository;
+
     @GetMapping("/runes")
     public String runes(Model model) {
         List<Rune> runes = runeRepository.findAll(Sort.by("efficiency").descending());
@@ -63,6 +68,7 @@ public class RuneController {
     }
     @PostMapping("/runes/filter")
     public ResponseEntity<JSONObject> runeFilter(@Param("set") int set,@Param("ancient") int ancient,@Param("nbRunes") int nbRunes){
+        RuneSet setRune = runeSetRepository.getReferenceById(set);
         JSONObject filter = new JSONObject();
         List<Rune> runes = runeRepository.findAll(Sort.by("efficiency").descending());
         List<Rune> runes2 = runeRepository.findAll(Sort.by("effMaxHero").descending());
@@ -77,17 +83,17 @@ public class RuneController {
             runes3=runeRepository.findAllAncient(Sort.by("effMaxLegend").descending());
         }
         if(set!=0){
-            runes=runeRepository.findAllBySet(set,Sort.by("efficiency").descending());
-            runes2=runeRepository.findAllBySet(set,Sort.by("effMaxHero").descending());
-            runes3=runeRepository.findAllBySet(set,Sort.by("effMaxLegend").descending());
+            runes=runeRepository.findAllBySet(setRune,Sort.by("efficiency").descending());
+            runes2=runeRepository.findAllBySet(setRune,Sort.by("effMaxHero").descending());
+            runes3=runeRepository.findAllBySet(setRune,Sort.by("effMaxLegend").descending());
             if(ancient==1){
-                runes = runeRepository.findAllNonAncientBySet(set,Sort.by("efficiency").descending());
-                runes2=runeRepository.findAllNonAncientBySet(set,Sort.by("effMaxHero").descending());
-                runes3=runeRepository.findAllNonAncientBySet(set,Sort.by("effMaxLegend").descending());
+                runes = runeRepository.findAllNonAncientBySet(setRune,Sort.by("efficiency").descending());
+                runes2=runeRepository.findAllNonAncientBySet(setRune,Sort.by("effMaxHero").descending());
+                runes3=runeRepository.findAllNonAncientBySet(setRune,Sort.by("effMaxLegend").descending());
             }else if(ancient==2){
-                runes = runeRepository.findAllAncientBySet(set, Sort.by("efficiency").descending());
-                runes2=runeRepository.findAllAncientBySet(set,Sort.by("effMaxHero").descending());
-                runes3=runeRepository.findAllAncientBySet(set,Sort.by("effMaxLegend").descending());
+                runes = runeRepository.findAllAncientBySet(setRune, Sort.by("efficiency").descending());
+                runes2=runeRepository.findAllAncientBySet(setRune,Sort.by("effMaxHero").descending());
+                runes3=runeRepository.findAllAncientBySet(setRune,Sort.by("effMaxLegend").descending());
             }
         }
         Float[] efficiency = new Float[nbRunes];

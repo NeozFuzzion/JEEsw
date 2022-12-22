@@ -111,7 +111,7 @@
               <img class="rune-image" src="">
             </div>
             <div class="rune-type-div">
-<!--              <img class="rune-type" src="/images/runes/">-->
+              <img class="rune-type" th:src="'/images/runes/'+${rune.set_id.image}">
             </div>
             <p class="rune-upgrade" th:text="'+'+${rune.upgrade_curr}"></p>
           </div>

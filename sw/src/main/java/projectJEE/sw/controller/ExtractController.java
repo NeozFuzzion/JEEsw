@@ -48,10 +48,13 @@ public class ExtractController {
     @Autowired
     ArtifactRepository artifactRepository;
     @Autowired
-    private StatArtifactRepository statArtifactRepository;
+    StatArtifactRepository statArtifactRepository;
 
     @Autowired
     GrindstoneRepository grindstoneRepository;
+
+    @Autowired
+    RuneSetRepository runeSetRepository;
 
 
     @GetMapping("/uploadJSON")
@@ -129,7 +132,7 @@ public class ExtractController {
             rune.setSlot_no(((Long) element.get("slot_no")).intValue());
             rune.setClasse(((Long) element.get("class")).intValue());
             rune.setRang(((Long) element.get("rank")).intValue());
-            rune.setSet_id(((Long) element.get("set_id")).intValue());
+            rune.setSet_id(runeSetRepository.getReferenceById (Math.toIntExact((Long) element.get("set_id"))));
             rune.setUpgrade_curr(((Long) element.get("upgrade_curr")).intValue());
 
             JSONArray pri_eff = (JSONArray) element.get("pri_eff");
@@ -144,8 +147,6 @@ public class ExtractController {
             long maxmain6 = rune.getStatPri().getMaxMain6();
 
             float efficiency = (float) ((((float) maxmain)/maxmain6) /2.8);
-            float effMaxHero = efficiency;
-            float efficiency = (((float)maxmain) /maxmain6) /2.8f;
 
             if ((Long) prefix_eff.get(0) != 0) {
                 rune.setStatInnate(statRuneRepository.getReferenceById((Long) prefix_eff.get(0)));

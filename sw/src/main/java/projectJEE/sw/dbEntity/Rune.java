@@ -32,8 +32,9 @@ public class Rune {
     @Column
     private int classe;
 
-    @Column
-    private int set_id;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "set_id", nullable = false)
+    private RuneSet set_id;
 
     @Column
     private int upgrade_curr;
@@ -161,11 +162,11 @@ public class Rune {
         this.classe = classe;
     }
 
-    public int getSet_id() {
+    public RuneSet getSet_id() {
         return set_id;
     }
 
-    public void setSet_id(int set_id) {
+    public void setSet_id(RuneSet set_id) {
         this.set_id = set_id;
     }
 

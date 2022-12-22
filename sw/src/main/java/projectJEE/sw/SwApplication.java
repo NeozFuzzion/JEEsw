@@ -40,6 +40,15 @@ public class SwApplication {
 	@Autowired
 	StatArtifactRepository statArtifactRepository;
 
+	@Autowired
+	GrindstoneRepository grindstoneRepository;
+
+	@Autowired
+	GemstoneRepository gemstoneRepository;
+
+	@Autowired
+	RuneSetRepository runeSetRepository;
+
 	@Bean
 	public MultipartResolver multipartResolver() {
 		CommonsMultipartResolver multipartResolver
@@ -54,18 +63,68 @@ public class SwApplication {
 			System.out.println("Démarrage... ");
 			JSONParser jsonP = new JSONParser();
 
+			JSONObject fileData = ((JSONObject) jsonP.parse(new FileReader(new ClassPathResource("data/monster.json").getFile())));
 
-			if (statRuneRepository.findAll().size()!=11){
+			JSONObject statrune = (JSONObject) fileData.get("rune");
+			JSONObject setsInfos = (JSONObject) statrune.get("sets");
+			List<RuneSet> saveRuneSets = new ArrayList<>();
+			for (int v = 1; v <= 23; v++) {
+				String name = (String) setsInfos.get(String.valueOf(v));
+				if (name != null) {
+					RuneSet runeSet = new RuneSet();
+					runeSet.setIdSet(v);
+					runeSet.setName(name);
+					runeSet.setImage(name.toLowerCase() + ".png");
+					saveRuneSets.add(runeSet);
+				}
 
-				String urlMonster="https://swarfarm.com/api/v2/leader-skills/?format=json&page=1";
+			}
+			runeSetRepository.saveAll(saveRuneSets);
+
+			List<Grindstone> saveGrind = new ArrayList<>();
+			List<Gemstone> saveGem = new ArrayList<>();
+			JSONObject grindInfos = (JSONObject) fileData.get("grindstone");
+			JSONObject gemInfos = (JSONObject) fileData.get("enchanted_gem");
+			for (int v = 1; v <= 8; v++) {
+				if (v != 7) {
+					Grindstone grind = new Grindstone();
+					grind.setIdGrind(v);
+					JSONObject grindRange = (JSONObject) ((JSONObject) grindInfos.get(String.valueOf(v))).get("range");
+					JSONObject grindRangeHero = (JSONObject) grindRange.get("4");
+					JSONObject grindRangeLegend = (JSONObject) grindRange.get("5");
+					grind.setMinHero((long) grindRangeHero.get("min"));
+					grind.setMaxHero((long) grindRangeHero.get("max"));
+					grind.setMinLegend((long) grindRangeLegend.get("min"));
+					grind.setMaxLegend((long) grindRangeLegend.get("max"));
+					saveGrind.add(grind);
+
+					Gemstone gem = new Gemstone();
+					gem.setIdGem(v);
+					JSONObject gemRange = (JSONObject) ((JSONObject) gemInfos.get(String.valueOf(v))).get("range");
+					JSONObject gemRangeHero = (JSONObject) gemRange.get("4");
+					JSONObject gemRangeLegend = (JSONObject) gemRange.get("5");
+					gem.setMinHero((long) gemRangeHero.get("min"));
+					gem.setMaxHero((long) gemRangeHero.get("max"));
+					gem.setMinLegend((long) gemRangeLegend.get("min"));
+					gem.setMaxLegend((long) gemRangeLegend.get("max"));
+					saveGem.add(gem);
+				}
+			}
+			grindstoneRepository.saveAll(saveGrind);
+			gemstoneRepository.saveAll(saveGem);
+
+
+			if (statRuneRepository.findAll().size() != 11) {
+
+				String urlMonster = "https://swarfarm.com/api/v2/leader-skills/?format=json&page=1";
 				String inputLine = "";
 				URL oracle = new URL(urlMonster);
 				List<LeaderSkill> saveLS = new ArrayList<>();
 				BufferedReader in = new BufferedReader(
 						new InputStreamReader(oracle.openStream()));
-				int i=1;
+				int i = 1;
 				int vmax;
-				while(in!=null){
+				while (in != null) {
 					while ((urlMonster = in.readLine()) != null) {
 						inputLine += urlMonster;
 					}
@@ -74,8 +133,8 @@ public class SwApplication {
 					JSONArray leaderS = (JSONArray) a.get("results");
 
 					vmax = leaderS.size();
-					for (int v=0;v<vmax;v++){
-						JSONObject ls= (JSONObject) leaderS.get(v);
+					for (int v = 0; v < vmax; v++) {
+						JSONObject ls = (JSONObject) leaderS.get(v);
 						LeaderSkill leaderSkill = new LeaderSkill();
 						leaderSkill.setAmount((Long) ls.get("amount"));
 						leaderSkill.setArea((String) ls.get("area"));
@@ -83,19 +142,19 @@ public class SwApplication {
 						leaderSkill.setIdLs((Long) ls.get("id"));
 
 						String att = leaderSkill.getAttribute();
-						att=att.replace(" ","_");
+						att = att.replace(" ", "_");
 
-						String image = "/leader/leader_skill_"+att;
-						if(ls.get("element")!=null){
+						String image = "/leader/leader_skill_" + att;
+						if (ls.get("element") != null) {
 							leaderSkill.setElement((String) ls.get("element"));
 
 							String elemt = leaderSkill.getElement();
-							elemt = elemt.replace(" ","_");
+							elemt = elemt.replace(" ", "_");
 
-							image = image +"_"+elemt ;
+							image = image + "_" + elemt;
 
 						}
-						leaderSkill.setImage(image+".png");
+						leaderSkill.setImage(image + ".png");
 						saveLS.add(leaderSkill);
 					}
 
@@ -103,12 +162,12 @@ public class SwApplication {
 					i++;
 
 					inputLine = "";
-					urlMonster="https://swarfarm.com/api/v2/leader-skills/?format=json&page=" +  i ;
+					urlMonster = "https://swarfarm.com/api/v2/leader-skills/?format=json&page=" + i;
 
 					oracle = new URL(urlMonster);
-					try{
+					try {
 						in = new BufferedReader(new InputStreamReader(oracle.openStream()));
-					} catch (Exception e){
+					} catch (Exception e) {
 						break;
 					}
 				}
@@ -116,34 +175,35 @@ public class SwApplication {
 				leaderSkillRepository.saveAll(saveLS);
 
 
-				JSONObject statrune = (JSONObject) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/monster.json").getFile()))).get("rune");
+
+				statrune = (JSONObject) fileData.get("rune");
 
 				List<StatRune> savestrune = new ArrayList<>();
-				for (int v=1;v<=6;v++){
+				for (int v = 1; v <= 6; v++) {
 					StatRune statRune = new StatRune();
 					statRune.setIdStat((long) v);
 					JSONObject maxMain = (JSONObject) ((JSONObject) statrune.get("mainstat")).get(Integer.toString(v));
 					JSONObject maxSub = (JSONObject) ((JSONObject) statrune.get("substat")).get(Integer.toString(v));
-					for (int k=0 ; k<6; k++) {
+					for (int k = 0; k < 6; k++) {
 						Method method1 = StatRune.class.getMethod("setMaxMain" + (k + 1), Long.class);
-						method1.invoke(statRune, maxMain.get(Integer.toString(k+1)));
+						method1.invoke(statRune, maxMain.get(Integer.toString(k + 1)));
 						Method method2 = StatRune.class.getMethod("setMaxSub" + (k + 1), Long.class);
-						method2.invoke(statRune, maxSub.get(Integer.toString(k+1)));
+						method2.invoke(statRune, maxSub.get(Integer.toString(k + 1)));
 					}
 					statRune.setName((String) ((JSONObject) statrune.get("effectTypes")).get(Integer.toString(v)));
 					savestrune.add(statRune);
 				}
 
-				for (int v=8;v<=12;v++){
+				for (int v = 8; v <= 12; v++) {
 					StatRune statRune = new StatRune();
 					statRune.setIdStat((long) v);
 					JSONObject maxMain = (JSONObject) ((JSONObject) statrune.get("mainstat")).get(Integer.toString(v));
 					JSONObject maxSub = (JSONObject) ((JSONObject) statrune.get("substat")).get(Integer.toString(v));
-					for (int k=0 ; k<6; k++) {
+					for (int k = 0; k < 6; k++) {
 						Method method1 = StatRune.class.getMethod("setMaxMain" + (k + 1), Long.class);
-						method1.invoke(statRune, maxMain.get(Integer.toString(k+1)));
+						method1.invoke(statRune, maxMain.get(Integer.toString(k + 1)));
 						Method method2 = StatRune.class.getMethod("setMaxSub" + (k + 1), Long.class);
-						method2.invoke(statRune, maxSub.get(Integer.toString(k+1)));
+						method2.invoke(statRune, maxSub.get(Integer.toString(k + 1)));
 					}
 					statRune.setName((String) ((JSONObject) statrune.get("effectTypes")).get(Integer.toString(v)));
 					savestrune.add(statRune);
@@ -151,10 +211,7 @@ public class SwApplication {
 				statRuneRepository.saveAll(savestrune);
 
 
-
-
-
-				urlMonster="https://swarfarm.com/api/v2/skills/?format=json&page=1";
+				urlMonster = "https://swarfarm.com/api/v2/skills/?format=json&page=1";
 				inputLine = "";
 				oracle = new URL(urlMonster);
 
@@ -162,8 +219,8 @@ public class SwApplication {
 
 				in = new BufferedReader(
 						new InputStreamReader(oracle.openStream()));
-				i=1;
-				while(in!=null){
+				i = 1;
+				while (in != null) {
 					while ((urlMonster = in.readLine()) != null) {
 						inputLine += urlMonster;
 					}
@@ -172,12 +229,12 @@ public class SwApplication {
 					JSONArray data_skill = (JSONArray) a.get("results");
 
 					vmax = data_skill.size();
-					for (int v=0;v<vmax;v++) {
+					for (int v = 0; v < vmax; v++) {
 						JSONObject skl = (JSONObject) data_skill.get(v);
-						Skill skill	= new Skill();
+						Skill skill = new Skill();
 						skill.setAoe((Boolean) skl.get("aoe"));
 						skill.setIdSkill((Long) skl.get("id"));
-						if(skl.get("cooltime")!=null)
+						if (skl.get("cooltime") != null)
 							skill.setCooltime((Long) skl.get("cooltime"));
 						skill.setGameSkill((Long) skl.get("com2us_id"));
 						skill.setDescription((String) skl.get("description"));
@@ -197,12 +254,12 @@ public class SwApplication {
 					i++;
 
 					inputLine = "";
-					urlMonster="https://swarfarm.com/api/v2/skills/?format=json&page=" +  i ;
+					urlMonster = "https://swarfarm.com/api/v2/skills/?format=json&page=" + i;
 
 					oracle = new URL(urlMonster);
-					try{
+					try {
 						in = new BufferedReader(new InputStreamReader(oracle.openStream()));
-					} catch (Exception e){
+					} catch (Exception e) {
 						break;
 					}
 				}
@@ -212,23 +269,23 @@ public class SwApplication {
 
 				List<GameMonster> saveDataMonster = new ArrayList<>();
 
-				urlMonster="https://swarfarm.com/api/v2/monsters/?format=json&page=1";
+				urlMonster = "https://swarfarm.com/api/v2/monsters/?format=json&page=1";
 				inputLine = "";
 				oracle = new URL(urlMonster);
 
 				in = new BufferedReader(
 						new InputStreamReader(oracle.openStream()));
-				i=1;
-				while(in!=null){
+				i = 1;
+				while (in != null) {
 					while ((urlMonster = in.readLine()) != null) {
 						inputLine += urlMonster;
 					}
 
 					JSONObject a = (JSONObject) jsonP.parse(inputLine);
-					JSONArray data_monster =(JSONArray) a.get("results");
+					JSONArray data_monster = (JSONArray) a.get("results");
 
 					vmax = data_monster.size();
-					for (int v=0;v<vmax;v++) {
+					for (int v = 0; v < vmax; v++) {
 						JSONObject mstr = (JSONObject) data_monster.get(v);
 						GameMonster gameMonster = new GameMonster();
 						gameMonster.setIdMonster((Long) mstr.get("com2us_id"));
@@ -245,21 +302,21 @@ public class SwApplication {
 
 						gameMonster.setImage((String) mstr.get("image_filename"));
 
-						if(mstr.get("leader_skill")!=null)
+						if (mstr.get("leader_skill") != null)
 							gameMonster.setLeader_skill(leaderSkillRepository.getReferenceById((Long) ((JSONObject) mstr.get("leader_skill")).get("id")));
 
 						gameMonster.setElement((String) mstr.get("element"));
 
 						JSONArray tabSkills = (JSONArray) mstr.get("skills");
 						int size = tabSkills.size();
-						for (int k=0 ; k<size; k++){
+						for (int k = 0; k < size; k++) {
 							Method method = GameMonster.class.getMethod("setS" + (k + 1), Skill.class);
 							method.invoke(gameMonster, skillRepository.getReferenceById((Long) tabSkills.get(k)));
 						}
 
 
 						gameMonster.setAwaken_lvl((Long) mstr.get("awaken_level"));
-						if(mstr.get("awakens_from")!=null)
+						if (mstr.get("awakens_from") != null)
 							gameMonster.setAwakens_from((Long) mstr.get("awakens_from"));
 						gameMonster.setCan_awaken((Boolean) mstr.get("can_awaken"));
 						gameMonster.setAwaken_bonus((String) mstr.get("awaken_bonus"));
@@ -282,12 +339,12 @@ public class SwApplication {
 					i++;
 
 					inputLine = "";
-					urlMonster="https://swarfarm.com/api/v2/monsters/?format=json&page=" +  i ;
+					urlMonster = "https://swarfarm.com/api/v2/monsters/?format=json&page=" + i;
 
 					oracle = new URL(urlMonster);
-					try{
+					try {
 						in = new BufferedReader(new InputStreamReader(oracle.openStream()));
-					} catch (Exception e){
+					} catch (Exception e) {
 						break;
 					}
 				}
