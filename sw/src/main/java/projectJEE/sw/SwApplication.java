@@ -55,17 +55,6 @@ public class SwApplication {
 			JSONParser jsonP = new JSONParser();
 
 
-			JSONObject statArtifact = (JSONObject) ((JSONObject) ( (JSONObject) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/monster.json").getFile()))).get("artifact")).get("effectTypes")).get("sub");
-
-			List<StatArtifact> savestarte = new ArrayList<>();
-			for (Object e : statArtifact.keySet()){
-				StatArtifact statArt = new StatArtifact();
-				statArt.setId(Float.parseFloat((String) e));
-				statArt.setDescription((String) statArtifact.get(e));
-				savestarte.add(statArt);
-				System.out.println(e + "/"+ statArtifact.get(e));
-			}
-			statArtifactRepository.saveAll(savestarte);
 			if (statRuneRepository.findAll().size()!=11){
 
 				String urlMonster="https://swarfarm.com/api/v2/leader-skills/?format=json&page=1";

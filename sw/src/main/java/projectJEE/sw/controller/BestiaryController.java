@@ -5,25 +5,44 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import projectJEE.sw.dbEntity.GameMonster;
+import projectJEE.sw.dbEntity.Monster;
 import projectJEE.sw.dbEntity.Skill;
+import projectJEE.sw.dbEntity.User;
 import projectJEE.sw.dbRepository.GameMonsterRepository;
+import projectJEE.sw.dbRepository.MonsterRepository;
+import projectJEE.sw.dbRepository.RuneRepository;
+import projectJEE.sw.dbRepository.UserRepository;
+import projectJEE.sw.model.MonsterId;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.List;
 
 
 @Controller
 public class BestiaryController{
     @Autowired
     GameMonsterRepository gameMonsterRepository;
+    @Autowired
+    MonsterRepository monsterRepository;
+    @Autowired
+    RuneRepository runeRepository;
+
+    @Autowired
+    UserRepository userRepository;
     @GetMapping(value = "/bestiary/{id}")
     public String bestiary(@PathVariable("id") long id, Model model) throws ParseException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
+        User user=userRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
         GameMonster monster =gameMonsterRepository.findFirstByIdMonster(id);
+
         Skill[] skills = {monster.getS1(),monster.getS2(),monster.getS3(),monster.getS4()};
         JSONParser jsonP = new JSONParser();
         for(int i=0;i< skills.length;i++){

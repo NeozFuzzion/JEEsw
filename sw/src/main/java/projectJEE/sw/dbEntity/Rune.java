@@ -341,10 +341,7 @@ public class Rune {
 
     @Override
     public String toString() {
-        return "Rune{" +
-                "idRune=" + idRune +
-                ", occupied_type=" + occupied_type +
-                ", occupied_id=" + occupied_id +
+        return
                 ", slot_no=" + slot_no +
                 ", rang=" + rang +
                 ", classe=" + classe +

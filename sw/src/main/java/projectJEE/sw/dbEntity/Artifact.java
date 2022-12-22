@@ -18,10 +18,10 @@ public class Artifact {
     private int slot;
 
     @Column
-    private int type;
+    private String type;
 
     @Column
-    private int attribute;
+    private String attribute;
 
     @Column
     private int unit_style;
@@ -36,25 +36,56 @@ public class Artifact {
     private int level;
 
     @Column
-    private String pri_effect;
+    private String statPri;
 
     @Column
-    private String sec_effect;
-
-    @Column
-    private long efficiency;
+    private Long pri;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user")
-    private User user;
+    @JoinColumn(name = "subStat1")
+    private StatArtifact subStat1;
 
-    public User getUser() {
-        return user;
-    }
+    @Column
+    private Float subStat1Value;
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    @Column
+    private Long subStat1Proc;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subStat2")
+    private StatArtifact subStat2;
+
+    @Column
+    private Float subStat2Value;
+
+    @Column
+    private Long subStat2Proc;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subStat3")
+    private StatArtifact subStat3;
+
+    @Column
+    private Float subStat3Value;
+
+    @Column
+    private Long subStat3Proc;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subStat4")
+    private StatArtifact subStat4;
+
+    @Column
+    private Float subStat4Value;
+
+    @Column
+    private Long subStat4Proc;
+
+    @Column
+    private Long subStatChange;
+
+    @Column
+    private float efficiency;
 
     public ArtifactId getIdArtifact() {
         return idArtifact;
@@ -80,19 +111,19 @@ public class Artifact {
         this.slot = slot;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public int getAttribute() {
+    public String getAttribute() {
         return attribute;
     }
 
-    public void setAttribute(int attribute) {
+    public void setAttribute(String attribute) {
         this.attribute = attribute;
     }
 
@@ -127,28 +158,132 @@ public class Artifact {
         this.level = level;
     }
 
-    public String getPri_effect() {
-        return pri_effect;
+    public String getStatPri() {
+        return statPri;
     }
 
-    public void setPri_effect(String pri_effect) {
-        this.pri_effect = pri_effect;
+    public void setStatPri(String statPri) {
+        this.statPri = statPri;
     }
 
-    public String getSec_effect() {
-        return sec_effect;
+    public Long getPri() {
+        return pri;
     }
 
-    public void setSec_effect(String sec_effect) {
-        this.sec_effect = sec_effect;
+    public void setPri(Long pri) {
+        this.pri = pri;
     }
 
-    public long getEfficiency() {
+    public float getEfficiency() {
         return efficiency;
     }
 
-    public void setEfficiency(long efficiency) {
+    public void setEfficiency(float efficiency) {
         this.efficiency = efficiency;
+    }
+
+    public StatArtifact getSubStat1() {
+        return subStat1;
+    }
+
+    public void setSubStat1(StatArtifact subStat1) {
+        this.subStat1 = subStat1;
+    }
+
+    public Float getSubStat1Value() {
+        return subStat1Value;
+    }
+
+    public void setSubStat1Value(Float subStat1Value) {
+        this.subStat1Value = subStat1Value;
+    }
+
+    public StatArtifact getSubStat2() {
+        return subStat2;
+    }
+
+    public void setSubStat2(StatArtifact subStat2) {
+        this.subStat2 = subStat2;
+    }
+
+    public Float getSubStat2Value() {
+        return subStat2Value;
+    }
+
+    public void setSubStat2Value(Float subStat2Value) {
+        this.subStat2Value = subStat2Value;
+    }
+
+    public StatArtifact getSubStat3() {
+        return subStat3;
+    }
+
+    public void setSubStat3(StatArtifact subStat3) {
+        this.subStat3 = subStat3;
+    }
+
+    public Float getSubStat3Value() {
+        return subStat3Value;
+    }
+
+    public void setSubStat3Value(Float subStat3Value) {
+        this.subStat3Value = subStat3Value;
+    }
+
+    public StatArtifact getSubStat4() {
+        return subStat4;
+    }
+
+    public void setSubStat4(StatArtifact subStat4) {
+        this.subStat4 = subStat4;
+    }
+
+    public Float getSubStat4Value() {
+        return subStat4Value;
+    }
+
+    public void setSubStat4Value(Float subStat4Value) {
+        this.subStat4Value = subStat4Value;
+    }
+
+    public Long getSubStatChange() {
+        return subStatChange;
+    }
+
+    public void setSubStatChange(Long subStatChange) {
+        this.subStatChange = subStatChange;
+    }
+
+    public Long getSubStat1Proc() {
+        return subStat1Proc;
+    }
+
+    public void setSubStat1Proc(Long subStat1Proc) {
+        this.subStat1Proc = subStat1Proc;
+    }
+
+    public Long getSubStat2Proc() {
+        return subStat2Proc;
+    }
+
+    public void setSubStat2Proc(Long subStat2Proc) {
+        this.subStat2Proc = subStat2Proc;
+    }
+
+    public Long getSubStat3Proc() {
+        return subStat3Proc;
+    }
+
+    public void setSubStat3Proc(Long subStat3Proc) {
+        this.subStat3Proc = subStat3Proc;
+    }
+
+    public Long getSubStat4Proc() {
+        return subStat4Proc;
+    }
+
+    public void setSubStat4Proc(Long subStat4Proc) {
+        this.subStat4Proc = subStat4Proc;
     }
 
     @Override
@@ -161,10 +296,24 @@ public class Artifact {
                 ", attribute=" + attribute +
                 ", unit_style=" + unit_style +
                 ", natural_rank=" + natural_rank +
-                ", rank=" + rang +
+                ", rang=" + rang +
                 ", level=" + level +
-                ", pri_effect='" + pri_effect + '\'' +
-                ", sec_effect='" + sec_effect + '\'' +
+                ", statPri='" + statPri + '\'' +
+                ", pri=" + pri +
+                ", subStat1=" + subStat1 +
+                ", subStat1Value=" + subStat1Value +
+                ", subStat1Proc=" + subStat1Proc +
+                ", subStat2=" + subStat2 +
+                ", subStat2Value=" + subStat2Value +
+                ", subStat2Proc=" + subStat2Proc +
+                ", subStat3=" + subStat3 +
+                ", subStat3Value=" + subStat3Value +
+                ", subStat3Proc=" + subStat3Proc +
+                ", subStat4=" + subStat4 +
+                ", subStat4Value=" + subStat4Value +
+                ", subStat4Proc=" + subStat4Proc +
+                ", subStatChange=" + subStatChange +
+                ", efficiency=" + efficiency +
                 '}';
     }
 }
