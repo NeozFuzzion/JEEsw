@@ -47,6 +47,8 @@ public class ExtractController {
     RuneRepository runeRepository;
     @Autowired
     ArtifactRepository artifactRepository;
+    @Autowired
+    private StatArtifactRepository statArtifactRepository;
 
     @Autowired
     GrindstoneRepository grindstoneRepository;
@@ -206,14 +208,75 @@ public class ExtractController {
             artifact.setIdArtifact(atId);
             artifact.setOccupied_id((Long) element.get("occupied_id"));
             artifact.setSlot(((Long) element.get("slot")).intValue());
-            artifact.setType(((Long) element.get("type")).intValue());
-            artifact.setAttribute(((Long) element.get("attribute")).intValue());
+
+            if(Integer.parseInt(element.get("type").toString())==1){
+                artifact.setType("Attribute");
+            } else{
+                artifact.setType("Archetype");
+            }
+
+            switch (Integer.parseInt(element.get("attribute").toString())){
+                case 1:
+                    artifact.setAttribute("Water");
+                    break;
+                case 2:
+                    artifact.setAttribute("Fire");
+                    break;
+                case 3:
+                    artifact.setAttribute("Wind");
+                    break;
+                case 4:
+                    artifact.setAttribute("Light");
+                    break;
+                case 5:
+                    artifact.setAttribute("Dark");
+                    break;
+            }
+
             artifact.setUnit_style(((Long) element.get("unit_style")).intValue());
             artifact.setNatural_rank(((Long) element.get("natural_rank")).intValue());
             artifact.setRang(((Long) element.get("rank")).intValue());
             artifact.setLevel(((Long) element.get("level")).intValue());
-            artifact.setPri_effect(element.get("pri_effect").toString());
-            artifact.setSec_effect(element.get("sec_effects").toString());
+
+            JSONArray pri_eff = (JSONArray) element.get("pri_effect");
+            switch (Integer.parseInt(pri_eff.get(0).toString())){
+                case 100:
+                    artifact.setStatPri("HP flat");
+                    break;
+                case 101:
+                    artifact.setStatPri("ATK flat");
+                    break;
+                case 102:
+                    artifact.setStatPri("DEF flat");
+                    break;
+            }
+            artifact.setPri(Long.parseLong(pri_eff.get(1).toString()));
+            JSONArray sec_eff = (JSONArray) element.get("sec_effects");
+
+            float efficiency = 0;
+            i=0;
+            for (Object e : sec_eff) {
+                if (((JSONArray) e).size() > 0) {
+                    StatArtifact temp_SR = statArtifactRepository.getReferenceById((Long) ((JSONArray) e).get(0));
+
+                    float subValue = Float.parseFloat(((JSONArray) e).get(1).toString()) ;
+
+                    if (Integer.parseInt(((JSONArray) e).get(3).toString())!=0 || Integer.parseInt(((JSONArray) e).get(4).toString())!=0)
+                        artifact.setSubStatChange(i+1);
+
+                    Method method1 = Artifact.class.getMethod("setSubStat" + (i + 1), StatArtifact.class);
+                    Method method2 = Artifact.class.getMethod("setSubStat" + (i + 1) + "Value", Float.class);
+                    Method method3 = Artifact.class.getMethod("setSubStat" + (i + 1) + "Proc", Long.class);
+
+                    method1.invoke(artifact, temp_SR);
+                    method2.invoke(artifact, subValue);
+                    method3.invoke(artifact,((JSONArray) e).get(2));
+
+                    efficiency += ( subValue / (temp_SR.getMaxValue() * 1.6));
+                }
+                i++;
+            }
+            artifact.setEfficiency(efficiency*100);
             saveArti.add(artifact);
 
         }
@@ -239,7 +302,7 @@ public class ExtractController {
             JSONArray occupiedArtifacts = (JSONArray) element.get("artifacts");
             for (JSONObject e : (Iterable<JSONObject>) occupiedArtifacts){
                 Method method = Monster.class.getMethod("setArtifact" + (e.get("slot")), Artifact.class);
-                method.invoke(monster, artifactRepository.getReferenceById((Long) e.get("rid")));
+                method.invoke(monster, artifactRepository.getReferenceById(new ArtifactId(user,(Long) e.get("rid"))));
             }
 
             monster.setUnit_level((Long) element.get("unit_level"));

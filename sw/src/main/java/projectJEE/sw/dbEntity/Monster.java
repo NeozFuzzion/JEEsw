@@ -19,7 +19,7 @@ public class Monster {
     @Column
     private String skills;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumnsOrFormulas(value = {
             @JoinColumnOrFormula(formula = @JoinFormula(value = "user_id", referencedColumnName = "user_id")),
             @JoinColumnOrFormula(column = @JoinColumn(name = "rune1", referencedColumnName = "idRune"))})
