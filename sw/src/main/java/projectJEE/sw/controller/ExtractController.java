@@ -6,7 +6,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,15 +20,13 @@ import projectJEE.sw.model.MonsterId;
 import projectJEE.sw.model.RuneId;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class ExtractController {
@@ -66,9 +63,9 @@ public class ExtractController {
     public String singleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) throws IOException, ParseException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
-        if (file.isEmpty()) {
+        if (file.isEmpty() || !Objects.requireNonNull(file.getOriginalFilename()).matches("^.*\\.json$")) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
-            return "redirect:/monsters";
+            return "redirect:/uploadJSON";
         }
         User user =userRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         // Get the file and save it somewhere
@@ -77,24 +74,12 @@ public class ExtractController {
 
 
         JSONParser jsonP = new JSONParser();
-        JSONObject jsonDataO = (JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/monster.json").getFile()));
+
         JSONObject jsonO = (JSONObject)jsonP.parse(myString);
         JSONArray runes = (JSONArray) jsonO.get("runes");
         JSONArray units = (JSONArray) jsonO.get("unit_list");
         JSONArray artifacts = (JSONArray) jsonO.get("artifacts");
-        JSONObject maxMain = (JSONObject)((JSONObject)((JSONObject) jsonDataO.get("rune")).get("mainstat"));
 
-        HashMap<Integer, HashMap> mapMaxMain  = new HashMap<>();
-        for (int i=1; i<=12 ; i++ ){
-            mapMaxMain.put(i, (HashMap) maxMain.get(Integer.toString(i)));
-        }
-
-        JSONObject maxSub = (JSONObject)((JSONObject)((JSONObject) jsonDataO.get("rune")).get("substat"));
-
-        HashMap<Integer,HashMap> mapMaxSub  = new HashMap<>();
-        for (int i=1; i<=12 ; i++ ){
-            mapMaxSub.put(i, (HashMap) maxSub.get(Integer.toString(i)));
-        }
 
 
         long i =0;
@@ -197,6 +182,7 @@ public class ExtractController {
             rune.setEfficiency(efficiency*100);
             rune.setEffMaxLegend(effMaxLegend*100);
             rune.setEffMaxHero(effMaxHero*100);
+            rune.setjSON(file.getOriginalFilename());
             saveRune.add(rune);
         }
 
@@ -247,7 +233,6 @@ public class ExtractController {
                 }
             }
 
-            artifact.setUnit_style(((Long) element.get("unit_style")).intValue());
             artifact.setNatural_rank(((Long) element.get("natural_rank")).intValue());
             artifact.setRang(((Long) element.get("rank")).intValue());
             artifact.setLevel(((Long) element.get("level")).intValue());
@@ -290,6 +275,7 @@ public class ExtractController {
                 }
                 i++;
             }
+            artifact.setjSON(file.getOriginalFilename());
             artifact.setEfficiency(efficiency*100);
             saveArti.add(artifact);
 
@@ -318,7 +304,7 @@ public class ExtractController {
                 Method method = Monster.class.getMethod("setArtifact" + (e.get("slot")), Artifact.class);
                 method.invoke(monster, artifactRepository.getReferenceById(new ArtifactId(user,(Long) e.get("rid"))));
             }
-
+            monster.setjSON(file.getOriginalFilename());
             monster.setUnit_level((Long) element.get("unit_level"));
             saveMonster.add(monster);
         }

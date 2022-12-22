@@ -61,7 +61,7 @@ public class SwApplication {
 	public CommandLineRunner CommandLineRunnerBean() {
 		return (args) -> {
 			System.out.println("Démarrage... ");
-			JSONParser jsonP = new JSONParser();
+/*			JSONParser jsonP = new JSONParser();
 
 			JSONObject fileData = ((JSONObject) jsonP.parse(new FileReader(new ClassPathResource("data/monster.json").getFile())));
 
@@ -358,7 +358,7 @@ public class SwApplication {
 			}
 
 
-/*
+
 	System.out.println("AAAAAAAAAAAAAAAA");
 			BufferedWriter out = new BufferedWriter(new FileWriter("lskill.json"));
 			String urlMonster;

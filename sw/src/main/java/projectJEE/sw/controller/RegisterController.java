@@ -1,6 +1,7 @@
 package projectJEE.sw.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.type.filter.RegexPatternTypeFilter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +36,7 @@ public class RegisterController {
 
     @PostMapping("/register")
     public String registerUser(HttpServletRequest request, UserForm userForm) throws ServletException {
-        if (userRepository.findUserWithName(userForm.getUsername()).isEmpty() && userForm.getPassword().equals(userForm.getConfirmPassword())){
+        if (userForm.getPassword().matches("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/") && userRepository.findUserWithName(userForm.getUsername()).isEmpty() && userForm.getPassword().equals(userForm.getConfirmPassword())){
             User user = new User();
             user.setId(UUID.randomUUID());
             user.setUsername(userForm.getUsername());
@@ -46,7 +47,6 @@ public class RegisterController {
             request.login(userForm.getUsername(), userForm.getPassword());
             return ("/index");
         }
-        System.out.println(userForm.getPassword() == userForm.getConfirmPassword());
         return ("redirect:/register");
 
     }

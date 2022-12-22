@@ -70,6 +70,16 @@ public class Monster {
     @Column
     private long unit_level;
 
+    @Column
+    private String jSON;
+
+    public String getjSON() {
+        return jSON;
+    }
+
+    public void setjSON(String jSON) {
+        this.jSON = jSON;
+    }
 
     public GameMonster getGameMonster() {
         return gameMonster;

@@ -24,9 +24,6 @@ public class Artifact {
     private String restriction;
 
     @Column
-    private int unit_style;
-
-    @Column
     private int natural_rank;
 
     @Column
@@ -87,6 +84,17 @@ public class Artifact {
     @Column
     private float efficiency;
 
+    @Column
+    private String jSON;
+
+    public String getjSON() {
+        return jSON;
+    }
+
+    public void setjSON(String jSON) {
+        this.jSON = jSON;
+    }
+
     public ArtifactId getIdArtifact() {
         return idArtifact;
     }
@@ -125,14 +133,6 @@ public class Artifact {
 
     public void setRestriction(String restriction) {
         this.restriction = restriction;
-    }
-
-    public int getUnit_style() {
-        return unit_style;
-    }
-
-    public void setUnit_style(int unit_style) {
-        this.unit_style = unit_style;
     }
 
     public int getNatural_rank() {
@@ -294,7 +294,6 @@ public class Artifact {
                 ", slot=" + slot +
                 ", type=" + type +
                 ", restriction=" + restriction +
-                ", unit_style=" + unit_style +
                 ", natural_rank=" + natural_rank +
                 ", rang=" + rang +
                 ", level=" + level +

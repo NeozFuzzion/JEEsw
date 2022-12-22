@@ -1,4 +1,4 @@
-package projectJEE.sw;
+package projectJEE.sw.service;
 
 
 import org.springframework.context.annotation.Bean;

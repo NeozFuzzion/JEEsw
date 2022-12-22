@@ -114,6 +114,16 @@ public class Rune {
     @Column
     private float effMaxLegend;
 
+    @Column
+    private String jSON;
+
+    public String getjSON() {
+        return jSON;
+    }
+
+    public void setjSON(String jSON) {
+        this.jSON = jSON;
+    }
 
     public RuneId getIdRune() {
         return idRune;
