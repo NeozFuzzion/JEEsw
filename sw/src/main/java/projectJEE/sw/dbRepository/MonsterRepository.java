@@ -25,4 +25,7 @@ public interface MonsterRepository extends JpaRepository<Monster, MonsterId> {
     @Query("SELECT m from Monster m WHERE m.gameMonster.idMonster = :id and m.idMonster.user=:user")
     List<Monster> findAllMonstersUser(@Param("user") User name,@Param("id") Long idMonster);
 
+    @Query("SELECT DISTINCT m.jSON from Monster m WHERE user_id=:user")
+    List<String> findAllJson(@Param("user") User user);
+
 }

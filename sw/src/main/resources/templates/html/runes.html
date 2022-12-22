@@ -48,6 +48,12 @@
   <div class="content">
     <div class="graph-efficiency">
       <div class="graph-parameters">
+        <div class="graph-json-select">
+          <select name="jsonChosen" id="jsonChosen">
+            <option disabled selected>Choose a json</option>
+            <option th:each="json : ${jsons}" th:value="${json}" th:text="${json}"></option>
+          </select>
+        </div>
         <div class="graph-range">
           <div class="range-inputs">
             <input type="range" name="nbRunes" id="nbRunes" value="400" min="50" max="1000" step="50">
@@ -56,8 +62,8 @@
         </div>
         <div class="graph-set-select">
           <select name="runeSet" id="runeSet">
-            <option value="">Select a rune set</option>
-            <option value="0">All</option>
+            <option disabled selected>Select a rune set</option>
+            <option value="0">All Runes</option>
             <option value="1">Energy</option>
             <option value="2">Guard</option>
             <option value="3">Swift</option>
