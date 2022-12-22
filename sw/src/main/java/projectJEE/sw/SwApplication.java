@@ -13,11 +13,16 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import projectJEE.sw.dbEntity.*;
 import projectJEE.sw.dbRepository.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
-import java.io.FileReader;
+import java.io.*;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import java.net.URL;
+import java.util.*;
 
 @SpringBootApplication
 public class SwApplication {
@@ -140,6 +145,7 @@ public class SwApplication {
 					statRune.setName((String) ((JSONObject) statrune.get("effectTypes")).get(Integer.toString(v)));
 					savestrune.add(statRune);
 				}
+
 				for (int v=8;v<=12;v++){
 					StatRune statRune = new StatRune();
 					statRune.setIdStat((long) v);
@@ -255,28 +261,6 @@ public class SwApplication {
 					} catch (Exception e){
 						break;
 					}
-				JSONArray data_skill = (JSONArray) ((JSONObject)jsonP.parse(new FileReader(new ClassPathResource("data/skills.json").getFile()))).get("skills");
-				System.out.println(data_skill.size());
-				vmax = data_skill.size();
-				for (int v=0;v<vmax;v++) {
-					JSONObject skl = (JSONObject) data_skill.get(v);
-					Skill skill	= new Skill();
-					skill.setAoe((Boolean) skl.get("aoe"));
-					skill.setIdSkill((Long) skl.get("id"));
-					if(skl.get("cooltime")!=null)
-						skill.setCooltime((Long) skl.get("cooltime"));
-					skill.setGameSkill((Long) skl.get("com2us_id"));
-					skill.setDescription((String) skl.get("description"));
-					skill.setEffects(skl.get("effects").toString());
-					skill.setHits((Long) skl.get("hits"));
-					skill.setMax_level((Long) skl.get("max_level"));
-					skill.setMultiplier_formula((String) skl.get("multiplier_formula"));
-					skill.setUpgrades(skl.get("upgrades").toString());
-					skill.setPassive((Boolean) skl.get("passive"));
-					skill.setSlot((Long) skl.get("slot"));
-					skill.setImage((String) skl.get("icon_filename"));
-					skill.setName((String) skl.get("name"));
-					saveSkill.add(skill);
 				}
 				in.close();
 

@@ -5,9 +5,30 @@ import javax.persistence.*;
 @Entity
 public class StatArtifact {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @Column
     private Long id;
+
+    @Column
+    private String description;
+
+    @Column
+    private Float maxValue;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Float getMaxValue() {
+        return maxValue;
+    }
+
+    public void setMaxValue(Float maxValue) {
+        this.maxValue = maxValue;
+    }
 
     public Long getId() {
         return id;
