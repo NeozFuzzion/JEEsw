@@ -212,26 +212,39 @@ public class ExtractController {
 
             if(Integer.parseInt(element.get("type").toString())==1){
                 artifact.setType("Attribute");
+                switch (Integer.parseInt(element.get("attribute").toString())){
+                    case 1:
+                        artifact.setRestriction("Water");
+                        break;
+                    case 2:
+                        artifact.setRestriction("Fire");
+                        break;
+                    case 3:
+                        artifact.setRestriction("Wind");
+                        break;
+                    case 4:
+                        artifact.setRestriction("Light");
+                        break;
+                    case 5:
+                        artifact.setRestriction("Dark");
+                        break;
+                }
             } else{
                 artifact.setType("Archetype");
-            }
-
-            switch (Integer.parseInt(element.get("attribute").toString())){
-                case 1:
-                    artifact.setAttribute("Water");
-                    break;
-                case 2:
-                    artifact.setAttribute("Fire");
-                    break;
-                case 3:
-                    artifact.setAttribute("Wind");
-                    break;
-                case 4:
-                    artifact.setAttribute("Light");
-                    break;
-                case 5:
-                    artifact.setAttribute("Dark");
-                    break;
+                switch (Integer.parseInt(element.get("unit_style").toString())){
+                    case 1:
+                        artifact.setRestriction("Attack");
+                        break;
+                    case 2:
+                        artifact.setRestriction("Defense");
+                        break;
+                    case 3:
+                        artifact.setRestriction("HP");
+                        break;
+                    case 4:
+                        artifact.setRestriction("Support");
+                        break;
+                }
             }
 
             artifact.setUnit_style(((Long) element.get("unit_style")).intValue());

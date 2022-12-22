@@ -21,7 +21,7 @@ public class Artifact {
     private String type;
 
     @Column
-    private String attribute;
+    private String restriction;
 
     @Column
     private int unit_style;
@@ -119,12 +119,12 @@ public class Artifact {
         this.type = type;
     }
 
-    public String getAttribute() {
-        return attribute;
+    public String setRestriction() {
+        return restriction;
     }
 
-    public void setAttribute(String attribute) {
-        this.attribute = attribute;
+    public void setRestriction(String restriction) {
+        this.restriction = restriction;
     }
 
     public int getUnit_style() {
@@ -293,7 +293,7 @@ public class Artifact {
                 ", occupied_id=" + occupied_id +
                 ", slot=" + slot +
                 ", type=" + type +
-                ", attribute=" + attribute +
+                ", restriction=" + restriction +
                 ", unit_style=" + unit_style +
                 ", natural_rank=" + natural_rank +
                 ", rang=" + rang +
