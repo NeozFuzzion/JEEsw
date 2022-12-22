@@ -8,6 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="js/runeFilter.js"></script>
+  <script src="js/runesEventListener.js"></script>
 </head>
 <body>
   <div class="title">
@@ -22,6 +23,11 @@
       <a class="button rune-button a_page" href="/runes"><button><img src="/images/rune.png"></button></a>
       <a class="button artifact-button" href="/artifacts"><button><img src="/images/artefact.png"></button></a>
       <a class="button upload-button" href="/uploadJSON"><button><ion-icon name="cloud-upload-outline"></ion-icon></button></a>
+      <div class="bottom-left">
+        <a class="button log-in-button" href="/login"><button><ion-icon name="log-in-outline"></ion-icon></button></a>
+        <a class="button log-out-button" href="/logout"><button><ion-icon name="log-out-outline"></ion-icon></button></a>
+        <a class="button register-button" href="/register"><button><ion-icon name="person-add-outline"></ion-icon></button></a>
+      </div>
     </div>
     <div class="right-side">
       <a class="button menu-button"><button><p>Menu</p></button></a>
@@ -30,73 +36,95 @@
       <a class="button rune-button a_page" href="/runes"><button><p>Runes</p></button></a>
       <a class="button artifact-button" href="/artifacts"><button><p>Artefacts</p></button></a>
       <a class="button upload-button" href="/uploadJSON"><button><p>Upload</p></button></a>
+      <div class="bottom-right">
+        <a class="button log-in-button" href="/login"><button><p>Connexion</p></button></a>
+        <a class="button log-out-button" href="/logout"><button><p>Déconnexion</p></button></a>
+        <a class="button register-button" href="/register"><button><p>Inscription</p></button></a>
+      </div>
     </div>
   </div>
+
+  </div>
   <div class="content">
-    <div>
-      <div>Set :
-        <select name="runeSet" id="runeSet">
-          <option value="">Select a rune runeSet</option>
-          <option value="0">All</option>
-          <option value="1">Energy</option>
-          <option value="2">Guard</option>
-          <option value="3">Swift</option>
-          <option value="4">Blade</option>
-          <option value="5">Rage</option>
-          <option value="6">Focus</option>
-          <option value="7">Endure</option>
-          <option value="8">Fatal</option>
-          <option value="10">Despair</option>
-          <option value="11">Vampire</option>
-          <option value="13">Violent</option>
-          <option value="14">Nemesis</option>
-          <option value="15">Will</option>
-          <option value="16">Shield</option>
-          <option value="17">Revenge</option>
-          <option value="18">Destroy</option>
-          <option value="19">Fight</option>
-          <option value="20">Determination</option>
-          <option value="21">Enhance</option>
-          <option value="22">Accuracy</option>
-          <option value="23">Tolerance</option>
-        </select>
+    <div class="graph-efficiency">
+      <div class="graph-parameters">
+        <div class="graph-range">
+          <div class="range-inputs">
+            <input type="range" name="nbRunes" id="nbRunes" value="400" min="50" max="1000" step="50">
+            <input type="text" id="rangeVal" disabled>
+          </div>
+        </div>
+        <div class="graph-set-select">
+          <select name="runeSet" id="runeSet">
+            <option value="">Select a rune set</option>
+            <option value="0">All</option>
+            <option value="1">Energy</option>
+            <option value="2">Guard</option>
+            <option value="3">Swift</option>
+            <option value="4">Blade</option>
+            <option value="5">Rage</option>
+            <option value="6">Focus</option>
+            <option value="7">Endure</option>
+            <option value="8">Fatal</option>
+            <option value="10">Despair</option>
+            <option value="11">Vampire</option>
+            <option value="13">Violent</option>
+            <option value="14">Nemesis</option>
+            <option value="15">Will</option>
+            <option value="16">Shield</option>
+            <option value="17">Revenge</option>
+            <option value="18">Destroy</option>
+            <option value="19">Fight</option>
+            <option value="20">Determination</option>
+            <option value="21">Enhance</option>
+            <option value="22">Accuracy</option>
+            <option value="23">Tolerance</option>
+          </select>
+        </div>
+        <div class="graph-ancient-select">
+          <select name="ancient" id="ancient">
+            <option value="0">Include all</option>
+            <option value="1">No ancient</option>
+            <option value="2">Only ancient</option>
+          </select>
+        </div>
+
+        <button id="submit-runes-filters" onclick="sortRune()">Submit</button>
+
       </div>
-      <div>Ancient :
-        <select name="ancient" id="ancient">
-          <option value="0">Include all</option>
-          <option value="1">No ancient</option>
-          <option value="2">Only ancient</option>
-        </select>
-      </div>
-      <div>Number of runes to select :
-        <input type="range" name="nbRunes" id="nbRunes" value="400" min="50" max="1000" step="50">
-        <div id="rangeVal"></div>
-      </div>
-      <button onclick="sortRune()" value="Submit">Submit</button>
+
+      <canvas id="myChart" style="width:100%;max-width:1000px;max-height:500px"></canvas>
+
     </div>
-    <canvas id="myChart" style="width:100%;max-width:1000px;max-height:500px"></canvas>
+
     <script th:inline="javascript">
       createChart([[${eff}]],[[${effMaxHero}]],[[${effMaxLegend}]],400);
     </script>
-  </div>
-<!--  <div class="content">-->
+
+    <div class="runes-display">
+      <div th:each="rune : ${runes}">
+        <div th:id="${rune.set_id}" class="rune">
+          <div class="rune-slot-image">
+            <p class="rune-slot" th:text="${rune.slot_no}"></p>
+            <p class="rune-rang" th:text="${rune.rang}"></p>
+            <div class="rune-image-div">
+              <img class="rune-image" src="">
+            </div>
+            <div class="rune-type-div">
+<!--              <img class="rune-type" src="/images/runes/">-->
+            </div>
+            <p class="rune-upgrade" th:text="'+'+${rune.upgrade_curr}"></p>
+          </div>
+          <div class="rune-infos">
+            <p th:text="${rune.pri} + ' ' + ${rune.statPri.name}"></p>
+<!--            <p th:text="${rune.occupied_type}"></p>-->
+            <p th:if="${rune.innate}!=null" th:text="${rune?.innate} + ' ' +${rune?.statInnate?.name} "></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
 <!--    <table>-->
-<!--      <thead>-->
-<!--      <tr>-->
-<!--        <th>Set</th>-->
-<!--        <th>Slot</th>-->
-<!--        <th>Rank</th>-->
-<!--        <th>Class</th>-->
-<!--        <th>Current upgrade</th>-->
-<!--        <th>Main stat</th>-->
-<!--        <th>Innate stat</th>-->
-<!--        <th>Substat1</th>-->
-<!--        <th>Substat2</th>-->
-<!--        <th>Substat3</th>-->
-<!--        <th>Substat4</th>-->
-<!--        <th>Efficiency</th>-->
-<!--      </tr>-->
-<!--      </thead>-->
 <!--      <tbody>-->
 <!--      <tr th:each="rune : ${runes}">-->
 <!--        <td><p th:text="${rune.set_id} "></p></td>-->
@@ -131,7 +159,8 @@
 <!--      </tr>-->
 <!--      </tbody>-->
 <!--    </table>-->
-<!--  </div>-->
+  </div>
+
   <footer>
     <div>
       <p>DURANTEAU Damien - LANTA Axel - OUTREBON Edouard</p>

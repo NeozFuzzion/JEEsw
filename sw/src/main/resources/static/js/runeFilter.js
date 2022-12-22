@@ -1,7 +1,7 @@
 $(function() {
-    $("#rangeVal").text("");
+    $("#rangeVal").val("400");
     $("#nbRunes").on("input", function() {
-        $("#rangeVal").text($(this).val())
+        $("#rangeVal").val($(this).val())
     });
 });
 

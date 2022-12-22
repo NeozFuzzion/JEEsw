@@ -76,6 +76,13 @@ body {
     margin: auto;
 }
 
+.bottom-left,
+.bottom-right {
+    position: fixed;
+    bottom: 0;
+    margin-bottom: var(--footer-height);
+}
+
 .right-side {
     width: var(--right-side-menu-width);
     display: none;
@@ -320,6 +327,155 @@ body {
     display: none;
 }
 
+.graph-efficiency {
+    margin: 50px auto;
+    display: flex;
+}
+
+.graph-parameters {
+    margin:auto 0px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.graph-set-select,
+.graph-ancient-select {
+    margin: 5px auto;
+    width: inherit;
+    display: flex;
+}
+
+.graph-set-select select,
+.graph-ancient-select select {
+    font-size: 16px;
+    margin: 0px auto;
+    height: 40px;
+    width: 85%;
+    cursor: pointer;
+    background-color: #13181e;
+    color: #FFFFFF;
+    border: none;
+}
+
+.graph-range {
+    display: flex;
+    width: 100%;
+    margin: 5px auto;
+}
+
+.range-inputs {
+    margin: 0px auto;
+    display: flex;
+}
+
+.graph-range input[type="range"] {
+    margin: auto 10px;
+    border-radius: 5px;
+    background: white;
+    height: 5px;
+}
+
+.graph-range input[type="text"] {
+    margin: auto 10px;
+    font-size: 20px;
+    color: #FFFFFF;
+    width: 40px;
+    text-align: right;
+}
+
+#submit-runes-filters {
+    font-size: 20px;
+    margin: 5px auto;
+    color: #FFFFFF;
+    height: 40px;
+    background-color: #13181e;
+    width: 85%;
+    text-align: center;
+    cursor: pointer;
+}
+
+#submit-runes-filters:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+#myChart {
+    margin: 0px auto;
+    width: 85%;
+}
+
+.runes-display {
+    margin: 25px auto auto auto;
+    display: grid;
+    min-width: 80%;
+    grid-template-columns: repeat(auto-fill, 150px);
+    grid-auto-rows: 50px;
+    grid-gap: 10px;
+}
+
+.rune {
+    display: flex;
+    background-color: #13181e;
+    border: 1px solid rgba(211, 175, 101, 0.5);
+    height: 50px;
+}
+
+.rune-slot-image {
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+
+.rune-image-div {
+    position: absolute;
+    display: flex;
+    z-index: 1;
+    width: inherit;
+    height: inherit;
+}
+
+.rune-image {
+    scale: 75%;
+    margin: auto;
+}
+
+.rune-type-div {
+    position: absolute;
+    display: flex;
+    z-index: 10;
+    width: inherit;
+    height: inherit;
+}
+
+.rune-type {
+    scale: 45%;
+}
+
+.rune-upgrade {
+    display: none;
+}
+
+.rune-upgrade p {
+    font-size: 10px;
+    color: white;
+}
+
+.rune-slot,
+.rune-rang {
+    display: none;
+}
+
+.rune-infos {
+    display: flex;
+    flex-direction: column;
+    margin: auto 5px;
+}
+
+.rune-infos p {
+    color: white;
+}
+
+
 .kek {
     display: none;
 }
@@ -364,11 +520,6 @@ body {
     margin: 0px auto;
     color: white;
     font-size: 25px;
-}
-
-.login-content {
-    display: flex;
-    flex-direction: column;
 }
 
 .login-infos {
