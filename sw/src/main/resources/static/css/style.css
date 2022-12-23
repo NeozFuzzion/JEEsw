@@ -593,3 +593,19 @@ footer p {
     color: white;
     margin: 0px auto;
 }
+
+.team{
+    display: flex;
+    justify-content: space-evenly;
+    background-color: #13181e;
+    border: 1px solid rgba(211, 175, 101, 0.5);
+    height: 500px;
+}
+
+.team-display{
+    margin: 25px auto auto auto;
+    display: grid;
+    min-width: 80%;
+    grid-auto-rows: 500px;
+    grid-gap: 10px;
+}

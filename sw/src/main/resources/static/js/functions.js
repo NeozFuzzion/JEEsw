@@ -35,3 +35,11 @@ function searchMonster() {
     }
 
 }
+
+function teamBuilder(){
+    $.post("/gvoteambuilder", {
+            monster1:$("#monster1").val(),
+            monster2:$("#monster2").val(),
+            monster3:$("#monster3").val()
+        })
+}

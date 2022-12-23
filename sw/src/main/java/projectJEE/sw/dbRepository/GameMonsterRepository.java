@@ -23,4 +23,9 @@ public interface GameMonsterRepository extends JpaRepository<GameMonster,Long> {
     List<GameMonster> findAllNatural2Monsters();
     @Query("SELECT m from GameMonster m WHERE natural_stars = 1L AND obtainable = true")
     List<GameMonster> findAllNatural1Monsters();
+
+    GameMonster findFirstByName(String monster);
+
+    @Query("SELECT m from GameMonster m WHERE natural_stars > 2L AND obtainable = true")
+    List<GameMonster> findAllMonsters();
 }

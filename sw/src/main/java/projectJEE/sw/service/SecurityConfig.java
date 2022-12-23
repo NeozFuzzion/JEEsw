@@ -17,7 +17,7 @@ public class SecurityConfig {
     };
 
     private static final String[] USER_LIST_URLS = {
-            "/monsters", "/runes", "/artifacts", "/uploadJSON","/runesBook/{id}"
+            "/monsters", "/runes", "/artifacts", "/uploadJSON", "/gvoteambuilder", "/gvoteam","/runesBook/{id}"
     };
 
     @Bean

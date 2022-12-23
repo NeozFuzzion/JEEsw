@@ -35,27 +35,39 @@
     </div>
 </div>
 <div class="content">
-    <form th:action="@{/gvoteambuilder}" th:object="${gvoteamform}" method="post">
+    <form th:action="'/gvoteam/update/'+${idTeam}" th:object="${gvoteamform}" method="post">
+
+
         <select name="monster1" id="monster1">
-            <option disabled selected>Choose a monster leader</option>
-            <option th:each="m : ${monster}" th:value="${m.idMonster}" th:text="${m.name}+ ' ('+${m.element}+')'"></option>
+                <option th:each="m : ${monster}" th:selected="${m.idMonster} == ${gvoteamform.getMonster1().longValue()}" th:value="${m.idMonster}" th:text="${m.name}+ ' ('+${m.element}+')'"  ></option>
         </select>
+
+
         <select name="monster2" id="monster2">
-            <option disabled selected>Choose a monster</option>
-            <option th:each="m : ${monster}" th:value="${m.idMonster}" th:text="${m.name}+ ' ('+${m.element}+')'"></option>
+            <th:block th:if="${gvoteamform.getMonster2()==null}">
+                <option disabled selected>Choose a monster leader</option>
+                <option th:each="m : ${monster}" th:value="${m.idMonster}" th:text="${m.name}+ ' ('+${m.element}+')'"></option>
+            </th:block>
+            <th:block th:unless="${gvoteamform.getMonster2()==null}">
+                <option th:each="m : ${monster}" th:selected="${m.idMonster} == ${gvoteamform.getMonster2().longValue()}" th:value="${m.idMonster}" th:text="${m.name}+ ' ('+${m.element}+')'"  ></option>
+            </th:block>
         </select>
+
+
         <select name="monster3" id="monster3">
-            <option disabled selected>Choose a monster</option>
-            <option th:each="m : ${monster}" th:value="${m.idMonster}" th:text="${m.name}+ ' ('+${m.element}+')'"></option>
+            <th:block th:if="${gvoteamform.getMonster3()==null}">
+                <option disabled selected>Choose a monster leader</option>
+                <option th:each="m : ${monster}" th:value="${m.idMonster}" th:text="${m.name}+ ' ('+${m.element}+')'"></option>
+            </th:block>
+            <th:block th:unless="${gvoteamform.getMonster3()==null}">
+                <option th:each="m : ${monster}" th:selected="${m.idMonster} == ${gvoteamform.getMonster3().longValue()}" th:value="${m.idMonster}" th:text="${m.name}+ ' ('+${m.element}+')'"  ></option>
+            </th:block>
         </select>
+
+
         <button  type="submit" value="Submit">Submit</button>
     </form>
 
-<!--    <div class="search-bar">
-        <input id="search-monsters-bar" type="text" placeholder="Search Monster" onkeyup="searchMonster()">
-    </div>
-
-    <button th:each="m : ${nat5}" th:value="${m.idMonster}" ><img th:src="@{'/images/monsters/' + ${m.image}}"><span th:text="${m.name}+ ' ('+${m.element}+')'"></span></button>-->
 </div>
 <footer>
     <div>
