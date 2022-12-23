@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import projectJEE.sw.dbEntity.User;
 import projectJEE.sw.dbRepository.UserRepository;
 import projectJEE.sw.service.UserForm;
@@ -35,8 +36,8 @@ public class RegisterController {
     }
 
     @PostMapping("/register")
-    public String registerUser(HttpServletRequest request, UserForm userForm) throws ServletException {
-        if (userForm.getPassword().matches("/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/") && userRepository.findUserWithName(userForm.getUsername()).isEmpty() && userForm.getPassword().equals(userForm.getConfirmPassword())){
+    public String registerUser(HttpServletRequest request, UserForm userForm, RedirectAttributes redirectAttributes) throws ServletException {
+        if (userForm.getPassword().matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*]).{8,}$") && userRepository.findUserWithName(userForm.getUsername()).isEmpty() && userForm.getPassword().equals(userForm.getConfirmPassword())){
             User user = new User();
             user.setId(UUID.randomUUID());
             user.setUsername(userForm.getUsername());
@@ -47,6 +48,8 @@ public class RegisterController {
             request.login(userForm.getUsername(), userForm.getPassword());
             return ("/index");
         }
+        redirectAttributes.addFlashAttribute("message",
+                "Your password don't follow the requirement");
         return ("redirect:/register");
 
     }
