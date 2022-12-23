@@ -18,10 +18,8 @@ import projectJEE.sw.dbRepository.GameMonsterRepository;
 import projectJEE.sw.dbRepository.MonsterRepository;
 import projectJEE.sw.dbRepository.RuneRepository;
 import projectJEE.sw.dbRepository.UserRepository;
-import projectJEE.sw.model.MonsterId;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -76,7 +74,7 @@ public class BestiaryController{
         model.addAttribute("monsters",monsterList);
         model.addAttribute("monster",monster);
 
-        return "/html/bestiary";
+        return "/html/bestiaryBook";
     }
 
     @GetMapping("/bestiary")
@@ -91,6 +89,6 @@ public class BestiaryController{
 
         model.addAttribute("isConnected", (SecurityContextHolder.getContext().getAuthentication().getName() != null));
 
-        return "/html/abon";
+        return "/html/bestiary";
     }
 }

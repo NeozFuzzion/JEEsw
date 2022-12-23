@@ -44,19 +44,19 @@
     </div>
     <div class="content">
         <div class="artifact-infos-side-left">
-            <div class="artifact" >
-                <div class="artifact-type-image">
-                    <p class="artifact-type" th:text="${artifact.type}"></p>
-                    <p class="artifact-rank" th:text="${artifact.rang}"></p>
-                    <div class="artifact-image-div">
-                        <img class="artifact-image" src="">
-                    </div>
-                    <div class="artifact-restriction-div">
-                        <img class="artifact-restriction" th:src="'/images/artifacts/'+${#strings.toLowerCase(artifact.restriction)}+'.png'">
-                    </div>
-                    <p class="artifact-upgrade" th:text="'+'+${artifact.level}"></p>
+
+            <div class="artifact-type-image">
+                <p class="artifact-type" th:text="${artifact.type}"></p>
+                <p class="artifact-rank" th:text="${artifact.rang}"></p>
+                <div class="artifact-image-div">
+                    <img class="artifact-image" src="">
                 </div>
+                <div class="artifact-restriction-div">
+                    <img class="artifact-restriction" th:src="'/images/artifacts/'+${#strings.toLowerCase(artifact.restriction)}+'.png'">
+                </div>
+                <p class="artifact-upgrade" th:text="'+'+${artifact.level}"></p>
             </div>
+
         </div>
         <div class="artifact-infos-side-right">
             <table>
@@ -74,8 +74,7 @@
                         <td>Stat 1</td>
                         <td>
                             <div>
-                                <p th:text="${artifact.subStat1.description}"></p>
-                                <p th:text="${artifact.subStat1Value}"></p>
+                                <p th:text="${artifact.subStat1.description.replace('%',artifact.subStat1Value.toString + '%')}"></p>
                             </div>
                         </td>
                     </tr>
@@ -85,8 +84,7 @@
                         <td>Stat 2</td>
                         <td>
                             <div>
-                                <p th:text="${artifact.subStat2.description}"></p>
-                                <p th:text="${artifact.subStat2Value}"></p>
+                                <p th:text="${artifact.subStat2.description.replace('%',artifact.subStat2Value.toString + '%')}"></p>
                             </div>
                         </td>
                     </tr>
@@ -96,8 +94,7 @@
                         <td>Stat 3</td>
                         <td>
                             <div>
-                                <p th:text="${artifact.subStat3.description}"></p>
-                                <p th:text="${artifact.subStat3Value}"></p>
+                                <p th:text="${artifact.subStat3.description.replace('%',artifact.subStat3Value.toString + '%')}"></p>
                             </div>
                         </td>
                     </tr>
@@ -108,8 +105,7 @@
                         <td>Stat 4</td>
                         <td>
                             <div>
-                                <p th:text="${artifact.subStat4.description}"></p>
-                                <p th:text="${artifact.subStat4Value}"></p>
+                                <p th:text="${artifact.subStat4.description.replace('%',artifact.subStat4Value.toString + '%')}"></p>
                             </div>
                         </td>
                     </tr>
