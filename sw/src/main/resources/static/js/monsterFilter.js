@@ -49,7 +49,6 @@ function filterMonster(){
                 });
             })
     }else{
-
         $(".missingParameter").empty();
         $(".missingParameter").append("Select a json");
     }

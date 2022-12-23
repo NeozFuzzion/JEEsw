@@ -1,5 +1,6 @@
 package projectJEE.sw.controller;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -39,6 +40,7 @@ public class ArtifactsController {
                 Artifact artifact = it.next();
                 efficiency[i] = artifact.getEfficiency();
                 i++;
+
             }
             model.addAttribute("jsons", jsons);
             model.addAttribute("artifacts", artifacts);
@@ -74,6 +76,9 @@ public class ArtifactsController {
         filter.put("jsonToUse",jsonChosen);
         filter.put("efficiency",efficiency);
         filter.put("totalArtifacts",nbArtifacts);
+        JSONArray artifactsJSON = new JSONArray();
+        artifacts.forEach(artifact -> {artifactsJSON.add(artifact.toJSON());});
+        filter.put("artifacts",artifactsJSON);
         return ResponseEntity.status(HttpStatus.OK).body(filter);
     }
 }

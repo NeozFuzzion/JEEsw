@@ -1,9 +1,10 @@
 package projectJEE.sw.dbEntity;
 
+import netscape.javascript.JSObject;
+import org.json.simple.JSONObject;
 import projectJEE.sw.model.ArtifactId;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 public class Artifact {
@@ -286,6 +287,10 @@ public class Artifact {
         this.subStat4Proc = subStat4Proc;
     }
 
+    public String getRestriction() {
+        return restriction;
+    }
+
     @Override
     public String toString() {
         return "Artifact{" +
@@ -314,5 +319,15 @@ public class Artifact {
                 ", subStatChange=" + subStatChange +
                 ", efficiency=" + efficiency +
                 '}';
+    }
+    public JSONObject toJSON(){
+        JSONObject json = new JSONObject();
+        json.put("type",type);
+        json.put("rang",rang);
+        json.put("restriction",restriction);
+        json.put("level",level);
+        json.put("pri",pri);
+        json.put("statPri",statPri);
+        return json;
     }
 }

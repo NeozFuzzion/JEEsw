@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <title>Titre</title>
     <link rel="stylesheet" href="/css/style.css">
+
     <script type="text/javascript" src="/js/functions.js"></script>7
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="js/artifactFilter.js"></script>
     <script src="js/runesEventListener.js"></script>
+    <script src="js/artifactsEventListener.js"></script>
 </head>
 <body>
     <div class="title">
@@ -83,6 +85,28 @@
             </div>
 
             <canvas id="myChart" style="width:100%;max-width:1000px;max-height:500px"></canvas>
+            <div class="artifacts-display" id="artifacts-display">
+                <div th:each="artifact : ${artifacts}">
+                        <div class="artifact" >
+                            <div class="artifact-type-image">
+                                <p class="artifact-type" th:text="${artifact.type}"></p>
+                                <p class="artifact-rank" th:text="${artifact.rang}"></p>
+                                <p class="artifact-restriction" th:text="${artifact.restriction}"></p>
+                                <div class="artifact-image-div">
+                                    <img class="artifact-image" src="">
+                                </div>
+                                <div class="artifact-restriction-div">
+                                    <img class="artifact-restriction" th:src="'/images/artifacts/'+${#strings.toLowerCase(artifact.restriction)}+'.png'">
+                                </div>
+                                <p class="artifact-upgrade" th:text="'+'+${artifact.level}"></p>
+                            </div>
+                            <div class="artifact-infos">
+                                <p th:text="${artifact.pri} + ' ' + ${artifact.statPri}"></p>
+
+                            </div>
+                        </div>
+                </div>
+            </div>
 
         </div>
 
