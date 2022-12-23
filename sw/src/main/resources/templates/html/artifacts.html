@@ -87,6 +87,7 @@
             <canvas id="myChart" style="width:100%;max-width:1000px;max-height:500px"></canvas>
             <div class="artifacts-display" id="artifacts-display">
                 <div th:each="artifact : ${artifacts}">
+                    <a th:href="@{'/artifactsBook/'+${artifact.idArtifact.idArtifact}}">
                         <div class="artifact" >
                             <div class="artifact-type-image">
                                 <p class="artifact-type" th:text="${artifact.type}"></p>
@@ -105,6 +106,7 @@
 
                             </div>
                         </div>
+                    </a>
                 </div>
             </div>
 

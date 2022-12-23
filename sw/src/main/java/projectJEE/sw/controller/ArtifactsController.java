@@ -10,12 +10,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import projectJEE.sw.dbEntity.Artifact;
 import projectJEE.sw.dbEntity.Rune;
 import projectJEE.sw.dbEntity.User;
 import projectJEE.sw.dbRepository.ArtifactRepository;
 import projectJEE.sw.dbRepository.UserRepository;
+import projectJEE.sw.model.ArtifactId;
+import projectJEE.sw.model.RuneId;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -80,5 +83,12 @@ public class ArtifactsController {
         artifacts.forEach(artifact -> {artifactsJSON.add(artifact.toJSON());});
         filter.put("artifacts",artifactsJSON);
         return ResponseEntity.status(HttpStatus.OK).body(filter);
+    }
+    @GetMapping(value = "/artifactsBook/{id}")
+    public String runeBook(@PathVariable("id") long id, Model model){
+        User user=userRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Artifact artifact = artifactRepository.findFirstByIdArtifact(new ArtifactId(user,id));
+        model.addAttribute("artifact",artifact);
+        return "/html/artifactsBook";
     }
 }

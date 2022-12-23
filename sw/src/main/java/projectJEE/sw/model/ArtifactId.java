@@ -42,6 +42,14 @@ public class ArtifactId  implements Serializable {
         this.idArtifact = idRune;
     }
 
+    public Long getIdArtifact() {
+        return idArtifact;
+    }
+
+    public void setIdArtifact(Long idArtifact) {
+        this.idArtifact = idArtifact;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

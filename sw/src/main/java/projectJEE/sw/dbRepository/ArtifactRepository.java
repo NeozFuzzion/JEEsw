@@ -13,6 +13,8 @@ import java.util.List;
 
 @Repository
 public interface ArtifactRepository extends JpaRepository<Artifact, ArtifactId> {
+
+    Artifact findFirstByIdArtifact(ArtifactId id);
     @Query("select a from Artifact a where a.jSON=:jsonChosen and user_id=:user order by efficiency desc")
     List<Artifact> findAllByOrderByEfficiencyDesc(@Param("jsonChosen") String jsonChosen, @Param("user") User user);
 
