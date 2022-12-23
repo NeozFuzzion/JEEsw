@@ -453,6 +453,11 @@ body {
     grid-gap: 10px;
 }
 
+.runes-display div a,
+.artifacts-display div a {
+    text-decoration: none;
+}
+
 .rune, .artifact {
     display: flex;
     background-color: #13181e;
@@ -815,6 +820,44 @@ footer p {
     scale : 90%;
 }
 
+.book-div {
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.book-slot-image {
+    margin: 0px auto 15px auto;
+    width: 100px;
+    height: 100px;
+}
+
+.book-image-div,
+.book-type-div {
+    width: inherit;
+    height: inherit;
+    display: flex;
+}
+
+.book-image-div img {
+    scale: 70%;
+    margin: auto;
+}
+
+.book-type-div img {
+    scale: 40%;
+    margin: auto;
+}
+
+.book-table tr td div p{
+    color: #FFFFFF;
+}
+
+.rune-stat-left div,
+.artefact-stat-left div {
+    text-align: right;
+}
 .accueil-image{
     width: 150px;
     height: 150px;
@@ -831,18 +874,19 @@ footer p {
     border: none;
 }
 
-.accueil-login ,.accueil-bestiary ,.accueil-register {
+.welcome, .accueil-login ,.accueil-bestiary ,.accueil-register {
     display: flex;
     flex-direction: column;
     margin: 0px auto;
-
+    background-color: #13181e;
 }
 
-.welcome, .accueil-login a,.accueil-bestiary a,.accueil-register a{
+ .accueil-login a,.accueil-bestiary a,.accueil-register a{
     display: flex;
     flex-direction: column;
     margin: 0px auto;
     text-decoration: none;
+    background-color: #13181e;
 }
 
 .welcome p, .accueil-login a p,.accueil-bestiary a p,.accueil-register a p{
@@ -858,5 +902,12 @@ footer p {
     margin:50px 1em;
 }
 
+.accueil-grid img {
+    padding: 15px;
+}
+
+.bestiary-monster-runes a{
+    text-decoration: none;
+}
 
 
