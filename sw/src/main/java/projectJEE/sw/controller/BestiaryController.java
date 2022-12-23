@@ -75,4 +75,19 @@ public class BestiaryController{
 
         return "/html/bestiary";
     }
+
+    @GetMapping("/bestiary")
+    public String gameMonsters(Model model) {
+
+        model.addAttribute("nat5",gameMonsterRepository.findAllNatural5Monsters());
+        model.addAttribute("nat4",gameMonsterRepository.findAllNatural4Monsters());
+        model.addAttribute("nat3",gameMonsterRepository.findAllNatural3Monsters());
+        model.addAttribute("a2",gameMonsterRepository.findAllNatural2AMonsters());
+        model.addAttribute("nat2",gameMonsterRepository.findAllNatural2Monsters());
+        model.addAttribute("nat1",gameMonsterRepository.findAllNatural1Monsters());
+
+        model.addAttribute("isConnected", (SecurityContextHolder.getContext().getAuthentication().getName() != null));
+
+        return "/html/abon";
+    }
 }

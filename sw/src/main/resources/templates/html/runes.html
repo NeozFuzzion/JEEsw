@@ -41,8 +41,8 @@
   </div>
 
   </div>
-  <th:block th:if="${data}">
-    <div class="content">
+  <div class="content">
+    <th:block th:if="${data}">
       <div class="graph-efficiency">
         <div class="graph-parameters">
           <div class="graph-json-select">
@@ -129,11 +129,13 @@
           </a>
         </div>
       </div>
-    </div>
-  </th:block>
-  <th:block th:unless="${data}">
+    </th:block>
+    <th:block th:unless="${data}">
     <p>Go farmer-la tu troll</p>
   </th:block>
+  </div>
+
+
   <footer>
     <div>
       <p>DURANTEAU Damien - LANTA Axel - OUTREBON Edouard</p>
