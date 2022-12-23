@@ -28,9 +28,12 @@ public class RegisterController {
 
     @GetMapping("/register")
     public String register(Model model){
-        model.addAttribute("user", new UserForm());
 
-        return ("registration");
+        if(SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser")){
+            model.addAttribute("user", new UserForm());
+            return ("registration");
+        }
+        return "redirect:/";
     }
 
     @PostMapping("/register")

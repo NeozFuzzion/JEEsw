@@ -815,3 +815,48 @@ footer p {
     scale : 90%;
 }
 
+.accueil-image{
+    width: 150px;
+    height: 150px;
+
+}
+
+.accueil-lien{
+    font-size: 20px;
+    margin: 10px auto;
+    height: 40px;
+    cursor: pointer;
+    background-color: #13181e;
+    color: #FFFFFF;
+    border: none;
+}
+
+.accueil-login ,.accueil-bestiary ,.accueil-register {
+    display: flex;
+    flex-direction: column;
+    margin: 0px auto;
+
+}
+
+.welcome, .accueil-login a,.accueil-bestiary a,.accueil-register a{
+    display: flex;
+    flex-direction: column;
+    margin: 0px auto;
+    text-decoration: none;
+}
+
+.welcome p, .accueil-login a p,.accueil-bestiary a p,.accueil-register a p{
+    margin: 0px auto;
+
+}
+
+.accueil-grid{
+    display:grid;
+    grid-template-columns: repeat(2,50%);
+    grid-auto-rows: 200px;
+    grid-gap:25px;
+    margin:50px 1em;
+}
+
+
+
