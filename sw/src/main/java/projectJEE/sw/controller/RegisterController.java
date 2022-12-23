@@ -44,7 +44,7 @@ public class RegisterController {
             user.setCreation_user(Date.from(Instant.now()));
             user.setPassword(passwordEncoder.encode(userForm.getPassword()));
             user.setRole("SUMMONER");
-            userRepository.save(user);System.out.println(userForm.getConfirmPassword());
+            userRepository.save(user);
             request.login(userForm.getUsername(), userForm.getPassword());
             return ("/index");
         }

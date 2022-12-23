@@ -30,18 +30,21 @@ public class ArtifactsController {
     public String artifacts(Model model) {
         User user=userRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         List<String> jsons =artifactRepository.findAllJson(user);
-        List<Artifact> artifacts = artifactRepository.findAllByOrderByEfficiencyDesc(jsons.get(0));
-        float[] efficiency = new float[200];
-        int i=0;
-        Iterator<Artifact> it = artifacts.iterator();
-        while(it.hasNext() && i<200){
-            Artifact artifact = it.next();
-            efficiency[i] = artifact.getEfficiency();
-            i++;
+        if(!jsons.isEmpty()) {
+            List<Artifact> artifacts = artifactRepository.findAllByOrderByEfficiencyDesc(jsons.get(0));
+            float[] efficiency = new float[200];
+            int i = 0;
+            Iterator<Artifact> it = artifacts.iterator();
+            while (it.hasNext() && i < 200) {
+                Artifact artifact = it.next();
+                efficiency[i] = artifact.getEfficiency();
+                i++;
+            }
+            model.addAttribute("jsons", jsons);
+            model.addAttribute("artifacts", artifacts);
+            model.addAttribute("eff", efficiency);
         }
-        model.addAttribute("jsons",jsons);
-        model.addAttribute("artifacts",artifacts);
-        model.addAttribute("eff",efficiency);
+        model.addAttribute("data",!jsons.isEmpty());
         return "/html/artifacts";
     }
 

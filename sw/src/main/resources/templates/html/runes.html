@@ -41,128 +41,132 @@
   </div>
 
   </div>
-  <div class="content">
-    <div class="graph-efficiency">
-      <div class="graph-parameters">
-        <div class="graph-json-select">
-          <select name="jsonChosen" id="jsonChosen">
-            <option disabled selected>Choose a json</option>
-            <option th:each="json : ${jsons}" th:value="${json}" th:text="${json}"></option>
-          </select>
-        </div>
-        <div class="graph-range">
-          <div class="range-inputs">
-            <input type="range" name="nbRunes" id="nbRunes" value="400" min="50" max="1000" step="50">
-            <input type="text" id="rangeVal" disabled>
+  <th:block th:if="${data}">
+    <div class="content">
+      <div class="graph-efficiency">
+        <div class="graph-parameters">
+          <div class="graph-json-select">
+            <select name="jsonChosen" id="jsonChosen">
+              <option disabled selected>Choose a json</option>
+              <option th:each="json : ${jsons}" th:value="${json}" th:text="${json}"></option>
+            </select>
           </div>
-        </div>
-        <div class="graph-set-select">
-          <select name="runeSet" id="runeSet">
-            <option disabled selected>Select a rune set</option>
-            <option value="0">All Runes</option>
-            <option value="1">Energy</option>
-            <option value="2">Guard</option>
-            <option value="3">Swift</option>
-            <option value="4">Blade</option>
-            <option value="5">Rage</option>
-            <option value="6">Focus</option>
-            <option value="7">Endure</option>
-            <option value="8">Fatal</option>
-            <option value="10">Despair</option>
-            <option value="11">Vampire</option>
-            <option value="13">Violent</option>
-            <option value="14">Nemesis</option>
-            <option value="15">Will</option>
-            <option value="16">Shield</option>
-            <option value="17">Revenge</option>
-            <option value="18">Destroy</option>
-            <option value="19">Fight</option>
-            <option value="20">Determination</option>
-            <option value="21">Enhance</option>
-            <option value="22">Accuracy</option>
-            <option value="23">Tolerance</option>
-          </select>
-        </div>
-        <div class="graph-ancient-select">
-          <select name="ancient" id="ancient">
-            <option value="0">Include all</option>
-            <option value="1">No ancient</option>
-            <option value="2">Only ancient</option>
-          </select>
+          <div class="graph-range">
+            <div class="range-inputs">
+              <input type="range" name="nbRunes" id="nbRunes" value="400" min="50" max="1000" step="50">
+              <input type="text" id="rangeVal" disabled>
+            </div>
+          </div>
+          <div class="graph-set-select">
+            <select name="runeSet" id="runeSet">
+              <option disabled selected>Select a rune set</option>
+              <option value="0">All Runes</option>
+              <option value="1">Energy</option>
+              <option value="2">Guard</option>
+              <option value="3">Swift</option>
+              <option value="4">Blade</option>
+              <option value="5">Rage</option>
+              <option value="6">Focus</option>
+              <option value="7">Endure</option>
+              <option value="8">Fatal</option>
+              <option value="10">Despair</option>
+              <option value="11">Vampire</option>
+              <option value="13">Violent</option>
+              <option value="14">Nemesis</option>
+              <option value="15">Will</option>
+              <option value="16">Shield</option>
+              <option value="17">Revenge</option>
+              <option value="18">Destroy</option>
+              <option value="19">Fight</option>
+              <option value="20">Determination</option>
+              <option value="21">Enhance</option>
+              <option value="22">Accuracy</option>
+              <option value="23">Tolerance</option>
+            </select>
+          </div>
+          <div class="graph-ancient-select">
+            <select name="ancient" id="ancient">
+              <option value="0">Include all</option>
+              <option value="1">No ancient</option>
+              <option value="2">Only ancient</option>
+            </select>
+          </div>
+
+          <button id="submit-runes-filters" onclick="sortRune()">Submit</button>
+
         </div>
 
-        <button id="submit-runes-filters" onclick="sortRune()">Submit</button>
+        <canvas id="myChart" style="width:100%;max-width:1000px;max-height:500px"></canvas>
 
       </div>
 
-      <canvas id="myChart" style="width:100%;max-width:1000px;max-height:500px"></canvas>
+      <script th:inline="javascript">
+        createChart([[${eff}]],[[${effMaxHero}]],[[${effMaxLegend}]],400,[[${jsons[0]}]]);
+      </script>
 
-    </div>
-
-    <script th:inline="javascript">
-      createChart([[${eff}]],[[${effMaxHero}]],[[${effMaxLegend}]],400,[[${jsons[0]}]]);
-    </script>
-
-    <div class="runes-display">
-      <div th:each="rune : ${runes}">
-        <div th:id="${rune.set_id}" class="rune">
-          <div class="rune-slot-image">
-            <p class="rune-slot" th:text="${rune.slot_no}"></p>
-            <p class="rune-rang" th:text="${rune.rang}"></p>
-            <div class="rune-image-div">
-              <img class="rune-image" src="">
+      <div class="runes-display">
+        <div th:each="rune : ${runes}">
+          <div th:id="${rune.set_id}" class="rune">
+            <div class="rune-slot-image">
+              <p class="rune-slot" th:text="${rune.slot_no}"></p>
+              <p class="rune-rang" th:text="${rune.rang}"></p>
+              <div class="rune-image-div">
+                <img class="rune-image" src="">
+              </div>
+              <div class="rune-type-div">
+                <img class="rune-type" th:src="'/images/runes/'+${rune.set_id.image}">
+              </div>
+              <p class="rune-upgrade" th:text="'+'+${rune.upgrade_curr}"></p>
             </div>
-            <div class="rune-type-div">
-              <img class="rune-type" th:src="'/images/runes/'+${rune.set_id.image}">
+            <div class="rune-infos">
+              <p th:text="${rune.pri} + ' ' + ${rune.statPri.name}"></p>
+  <!--            <p th:text="${rune.occupied_type}"></p>-->
+              <p th:if="${rune.innate}!=null" th:text="${rune?.innate} + ' ' +${rune?.statInnate?.name} "></p>
             </div>
-            <p class="rune-upgrade" th:text="'+'+${rune.upgrade_curr}"></p>
-          </div>
-          <div class="rune-infos">
-            <p th:text="${rune.pri} + ' ' + ${rune.statPri.name}"></p>
-<!--            <p th:text="${rune.occupied_type}"></p>-->
-            <p th:if="${rune.innate}!=null" th:text="${rune?.innate} + ' ' +${rune?.statInnate?.name} "></p>
           </div>
         </div>
       </div>
+
+  <!--    <table>-->
+  <!--      <tbody>-->
+  <!--      <tr th:each="rune : ${runes}">-->
+  <!--        <td><p th:text="${rune.set_id} "></p></td>-->
+  <!--        <td><p th:text="${rune.slot_no} "></p></td>-->
+  <!--        <td><p th:text="${rune.rang} "></p></td>-->
+  <!--        <td><p th:text="${rune.classe} "></p></td>-->
+  <!--        <td><p th:text="${rune.upgrade_curr} "></p></td>-->
+  <!--        <td><p  th:text="${rune.pri} + ' ' + ${rune.statPri.name}"></p></td>-->
+  <!--        <td>-->
+  <!--          <p th:if="${rune.innate}!=null" th:text="${rune?.innate} + ' ' +${rune?.statInnate?.name} "></p>-->
+  <!--          <p th:unless="${rune.innate}!=null" >0</p>-->
+  <!--        </td>-->
+  <!--        <td>-->
+  <!--          <p th:if="${rune.subStat1}!=null" th:text="${rune.subStat1Value} "></p>-->
+  <!--          <p th:unless="${rune.subStat1}!=null" >0</p>-->
+  <!--        </td>-->
+  <!--        <td>-->
+  <!--          <p th:if="${rune.subStat2}!=null" th:text="${rune.subStat2Value} "></p>-->
+  <!--          <p th:unless="${rune.subStat2}!=null" >0</p>-->
+  <!--        </td>-->
+  <!--        <td>-->
+  <!--          <p th:if="${rune.subStat3}!=null" th:text="${rune.subStat3Value} "></p>-->
+  <!--          <p th:unless="${rune.subStat3}!=null" >0</p>-->
+  <!--        </td>-->
+  <!--        <td>-->
+  <!--          <p th:if="${rune.subStat4}!=null" th:text="${rune.subStat4Value} "></p>-->
+  <!--          <p th:unless="${rune.subStat4}!=null" >0</p>-->
+  <!--        </td>-->
+  <!--       <td>-->
+  <!--          <p th:text="${rune.efficiency} "></p>-->
+  <!--       </td>-->
+  <!--      </tr>-->
+  <!--      </tbody>-->
+  <!--    </table>-->
     </div>
-
-<!--    <table>-->
-<!--      <tbody>-->
-<!--      <tr th:each="rune : ${runes}">-->
-<!--        <td><p th:text="${rune.set_id} "></p></td>-->
-<!--        <td><p th:text="${rune.slot_no} "></p></td>-->
-<!--        <td><p th:text="${rune.rang} "></p></td>-->
-<!--        <td><p th:text="${rune.classe} "></p></td>-->
-<!--        <td><p th:text="${rune.upgrade_curr} "></p></td>-->
-<!--        <td><p  th:text="${rune.pri} + ' ' + ${rune.statPri.name}"></p></td>-->
-<!--        <td>-->
-<!--          <p th:if="${rune.innate}!=null" th:text="${rune?.innate} + ' ' +${rune?.statInnate?.name} "></p>-->
-<!--          <p th:unless="${rune.innate}!=null" >0</p>-->
-<!--        </td>-->
-<!--        <td>-->
-<!--          <p th:if="${rune.subStat1}!=null" th:text="${rune.subStat1Value} "></p>-->
-<!--          <p th:unless="${rune.subStat1}!=null" >0</p>-->
-<!--        </td>-->
-<!--        <td>-->
-<!--          <p th:if="${rune.subStat2}!=null" th:text="${rune.subStat2Value} "></p>-->
-<!--          <p th:unless="${rune.subStat2}!=null" >0</p>-->
-<!--        </td>-->
-<!--        <td>-->
-<!--          <p th:if="${rune.subStat3}!=null" th:text="${rune.subStat3Value} "></p>-->
-<!--          <p th:unless="${rune.subStat3}!=null" >0</p>-->
-<!--        </td>-->
-<!--        <td>-->
-<!--          <p th:if="${rune.subStat4}!=null" th:text="${rune.subStat4Value} "></p>-->
-<!--          <p th:unless="${rune.subStat4}!=null" >0</p>-->
-<!--        </td>-->
-<!--       <td>-->
-<!--          <p th:text="${rune.efficiency} "></p>-->
-<!--       </td>-->
-<!--      </tr>-->
-<!--      </tbody>-->
-<!--    </table>-->
-  </div>
-
+  </th:block>
+  <th:block th:unless="${data}">
+    <p>Go farmer-la tu troll</p>
+  </th:block>
   <footer>
     <div>
       <p>DURANTEAU Damien - LANTA Axel - OUTREBON Edouard</p>

@@ -39,54 +39,58 @@
             </div>
         </div>
     </div>
-    <div class="graph-efficiency">
-        <div class="graph-parameters">
-            <div class="graph-json-select">
-                <select name="jsonChosen" id="jsonChosen">
-                    <option disabled selected>Choose a json</option>
-                    <option th:each="json : ${jsons}" th:value="${json}" th:text="${json}"></option>
-                </select>
-            </div>
-            <div class="graph-range">
-                <div class="range-inputs">
-                    <input type="range" name="nbArtifacts" id="nbArtifacts" value="200" min="50" max="1000" step="50">
-                    <input type="text" id="rangeVal" disabled>
+    <th:block th:if="${data}">
+        <div class="graph-efficiency">
+            <div class="graph-parameters">
+                <div class="graph-json-select">
+                    <select name="jsonChosen" id="jsonChosen">
+                        <option disabled selected>Choose a json</option>
+                        <option th:each="json : ${jsons}" th:value="${json}" th:text="${json}"></option>
+                    </select>
                 </div>
-            </div>
-            <div class="graph-set-select">
-                <select name="artifactType" id="artifactType">
-                    <option disabled selected>Select an artifact type</option>
-                    <option value="all">All artifacts</option>
-                    <option value="allAttributes">All attribute artifacts</option>
-                    <option value="allArchetypes">All archetype artifacts</option>
-                    <optgroup label="Attribute">
-                        <option value="Fire">Fire</option>
-                        <option value="Water">Water</option>
-                        <option value="Wind">Wind</option>
-                        <option value="Dark">Dark</option>
-                        <option value="Light">Light</option>
-                    </optgroup>
-                    <optgroup label="Archetype">
-                        <option value="Attack">Attack</option>
-                        <option value="Defense">Defense</option>
-                        <option value="HP">HP</option>
-                        <option value="Support">Support</option>
-                    </optgroup>
-                </select>
+                <div class="graph-range">
+                    <div class="range-inputs">
+                        <input type="range" name="nbArtifacts" id="nbArtifacts" value="200" min="50" max="1000" step="50">
+                        <input type="text" id="rangeVal" disabled>
+                    </div>
+                </div>
+                <div class="graph-set-select">
+                    <select name="artifactType" id="artifactType">
+                        <option disabled selected>Select an artifact type</option>
+                        <option value="all">All artifacts</option>
+                        <option value="allAttributes">All attribute artifacts</option>
+                        <option value="allArchetypes">All archetype artifacts</option>
+                        <optgroup label="Attribute">
+                            <option value="Fire">Fire</option>
+                            <option value="Water">Water</option>
+                            <option value="Wind">Wind</option>
+                            <option value="Dark">Dark</option>
+                            <option value="Light">Light</option>
+                        </optgroup>
+                        <optgroup label="Archetype">
+                            <option value="Attack">Attack</option>
+                            <option value="Defense">Defense</option>
+                            <option value="HP">HP</option>
+                            <option value="Support">Support</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <button id="submit-runes-filters" onclick="sortArtifact()">Submit</button>
+
             </div>
 
-            <button id="submit-runes-filters" onclick="sortArtifact()">Submit</button>
+            <canvas id="myChart" style="width:100%;max-width:1000px;max-height:500px"></canvas>
 
         </div>
 
-        <canvas id="myChart" style="width:100%;max-width:1000px;max-height:500px"></canvas>
-
-    </div>
-
-    <script th:inline="javascript">
-        createChart([[${eff}]],200,[[${jsons[0]}]]);
-    </script>
-
+        <script th:inline="javascript">
+            createChart([[${eff}]],200,[[${jsons[0]}]]);
+        </script>
+    </th:block>
+    <th:block th:unless="${data}">
+        <p>Go farmer-la tu troll</p>
+    </th:block>
 
     <footer>
         <div>

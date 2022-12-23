@@ -38,39 +38,42 @@ public class RuneController {
     public String runes(Model model) {
         User user=userRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         List<String> jsons=runeRepository.findAllJson(user);
-        String json1 = jsons.get(0);
-        List<Rune> runes = runeRepository.findAll(Sort.by("efficiency").descending(),json1);
-        List<Rune> runes2 = runeRepository.findAll(Sort.by("effMaxHero").descending(),json1);
-        List<Rune> runes3 = runeRepository.findAll(Sort.by("effMaxLegend").descending(),json1);
-        float[] efficiency = new float[400];
-        float[] effMaxHero = new float[400];
-        float[] effMaxLegend = new float[400];
-        int i=0;
-        Iterator<Rune> it = runes.iterator();
-        while(it.hasNext() && i<400){
-            Rune rune = it.next();
-            efficiency[i] = rune.getEfficiency();
-            i++;
+        if(!jsons.isEmpty()) {
+            String json1 = jsons.get(0);
+            List<Rune> runes = runeRepository.findAll(Sort.by("efficiency").descending(),json1);
+            List<Rune> runes2 = runeRepository.findAll(Sort.by("effMaxHero").descending(),json1);
+            List<Rune> runes3 = runeRepository.findAll(Sort.by("effMaxLegend").descending(),json1);
+            float[] efficiency = new float[400];
+            float[] effMaxHero = new float[400];
+            float[] effMaxLegend = new float[400];
+            int i=0;
+            Iterator<Rune> it = runes.iterator();
+            while(it.hasNext() && i<400){
+                Rune rune = it.next();
+                efficiency[i] = rune.getEfficiency();
+                i++;
+            }
+            Iterator<Rune> it2 = runes2.iterator();
+            int j =0;
+            while(it2.hasNext() && j<400){
+                Rune rune = it2.next();
+                effMaxHero[j] = rune.getEffMaxHero();
+                j++;
+            }
+            Iterator<Rune> it3 = runes3.iterator();
+            int k=0;
+            while(it3.hasNext() && k<400){
+                Rune rune = it3.next();
+                effMaxLegend[k] = rune.getEffMaxLegend();
+                k++;
+            }
+            model.addAttribute("jsons",jsons);
+            model.addAttribute("runes",runes);
+            model.addAttribute("eff",efficiency);
+            model.addAttribute("effMaxHero",effMaxHero);
+            model.addAttribute("effMaxLegend",effMaxLegend);
         }
-        Iterator<Rune> it2 = runes2.iterator();
-        int j =0;
-        while(it2.hasNext() && j<400){
-            Rune rune = it2.next();
-            effMaxHero[j] = rune.getEffMaxHero();
-            j++;
-        }
-        Iterator<Rune> it3 = runes3.iterator();
-        int k=0;
-        while(it3.hasNext() && k<400){
-            Rune rune = it3.next();
-            effMaxLegend[k] = rune.getEffMaxLegend();
-            k++;
-        }
-        model.addAttribute("jsons",jsons);
-        model.addAttribute("runes",runes);
-        model.addAttribute("eff",efficiency);
-        model.addAttribute("effMaxHero",effMaxHero);
-        model.addAttribute("effMaxLegend",effMaxLegend);
+        model.addAttribute("data",!jsons.isEmpty());
         return "/html/runes";
 
     }
