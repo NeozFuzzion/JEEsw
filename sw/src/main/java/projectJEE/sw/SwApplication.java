@@ -1,23 +1,13 @@
 package projectJEE.sw;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import projectJEE.sw.dbEntity.*;
-import projectJEE.sw.dbRepository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
-import java.io.*;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.util.*;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import projectJEE.sw.dbRepository.*;
 
 @SpringBootApplication
 public class SwApplication {

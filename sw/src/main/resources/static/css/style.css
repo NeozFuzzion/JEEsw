@@ -38,6 +38,7 @@ body {
     left: 0;
     bottom: 0;
     display: flex;
+    z-index: 20;
 }
 
 .left-side {
@@ -339,6 +340,7 @@ body {
     flex-direction: column;
 }
 
+.graph-json-select,
 .graph-set-select,
 .graph-ancient-select {
     margin: 5px auto;
@@ -346,6 +348,7 @@ body {
     display: flex;
 }
 
+.graph-json-select select,
 .graph-set-select select,
 .graph-ancient-select select {
     font-size: 16px;
@@ -385,7 +388,7 @@ body {
 }
 
 #submit-runes-filters {
-    font-size: 20px;
+    font-size: 18px;
     margin: 5px auto;
     color: #FFFFFF;
     height: 40px;
@@ -524,38 +527,50 @@ body {
 
 .login-infos {
     margin: 150px auto 0px auto;
-}
-
-.login-infos form div label {
+    width: 200px;
     display: flex;
     flex-direction: column;
 }
 
-.login-infos form input[type="text"], .login-infos form input[type="password"]{
-    border: 1px solid #d3af65;
+.login-infos form input[type="text"], .login-infos form input[type="password"] {
     background-color: rgba(255, 255, 255, 0.25);
+    border: 1px solid #20252b;
     height: 25px;
+    width: 100%;
     color: #FFFFFF;
+    margin: 5px auto 10px auto;
+    width: 100%;
 }
 
-.login-infos form input[type="text"] {
-    margin: 5px auto 25px auto;
+.login-infos form input[type="text"]:focus, .login-infos form input[type="password"]:focus {
+    border: 1px solid #d3af65;
 }
 
-
-.login-infos form input[type="password"] {
-    margin: 5px auto 50px auto;
+.message {
+    margin: 15px auto 0px auto;
+    display: flex;
 }
 
-.login-infos form input[type="submit"]{
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 5px;
-    background-color: #13181e;
-    width: 75px;
-    height: 25px;
-    color: #FFFFFF;
-    text-align: center;
+.message p {
     margin: 0px auto;
+    color: #dc143c;
+    font-size: 15px;
+    width: auto;
+}
+
+.submit-log-in {
+    width: inherit;
+}
+
+.submit-log-in input[type="submit"]{
+    font-size: 18px;
+    margin: 25px auto;
+    color: #FFFFFF;
+    height: 40px;
+    background-color: #13181e;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
 }
 
 footer {

@@ -37,6 +37,9 @@ public class MonstersController {
         model.addAttribute("a2",gameMonsterRepository.findAllNatural2AMonsters());
         model.addAttribute("nat2",gameMonsterRepository.findAllNatural2Monsters());
         model.addAttribute("nat1",gameMonsterRepository.findAllNatural1Monsters());
+
+        model.addAttribute("isConnected", (SecurityContextHolder.getContext().getAuthentication().getName() != null));
+
         return "/html/abon";
     }
 
@@ -48,6 +51,8 @@ public class MonstersController {
         model.addAttribute("nat5",monsterRepository.findAllNatural5Monsters(user));
         model.addAttribute("nat4",monsterRepository.findAllNatural4Monsters(user));
         model.addAttribute("a2",monsterRepository.findAllNatural2AMonsters(user));
+
+        model.addAttribute("isConnected", (SecurityContextHolder.getContext().getAuthentication().getName() != null));
 
         return "/html/monsters";
     }

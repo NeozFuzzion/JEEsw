@@ -3,6 +3,7 @@
   <meta charset="UTF-8">
   <title>Titre</title>
   <link rel="stylesheet" href="/css/style.css">
+  <script type="text/javascript" src="/js/functions.js"></script>
 </head>
 <body>
   <!--  <div class="sub-title">-->
@@ -19,7 +20,6 @@
       <a class="button upload-button" href="/uploadJSON"><button><ion-icon name="cloud-upload-outline"></ion-icon></button></a>
       <div class="bottom-left">
         <a class="button log-in-button" href="/login"><button><ion-icon name="log-in-outline"></ion-icon></button></a>
-        <a class="button log-out-button" href="/logout"><button><ion-icon name="log-out-outline"></ion-icon></button></a>
         <a class="button register-button a_page" href="/register"><button><ion-icon name="person-add-outline"></ion-icon></button></a>
       </div>
     </div>
@@ -32,7 +32,6 @@
       <a class="button upload-button" href="/uploadJSON"><button><p>Upload</p></button></a>
       <div class="bottom-right">
         <a class="button log-in-button" href="/login"><button><p>Connexion</p></button></a>
-        <a class="button log-out-button" href="/logout"><button><p>Déconnexion</p></button></a>
         <a class="button register-button a_page" href="/register"><button><p>Inscription</p></button></a>
       </div>
     </div>
@@ -62,7 +61,7 @@
           <p th:if="${#fields.hasErrors('confirmPassword')}"
              th:text="${#strings.listJoin(#fields.errors('confirmPassword'), ', ')}"></p>
         </div>
-        <input type="submit" value="Register">
+        <div class="submit-log-in"><input type="submit" value="Register"></div>
       </form>
     </div>
   </div>
@@ -74,5 +73,7 @@
     </div>
   </footer>
 
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

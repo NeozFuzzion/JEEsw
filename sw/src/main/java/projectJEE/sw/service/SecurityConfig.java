@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .hasAuthority("SUMMONER").anyRequest()
                 .permitAll().and()
                 .formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll().and()
+                .logout().logoutSuccessUrl("/").and()
                 .logout().permitAll();
         return http.build();
     }
