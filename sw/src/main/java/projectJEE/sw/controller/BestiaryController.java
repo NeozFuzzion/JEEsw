@@ -36,12 +36,15 @@ public class BestiaryController{
 
     @Autowired
     UserRepository userRepository;
+
     @GetMapping(value = "/bestiary/{id}")
     public String bestiary(@PathVariable("id") long id, Model model) throws ParseException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
         User user=userRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
         GameMonster monster =gameMonsterRepository.findFirstByIdMonster(id);
+
+        List<Monster> monsterList = monsterRepository.findAllMonstersUser(user,id);
 
         Skill[] skills = {monster.getS1(),monster.getS2(),monster.getS3(),monster.getS4()};
         JSONParser jsonP = new JSONParser();
@@ -70,7 +73,7 @@ public class BestiaryController{
                 model.addAttribute("ups"+ (i+1),up);
             }
         }
-
+        model.addAttribute("monsters",monsterList);
         model.addAttribute("monster",monster);
 
         return "/html/bestiary";
