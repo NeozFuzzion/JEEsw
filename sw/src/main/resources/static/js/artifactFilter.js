@@ -85,6 +85,7 @@ function displayArtifacts(artifacts){
     artifacts.forEach(artifact => {
         let str="";
         str+= "<div>" +
+            "<a href='/artifactsBook/"+artifact['idArtifact']+"'>"+
             "         <div class=\"artifact\" >" +
             "           <div class=\"artifact-type-image\">" +
             "               <p class=\"artifact-type\" >"+artifact['type']+"</p>" +
@@ -101,6 +102,7 @@ function displayArtifacts(artifacts){
             "                  <p>"+artifact['pri'] + " " + artifact['statPri']+"</p>" +
             "                </div>" +
             "              </div>" +
+            "</a>"+
             "           </div>";
         div.append(str);
     })

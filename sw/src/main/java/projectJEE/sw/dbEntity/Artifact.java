@@ -321,6 +321,7 @@ public class Artifact {
     }
     public JSONObject toJSON(){
         JSONObject json = new JSONObject();
+        json.put("idArtifact",idArtifact.getIdArtifact());
         json.put("type",type);
         json.put("rang",rang);
         json.put("restriction",restriction);
