@@ -40,7 +40,7 @@ public class MonstersController {
             model.addAttribute("nat4", monsterRepository.findAllNatural4Monsters(user, jsons.get(0)));
             model.addAttribute("a2", monsterRepository.findAllNatural2AMonsters(user, jsons.get(0)));
 
-            model.addAttribute("isConnected", (SecurityContextHolder.getContext().getAuthentication().getName() != null));
+            model.addAttribute("isConnected", !SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser"));
             model.addAttribute("jsons", jsons);
         }
         model.addAttribute("data",!jsons.isEmpty());

@@ -71,6 +71,7 @@ public class BestiaryController{
                 model.addAttribute("ups"+ (i+1),up);
             }
         }
+        model.addAttribute("isConnected", !SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser"));
         model.addAttribute("monsters",monsterList);
         model.addAttribute("monster",monster);
 
@@ -87,7 +88,7 @@ public class BestiaryController{
         model.addAttribute("nat2",gameMonsterRepository.findAllNatural2Monsters());
         model.addAttribute("nat1",gameMonsterRepository.findAllNatural1Monsters());
 
-        model.addAttribute("isConnected", (SecurityContextHolder.getContext().getAuthentication().getName() != null));
+        model.addAttribute("isConnected", !SecurityContextHolder.getContext().getAuthentication().getName().equals("anonymousUser"));
 
         return "/html/bestiary";
     }
