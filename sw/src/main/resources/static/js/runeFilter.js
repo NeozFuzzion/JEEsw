@@ -13,11 +13,11 @@ function sortRune(){
             nbRunes:$("#nbRunes").val()
         },
         function(data,status){
-            createChart(data.efficiency,data.effMaxHero,data.effMaxLegend,data.totalRunes);
+            createChart(data.efficiency,data.effMaxHero,data.effMaxLegend,data.totalRunes,data.jsonToUse);
         }
     )
 }
-function createChart(eff,effMaxHero,effMaxLegend,nbRunes){
+function createChart(eff,effMaxHero,effMaxLegend,nbRunes,jsonToUse){
     let chartStatus = Chart.getChart("myChart");
     if (chartStatus != undefined) {
         chartStatus.destroy();
@@ -60,7 +60,7 @@ function createChart(eff,effMaxHero,effMaxLegend,nbRunes){
             plugins: {
                 title: {
                     display: true,
-                    text: 'Efficiency - '+ nbRunes +' first Runes'
+                    text: 'Efficiency - '+ nbRunes +' first Runes from ' + jsonToUse
                 },
                 legend: {
                     position: 'bottom'

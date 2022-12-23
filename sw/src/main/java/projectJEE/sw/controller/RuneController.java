@@ -37,9 +37,11 @@ public class RuneController {
     @GetMapping("/runes")
     public String runes(Model model) {
         User user=userRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        List<Rune> runes = runeRepository.findAll(Sort.by("efficiency").descending());
-        List<Rune> runes2 = runeRepository.findAll(Sort.by("effMaxHero").descending());
-        List<Rune> runes3 = runeRepository.findAll(Sort.by("effMaxLegend").descending());
+        List<String> jsons=runeRepository.findAllJson(user);
+        String json1 = jsons.get(0);
+        List<Rune> runes = runeRepository.findAll(Sort.by("efficiency").descending(),json1);
+        List<Rune> runes2 = runeRepository.findAll(Sort.by("effMaxHero").descending(),json1);
+        List<Rune> runes3 = runeRepository.findAll(Sort.by("effMaxLegend").descending(),json1);
         float[] efficiency = new float[400];
         float[] effMaxHero = new float[400];
         float[] effMaxLegend = new float[400];
@@ -64,7 +66,7 @@ public class RuneController {
             effMaxLegend[k] = rune.getEffMaxLegend();
             k++;
         }
-        model.addAttribute("jsons",runeRepository.findAllJson(user));
+        model.addAttribute("jsons",jsons);
         model.addAttribute("runes",runes);
         model.addAttribute("eff",efficiency);
         model.addAttribute("effMaxHero",effMaxHero);
@@ -126,6 +128,7 @@ public class RuneController {
             effMaxLegend[k] = rune.getEffMaxLegend();
             k++;
         }
+        filter.put("jsonToUse",jsonChosen);
         filter.put("efficiency",efficiency);
         filter.put("effMaxHero",effMaxHero);
         filter.put("effMaxLegend",effMaxLegend);

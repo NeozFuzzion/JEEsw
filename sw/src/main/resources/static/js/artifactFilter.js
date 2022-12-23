@@ -6,15 +6,16 @@ $(function() {
 });
 function sortArtifact(){
     $.post("/artifacts/filter", {
+            jsonChosen:$("#jsonChosen").val(),
             artifactType:$("#artifactType").val(),
             nbArtifacts:$("#nbArtifacts").val()
         },
         function(data,status){
-            createChart(data.efficiency,data.totalArtifacts);
+            createChart(data.efficiency,data.totalArtifacts,data.jsonToUse);
         }
     )
 }
-function createChart(eff,nbArtifacts){
+function createChart(eff,nbArtifacts,jsonToUse){
     let chartStatus = Chart.getChart("myChart");
     if (chartStatus != undefined) {
         chartStatus.destroy();
@@ -41,7 +42,7 @@ function createChart(eff,nbArtifacts){
             plugins: {
                 title: {
                     display: true,
-                    text: 'Efficiency - '+ nbArtifacts +' first Artifacts'
+                    text: 'Efficiency - '+ nbArtifacts +' first Artifacts from ' + jsonToUse
                 },
                 legend: {
                     position: 'bottom'

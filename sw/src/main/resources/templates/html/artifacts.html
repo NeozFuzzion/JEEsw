@@ -45,6 +45,12 @@
     </div>
     <div class="graph-efficiency">
         <div class="graph-parameters">
+            <div class="graph-json-select">
+                <select name="jsonChosen" id="jsonChosen">
+                    <option disabled selected>Choose a json</option>
+                    <option th:each="json : ${jsons}" th:value="${json}" th:text="${json}"></option>
+                </select>
+            </div>
             <div class="graph-range">
                 <div class="range-inputs">
                     <input type="range" name="nbArtifacts" id="nbArtifacts" value="200" min="50" max="1000" step="50">
@@ -82,8 +88,9 @@
     </div>
 
     <script th:inline="javascript">
-        createChart([[${eff}]],200);
+        createChart([[${eff}]],200,[[${jsons[0]}]]);
     </script>
+
 
     <footer>
         <div>
