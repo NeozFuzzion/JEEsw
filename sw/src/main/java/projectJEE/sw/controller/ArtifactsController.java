@@ -31,7 +31,7 @@ public class ArtifactsController {
         User user=userRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         List<String> jsons =artifactRepository.findAllJson(user);
         if(!jsons.isEmpty()) {
-            List<Artifact> artifacts = artifactRepository.findAllByOrderByEfficiencyDesc(jsons.get(0));
+            List<Artifact> artifacts = artifactRepository.findAllByOrderByEfficiencyDesc(jsons.get(0),user);
             float[] efficiency = new float[200];
             int i = 0;
             Iterator<Artifact> it = artifacts.iterator();
@@ -50,16 +50,17 @@ public class ArtifactsController {
 
     @PostMapping("/artifacts/filter")
     public ResponseEntity<JSONObject> artifactFilter(@Param("jsonChosen") String jsonChosen,@Param("artifactType") String artifactType,@Param("nbArtifacts") int nbArtifacts){
+        User user=userRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         JSONObject filter = new JSONObject();
         List<Artifact> artifacts;
         if(artifactType.equals("all")){
-            artifacts=artifactRepository.findAllByOrderByEfficiencyDesc(jsonChosen);
+            artifacts=artifactRepository.findAllByOrderByEfficiencyDesc(jsonChosen,user);
         }else if(artifactType.equals("allAttributes")){
-            artifacts=artifactRepository.findAllByType("Attribute",jsonChosen);
+            artifacts=artifactRepository.findAllByType("Attribute",jsonChosen,user);
         }else if(artifactType.equals("allArchetypes")){
-                artifacts=artifactRepository.findAllByType("Archetype",jsonChosen);
+                artifacts=artifactRepository.findAllByType("Archetype",jsonChosen,user);
         }else{
-            artifacts=artifactRepository.findAllByRestriction(artifactType,jsonChosen);
+            artifacts=artifactRepository.findAllByRestriction(artifactType,jsonChosen,user);
         }
 
         Float[] efficiency = new Float[nbArtifacts];

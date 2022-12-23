@@ -15,20 +15,21 @@ import java.util.List;
 
 @Repository
 public interface RuneRepository extends JpaRepository<Rune, RuneId> {
-    @Query("select r from Rune r where r.jSON=:jsonChosen")
-    List<Rune> findAll(Sort sort,@Param("jsonChosen") String jsonChosen);
+    Rune findFirstByIdRune(RuneId id);
+    @Query("select r from Rune r where r.jSON=:jsonChosen and r.idRune.user=:user")
+    List<Rune> findAll(Sort sort,@Param("jsonChosen") String jsonChosen,@Param("user") User user);
 
-    @Query("select r from Rune r where r.jSON=:jsonChosen and r.set_id=:set and r.classe > 6")
-    List<Rune> findAllAncientBySet(@Param("set") RuneSet set, Sort sort,@Param("jsonChosen") String jsonChosen);
+    @Query("select r from Rune r where r.jSON=:jsonChosen and r.idRune.user=:user and r.set_id=:set and r.classe > 6")
+    List<Rune> findAllAncientBySet(@Param("set") RuneSet set, Sort sort,@Param("jsonChosen") String jsonChosen,@Param("user") User user);
 
-    @Query("select r from Rune r where r.jSON=:jsonChosen and r.set_id=:set and r.classe < 7")
-    List<Rune> findAllNonAncientBySet(@Param("set") RuneSet set,Sort sort,@Param("jsonChosen") String jsonChosen);
-    @Query("select r from Rune r where r.jSON=:jsonChosen and r.set_id=:set")
-    List<Rune> findAllBySet(@Param("set") RuneSet set,Sort sort,@Param("jsonChosen") String jsonChosen);
-    @Query("select r from Rune r where r.jSON=:jsonChosen and r.classe > 6")
-    List<Rune> findAllAncient(Sort sort,@Param("jsonChosen") String jsonChosen);
-    @Query("select r from Rune r where r.jSON=:jsonChosen and r.classe < 7")
-    List<Rune> findAllNonAncient(Sort sort,@Param("jsonChosen") String jsonChosen);
+    @Query("select r from Rune r where r.jSON=:jsonChosen and r.idRune.user=:user and r.set_id=:set and r.classe < 7 ")
+    List<Rune> findAllNonAncientBySet(@Param("set") RuneSet set,Sort sort,@Param("jsonChosen") String jsonChosen,@Param("user") User user);
+    @Query("select r from Rune r where r.jSON=:jsonChosen and r.idRune.user=:user and r.set_id=:set")
+    List<Rune> findAllBySet(@Param("set") RuneSet set,Sort sort,@Param("jsonChosen") String jsonChosen,@Param("user") User user);
+    @Query("select r from Rune r where r.jSON=:jsonChosen and  r.idRune.user=:user and r.classe > 6")
+    List<Rune> findAllAncient(Sort sort,@Param("jsonChosen") String jsonChosen,@Param("user") User user);
+    @Query("select r from Rune r where r.jSON=:jsonChosen and r.idRune.user=:user and r.classe < 7")
+    List<Rune> findAllNonAncient(Sort sort,@Param("jsonChosen") String jsonChosen,@Param("user") User user);
 
     @Query("SELECT DISTINCT r.jSON from Rune r WHERE user_id=:user")
     List<String> findAllJson(@Param("user") User user);

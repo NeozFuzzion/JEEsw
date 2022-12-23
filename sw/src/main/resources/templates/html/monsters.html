@@ -5,6 +5,8 @@
     <title>Titre</title>
     <link rel="stylesheet" href="/css/style.css">
     <script type="text/javascript" src="/js/functions.js"></script>
+    <script src="js/monsterFilter.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 <div class="title">
@@ -35,6 +37,16 @@
     </div>
 </div>
 <div class="content">
+    <div class="graph-json-select">
+        <select name="jsonChosen" id="jsonChosen">
+            <option disabled selected>Choose a json</option>
+            <option th:each="json : ${jsons}" th:value="${json}" th:text="${json}"></option>
+        </select>
+    </div>
+    <div class="missingParameter">
+
+    </div>
+    <button id="submit-runes-filters" onclick="filterMonster()">Submit</button>
     <div class="search-bar">
         <input id="search-monsters-bar" type="text" placeholder="Search Monster" onkeyup="searchMonster()">
     </div>

@@ -1,5 +1,7 @@
 package projectJEE.sw.dbEntity;
 
+import org.json.simple.JSONObject;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -179,5 +181,11 @@ public class StatRune {
                 ", maxSub2=" + maxSub2 +
                 ", maxSub1=" + maxSub1 +
                 '}';
+    }
+    public JSONObject toJSON(){
+        JSONObject json = new JSONObject();
+        json.put("idStat",idStat);
+        json.put("name",name);
+        return json;
     }
 }

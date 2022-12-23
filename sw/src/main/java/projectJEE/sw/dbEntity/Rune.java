@@ -4,6 +4,7 @@ package projectJEE.sw.dbEntity;
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
+import org.json.simple.JSONObject;
 import projectJEE.sw.model.RuneId;
 
 import javax.persistence.*;
@@ -370,6 +371,23 @@ public class Rune {
 
     public void setEffMaxLegend(float effMaxLegend) {
         this.effMaxLegend = effMaxLegend;
+    }
+
+    public JSONObject toJSON(){
+        JSONObject json = new JSONObject();
+        json.put("id",idRune.getIdRune());
+        json.put("set_id",set_id.toJSON());
+        json.put("slot_no",slot_no);
+        json.put("rang",rang);
+        json.put("upgrade_curr",upgrade_curr);
+        json.put("pri",pri);
+        json.put("statPri",statPri.toJSON());
+        if(statInnate!=null){
+            json.put("innate",innate);
+            json.put("statInnate",statInnate.toJSON());
+        }
+
+        return json;
     }
 
     @Override

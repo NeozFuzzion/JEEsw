@@ -93,7 +93,9 @@
           </div>
 
           <button id="submit-runes-filters" onclick="sortRune()">Submit</button>
+          <div class="missingParameter">
 
+          </div>
         </div>
 
         <canvas id="myChart" style="width:100%;max-width:1000px;max-height:500px"></canvas>
@@ -104,9 +106,10 @@
         createChart([[${eff}]],[[${effMaxHero}]],[[${effMaxLegend}]],400,[[${jsons[0]}]]);
       </script>
 
-      <div class="runes-display">
+      <div class="runes-display" id="runes-display">
         <div th:each="rune : ${runes}">
-          <div th:id="${rune.set_id}" class="rune">
+          <a th:href="@{'/runesBook/'+${rune.idRune.idRune}}">
+          <div class="rune" >
             <div class="rune-slot-image">
               <p class="rune-slot" th:text="${rune.slot_no}"></p>
               <p class="rune-rang" th:text="${rune.rang}"></p>
@@ -120,48 +123,12 @@
             </div>
             <div class="rune-infos">
               <p th:text="${rune.pri} + ' ' + ${rune.statPri.name}"></p>
-  <!--            <p th:text="${rune.occupied_type}"></p>-->
               <p th:if="${rune.innate}!=null" th:text="${rune?.innate} + ' ' +${rune?.statInnate?.name} "></p>
             </div>
           </div>
+          </a>
         </div>
       </div>
-
-  <!--    <table>-->
-  <!--      <tbody>-->
-  <!--      <tr th:each="rune : ${runes}">-->
-  <!--        <td><p th:text="${rune.set_id} "></p></td>-->
-  <!--        <td><p th:text="${rune.slot_no} "></p></td>-->
-  <!--        <td><p th:text="${rune.rang} "></p></td>-->
-  <!--        <td><p th:text="${rune.classe} "></p></td>-->
-  <!--        <td><p th:text="${rune.upgrade_curr} "></p></td>-->
-  <!--        <td><p  th:text="${rune.pri} + ' ' + ${rune.statPri.name}"></p></td>-->
-  <!--        <td>-->
-  <!--          <p th:if="${rune.innate}!=null" th:text="${rune?.innate} + ' ' +${rune?.statInnate?.name} "></p>-->
-  <!--          <p th:unless="${rune.innate}!=null" >0</p>-->
-  <!--        </td>-->
-  <!--        <td>-->
-  <!--          <p th:if="${rune.subStat1}!=null" th:text="${rune.subStat1Value} "></p>-->
-  <!--          <p th:unless="${rune.subStat1}!=null" >0</p>-->
-  <!--        </td>-->
-  <!--        <td>-->
-  <!--          <p th:if="${rune.subStat2}!=null" th:text="${rune.subStat2Value} "></p>-->
-  <!--          <p th:unless="${rune.subStat2}!=null" >0</p>-->
-  <!--        </td>-->
-  <!--        <td>-->
-  <!--          <p th:if="${rune.subStat3}!=null" th:text="${rune.subStat3Value} "></p>-->
-  <!--          <p th:unless="${rune.subStat3}!=null" >0</p>-->
-  <!--        </td>-->
-  <!--        <td>-->
-  <!--          <p th:if="${rune.subStat4}!=null" th:text="${rune.subStat4Value} "></p>-->
-  <!--          <p th:unless="${rune.subStat4}!=null" >0</p>-->
-  <!--        </td>-->
-  <!--       <td>-->
-  <!--          <p th:text="${rune.efficiency} "></p>-->
-  <!--       </td>-->
-  <!--      </tr>-->
-  <!--      </tbody>-->
-  <!--    </table>-->
     </div>
   </th:block>
   <th:block th:unless="${data}">

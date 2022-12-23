@@ -13,13 +13,13 @@ import java.util.List;
 
 @Repository
 public interface ArtifactRepository extends JpaRepository<Artifact, ArtifactId> {
-    @Query("select a from Artifact a where a.jSON=:jsonChosen order by efficiency desc")
-    List<Artifact> findAllByOrderByEfficiencyDesc(@Param("jsonChosen") String jsonChosen);
+    @Query("select a from Artifact a where a.jSON=:jsonChosen and user_id=:user order by efficiency desc")
+    List<Artifact> findAllByOrderByEfficiencyDesc(@Param("jsonChosen") String jsonChosen, @Param("user") User user);
 
-    @Query("select a from Artifact a where a.jSON=:jsonChosen and a.restriction=:restriction order by efficiency desc")
-    List<Artifact> findAllByRestriction(@Param("restriction") String restriction,@Param("jsonChosen") String jsonChosen);
-    @Query("select a from Artifact a where a.jSON=:jsonChosen and a.type=:type order by efficiency desc")
-    List<Artifact> findAllByType(@Param("type") String type,@Param("jsonChosen") String jsonChosen);
+    @Query("select a from Artifact a where a.jSON=:jsonChosen and a.restriction=:restriction and user_id=:user order by efficiency desc")
+    List<Artifact> findAllByRestriction(@Param("restriction") String restriction,@Param("jsonChosen") String jsonChosen,@Param("user") User user);
+    @Query("select a from Artifact a where a.jSON=:jsonChosen and a.type=:type and user_id=:user order by efficiency desc")
+    List<Artifact> findAllByType(@Param("type") String type,@Param("jsonChosen") String jsonChosen,@Param("user") User user);
 
     @Query("SELECT DISTINCT a.jSON from Artifact a WHERE user_id=:user")
     List<String> findAllJson(@Param("user") User user);

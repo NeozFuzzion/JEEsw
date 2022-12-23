@@ -1,5 +1,7 @@
 package projectJEE.sw.dbEntity;
 
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 
 @Entity
@@ -33,5 +35,13 @@ public class RuneSet {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public JSONObject toJSON(){
+        JSONObject json = new JSONObject();
+        json.put("idSet",idSet);
+        json.put("name",name);
+        json.put("image",image);
+        return json;
     }
 }

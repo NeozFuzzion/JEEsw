@@ -1,5 +1,7 @@
 package projectJEE.sw.dbEntity;
 
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 
 @Entity
@@ -335,6 +337,13 @@ public class GameMonster {
                 ", archetype='" + archetype + '\'' +
                 ", fusion_food=" + fusion_food +
                 '}';
+    }
+    public JSONObject toJSON(){
+        JSONObject json = new JSONObject();
+        json.put("id",idMonster);
+        json.put("name",name);
+        json.put("image",image);
+        return json;
     }
 
 }

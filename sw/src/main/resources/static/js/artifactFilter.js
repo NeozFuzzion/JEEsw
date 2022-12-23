@@ -5,15 +5,29 @@ $(function() {
     });
 });
 function sortArtifact(){
-    $.post("/artifacts/filter", {
-            jsonChosen:$("#jsonChosen").val(),
-            artifactType:$("#artifactType").val(),
+    let jsonToUse =$("#jsonChosen").val();
+    let type =$("#artifactType").val()
+    if(jsonToUse!=null && type!=null){
+        $.post("/artifacts/filter", {
+            jsonChosen:jsonToUse,
+            artifactType:type,
             nbArtifacts:$("#nbArtifacts").val()
         },
-        function(data,status){
-            createChart(data.efficiency,data.totalArtifacts,data.jsonToUse);
-        }
-    )
+            function(data,status){
+                createChart(data.efficiency,data.totalArtifacts,data.jsonToUse);
+                $(".missingParameter").empty();
+            }
+        )
+    }else if(jsonToUse==null && type!=null){
+        $(".missingParameter").empty();
+        $(".missingParameter").append("Select a json");
+    }else if(type==null && jsonToUse!=null){
+        $(".missingParameter").empty();
+        $(".missingParameter").append("Select an artifact type");
+    }else if(type==null && jsonToUse==null){
+        $(".missingParameter").empty();
+        $(".missingParameter").append("Select a json & an artifact type");
+    }
 }
 function createChart(eff,nbArtifacts,jsonToUse){
     let chartStatus = Chart.getChart("myChart");
