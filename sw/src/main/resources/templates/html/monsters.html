@@ -19,6 +19,7 @@
         <a class="button monster-button a_page" href="/monsters"><button><img src="/images/monster.png"></button></a>
         <a class="button rune-button" href="/runes"><button><img src="/images/rune.png"></button></a>
         <a class="button artifact-button" href="/artifacts"><button><img src="/images/artefact.png"></button></a>
+        <a class="button gvo-team-button" href="/gvoteam"><button><p>B</p></button></a>
         <a class="button upload-button" href="/uploadJSON"><button><ion-icon name="cloud-upload-outline"></ion-icon></button></a>
         <div class="bottom-left">
             <a class="button log-out-button" href="/logout"><button><ion-icon name="log-out-outline"></ion-icon></button></a>
@@ -30,6 +31,7 @@
         <a class="button monster-button a_page" href="/monsters"><button><p>Monstres</p></button></a>
         <a class="button rune-button" href="/runes"><button><p>Runes</p></button></a>
         <a class="button artifact-button" href="/artifacts"><button><p>Artefacts</p></button></a>
+        <a class="button gvo-team-button" href="/gvoteam"><button><p>Team Builder</p></button></a>
         <a class="button upload-button" href="/uploadJSON"><button><p>Upload</p></button></a>
         <div class="bottom-right">
             <a class="button log-out-button" href="/logout"><button><p>Déconnexion</p></button></a>
@@ -39,16 +41,18 @@
 <div class="content">
     <th:block th:if="${data}">
 
-    <div class="graph-json-select">
-        <select name="jsonChosen" id="jsonChosen">
-            <option disabled selected>Choose a json</option>
-            <option th:each="json : ${jsons}" th:value="${json}" th:text="${json}"></option>
-        </select>
+    <div class="monster-json-select">
+        <div class="json-select-div">
+            <select name="jsonChosen" id="jsonChosen">
+                <option disabled selected>Choose a json</option>
+                <option th:each="json : ${jsons}" th:value="${json}" th:text="${json}"></option>
+            </select>
+            <button class="submit-json" onclick="filterMonster()">Submit</button>
+        </div>
+        <p class="missingParameter"></p>
     </div>
-    <div class="missingParameter">
 
-    </div>
-    <button id="submit-runes-filters" onclick="filterMonster()">Submit</button>
+
     <div class="search-bar">
         <input id="search-monsters-bar" type="text" placeholder="Search Monster" onkeyup="searchMonster()">
     </div>

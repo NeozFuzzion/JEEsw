@@ -122,6 +122,43 @@ body {
     flex-direction: column;
 }
 
+.monster-json-select {
+    display: flex;
+    flex-direction: column;
+    margin: 0px auto;
+}
+
+.json-select-div  {
+    display: flex;
+}
+
+.json-select-div select {
+    font-size: 16px;
+    margin: 10px auto;
+    height: 40px;
+    cursor: pointer;
+    background-color: #13181e;
+    color: #FFFFFF;
+    border: none;
+}
+
+.submit-json {
+    font-size: 18px;
+    margin: auto 10px;
+    color: #FFFFFF;
+    height: 40px;
+    width: 100px;
+    background-color: #13181e;
+    text-align: center;
+    cursor: pointer;
+}
+
+.missingParameter {
+    margin: 0px auto;
+    color: #dc143c;
+    font-size: 16px;
+}
+
 .search-bar {
     margin-top: 50px;
     margin-left: 10%;
@@ -411,7 +448,7 @@ body {
     margin: 25px auto auto auto;
     display: grid;
     min-width: 80%;
-    grid-template-columns: repeat(auto-fill, 150px);
+    grid-template-columns: repeat(auto-fill, 175px);
     grid-auto-rows: 50px;
     grid-gap: 10px;
 }
@@ -476,6 +513,7 @@ body {
 
 .rune-infos p, .artifact-infos p {
     color: white;
+    cursor: pointer;
 }
 
 
@@ -573,6 +611,155 @@ body {
     cursor: pointer;
 }
 
+.team-button {
+    margin: 50px auto 0px auto;
+    width: 150px;
+    height: 40px;
+    background-color: #13181e;
+    text-decoration: none;
+    display: flex;
+}
+
+.team-button:hover {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.team-button button {
+    margin: auto;
+}
+
+.team-button button p {
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+.team-button button p:hover {
+    cursor: pointer;
+}
+
+.team-display {
+    display: flex;
+    margin: 25px auto;
+}
+
+.team {
+    display: flex;
+    background-color: #13181e;
+    border: 1px solid rgba(211, 175, 101, 0.75);
+    width: 750px;
+}
+
+.team-monster {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    width: 30%;
+}
+
+.team-monster-image {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    margin: 0px auto;
+}
+
+.team-monster-image img {
+    width: 125px;
+    height: 125px;
+    margin: auto;
+}
+
+.team-monster-info {
+    display: flex;
+    margin: 0px auto;
+}
+
+.team-monster-type-image {
+    width: 40px;
+    height: 40px;
+    display: flex;
+}
+
+.team-monster-type-image img {
+    width: 30px;
+    height: 30px;
+    margin: auto;
+}
+
+.team-monster-info h1 {
+    color: #FFFFFF;
+    margin: auto 0px;
+    font-size: 20px;
+}
+
+.team-buttons {
+    display: flex;
+    flex-direction: column;
+    margin: auto 20px auto auto;
+    width: 10%;
+}
+
+.team-buttons a {
+    width: 40px;
+    height: 40px;
+    margin: 10px auto;
+    display: flex;
+}
+
+.update-team-button button,
+.delete-team-button button {
+    color: white;
+    background-color: rgba(211, 175, 101, 0.75);
+    width: inherit;
+    height: inherit;
+    margin: auto;
+    display: flex;
+    cursor: pointer;
+}
+
+.update-team-button button:hover {
+    background-color: #d3af65;
+}
+
+.delete-team-button button:hover {
+    background-color: rgba(220, 20, 60, 0.75);
+}
+
+.update-team-button button ion-icon,
+.delete-team-button button ion-icon {
+    width: 25px;
+    height: 25px;
+    margin: auto;
+}
+
+.team-gvo-form {
+    display: flex;
+    flex-direction: column;
+    margin: 50px auto;
+}
+
+.team-gvo-form select {
+    font-size: 16px;
+    margin: 10px auto;
+    height: 40px;
+    cursor: pointer;
+    background-color: #13181e;
+    color: #FFFFFF;
+    border: none;
+}
+
+.submit-gvo-team {
+    font-size: 18px;
+    margin: 25px auto;
+    color: #FFFFFF;
+    height: 40px;
+    width: 100%;
+    background-color: #13181e;
+    text-align: center;
+    cursor: pointer;
+}
+
 footer {
     background-color: #13181e;
     width: 100%;
@@ -592,22 +779,6 @@ footer div {
 footer p {
     color: white;
     margin: 0px auto;
-}
-
-.team{
-    display: flex;
-    justify-content: space-evenly;
-    background-color: #13181e;
-    border: 1px solid rgba(211, 175, 101, 0.5);
-    height: 500px;
-}
-
-.team-display{
-    margin: 25px auto auto auto;
-    display: grid;
-    min-width: 80%;
-    grid-auto-rows: 500px;
-    grid-gap: 10px;
 }
 
 .artifact-type-image{
