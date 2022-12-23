@@ -1,10 +1,8 @@
 package projectJEE.sw.dbEntity;
 
-import netscape.javascript.JSObject;
 import org.hibernate.annotations.JoinColumnOrFormula;
 import org.hibernate.annotations.JoinColumnsOrFormulas;
 import org.hibernate.annotations.JoinFormula;
-import org.json.simple.JSONObject;
 import projectJEE.sw.model.MonsterId;
 
 import javax.persistence.*;

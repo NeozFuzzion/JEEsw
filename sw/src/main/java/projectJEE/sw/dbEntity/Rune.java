@@ -8,7 +8,6 @@ import org.json.simple.JSONObject;
 import projectJEE.sw.model.RuneId;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 public class Rune {

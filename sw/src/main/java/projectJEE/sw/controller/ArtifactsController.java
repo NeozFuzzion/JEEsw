@@ -14,17 +14,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import projectJEE.sw.dbEntity.Artifact;
 import projectJEE.sw.dbEntity.Monster;
-import projectJEE.sw.dbEntity.Rune;
 import projectJEE.sw.dbEntity.User;
 import projectJEE.sw.dbRepository.ArtifactRepository;
 import projectJEE.sw.dbRepository.MonsterRepository;
 import projectJEE.sw.dbRepository.UserRepository;
 import projectJEE.sw.model.ArtifactId;
 import projectJEE.sw.model.MonsterId;
-import projectJEE.sw.model.RuneId;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 

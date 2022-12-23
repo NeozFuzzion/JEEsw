@@ -1,10 +1,9 @@
 package projectJEE.sw.dbRepository;
 
-import org.springframework.data.jpa.repository.Query;
-import projectJEE.sw.dbEntity.GameMonster;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import projectJEE.sw.dbEntity.Monster;
+import projectJEE.sw.dbEntity.GameMonster;
 
 import java.util.List;
 

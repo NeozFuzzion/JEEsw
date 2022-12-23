@@ -2,12 +2,8 @@ package projectJEE.sw.controller;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.JpaSort;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,18 +13,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import projectJEE.sw.dbEntity.*;
+import projectJEE.sw.dbEntity.Monster;
+import projectJEE.sw.dbEntity.Rune;
+import projectJEE.sw.dbEntity.RuneSet;
+import projectJEE.sw.dbEntity.User;
 import projectJEE.sw.dbRepository.MonsterRepository;
 import projectJEE.sw.dbRepository.RuneRepository;
 import projectJEE.sw.dbRepository.RuneSetRepository;
 import projectJEE.sw.dbRepository.UserRepository;
-import projectJEE.sw.model.MonsterId;
 import projectJEE.sw.model.RuneId;
 
-import javax.persistence.NamedQuery;
-import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 

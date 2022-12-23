@@ -3,7 +3,6 @@ package projectJEE.sw.controller;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,15 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import projectJEE.sw.dbEntity.GameMonster;
 import projectJEE.sw.dbEntity.Monster;
 import projectJEE.sw.dbEntity.User;
 import projectJEE.sw.dbRepository.GameMonsterRepository;
 import projectJEE.sw.dbRepository.MonsterRepository;
 import projectJEE.sw.dbRepository.UserRepository;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller

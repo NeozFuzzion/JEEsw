@@ -2,7 +2,6 @@ package projectJEE.sw.model;
 
 import projectJEE.sw.dbEntity.User;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;

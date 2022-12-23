@@ -1,6 +1,5 @@
 package projectJEE.sw.dbEntity;
 
-import netscape.javascript.JSObject;
 import org.json.simple.JSONObject;
 import projectJEE.sw.model.ArtifactId;
 

@@ -1,7 +1,6 @@
 package projectJEE.sw.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.type.filter.RegexPatternTypeFilter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,11 +10,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import projectJEE.sw.dbEntity.User;
 import projectJEE.sw.dbRepository.UserRepository;
 import projectJEE.sw.service.UserForm;
-import projectJEE.sw.service.UserService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.security.Timestamp;
 import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
