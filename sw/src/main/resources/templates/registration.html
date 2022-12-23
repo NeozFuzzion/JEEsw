@@ -47,22 +47,28 @@
         <div>
           <label for="username">Username</label>
           <input id="username" type="text" th:field="*{username}">
-          <p th:if="${#fields.hasErrors('username')}"
-             th:text="${#strings.listJoin(#fields.errors('username'), ', ')}"></p>
+          <p style="color: #dc143c" th:if="${messageu!=null}"
+             th:text="${messageu}"></p>
         </div>
         <div>
           <label for="password">Password</label>
           <input id="password" type="password" th:field="*{password}">
-          <p th:if="${#fields.hasErrors('password')}"
-             th:text="${#strings.listJoin(#fields.errors('password'), ', ')}"></p>
         </div>
-
         <div>
           <label for="confirmPassword">Confirm Password</label>
           <input id="confirmPassword" type="password" th:field="*{confirmPassword}">
-          <p th:if="${#fields.hasErrors('confirmPassword')}"
-             th:text="${#strings.listJoin(#fields.errors('confirmPassword'), ', ')}"></p>
+          <p style="color: #dc143c" th:if="${messagep!=null}"
+             th:text="${messagep}"></p>
         </div>
+        <div>
+        <p style="color: #FFFFFF">Password must contain : </p>
+        <ul>
+          <li>Min. 8 characters</li>
+          <li>Min. 1 uppercase</li>
+          <li>Min. 1 lowercase</li>
+          <li>Min. 1 special character</li>
+        </ul>
+      </div>
         <div class="submit-log-in"><input type="submit" value="Register"></div>
       </form>
     </div>

@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import projectJEE.sw.dbEntity.Artifact;
+import projectJEE.sw.dbEntity.Monster;
 import projectJEE.sw.dbEntity.Rune;
 import projectJEE.sw.dbEntity.User;
 import projectJEE.sw.dbRepository.ArtifactRepository;
+import projectJEE.sw.dbRepository.MonsterRepository;
 import projectJEE.sw.dbRepository.UserRepository;
 import projectJEE.sw.model.ArtifactId;
+import projectJEE.sw.model.MonsterId;
 import projectJEE.sw.model.RuneId;
 
 import java.text.DecimalFormat;
@@ -31,6 +34,9 @@ public class ArtifactsController {
     ArtifactRepository artifactRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    MonsterRepository monsterRepository;
+
     @GetMapping("/artifacts")
     public String artifacts(Model model) {
         User user=userRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -89,6 +95,10 @@ public class ArtifactsController {
     public String runeBook(@PathVariable("id") long id, Model model){
         User user=userRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Artifact artifact = artifactRepository.findFirstByIdArtifact(new ArtifactId(user,id));
+        if (artifact.getOccupied_id()!=0){
+            Monster monster = monsterRepository.getReferenceById(new MonsterId(user,artifact.getOccupied_id()));
+            model.addAttribute("monster",monster);
+        }
         model.addAttribute("artifact",artifact);
         model.addAttribute("format",new DecimalFormat("0.00"));
         return "/html/artifactsBook";

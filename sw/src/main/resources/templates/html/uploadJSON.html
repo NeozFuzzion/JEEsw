@@ -40,6 +40,7 @@
     </div>
 
     <div class="content">
+
         <div class="kek">
             <img src="/images/kek.gif" alt="BIG oof">
         </div>
@@ -49,6 +50,8 @@
                 <input type="file" name="file" /><br/><br/>
                 <input onclick="showKEK()" type="submit" value="Upload " />
             </form>
+            <p style="color: #dc143c" th:if="${message!=null}"
+               th:text="${message}"></p>
         </div>
     </div>
 

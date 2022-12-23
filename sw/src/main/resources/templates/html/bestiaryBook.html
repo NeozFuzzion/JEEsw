@@ -44,7 +44,7 @@
         </div>
     </div>
 </div>
-<div class="content">
+<div class="content" style="overflow: auto;">
     <div class="monster-infos">
         <div class="monster-infos-side-left">
             <div class="monster">
@@ -105,16 +105,16 @@
                     <button onclick="showSkillDescription(this.id)" id="skill-1" class="skill-selected">
                         <img th:src="@{'/images/skills/'+${monster.s1.image}}">
                     </button>
-                    <button onclick="showSkillDescription(this.id)" id="skill-2" class="skill-not-selected" th:styleappend="${monster.s2}==null ? 'display: none' : 'display: block'">
+                    <button onclick="showSkillDescription(this.id)" id="skill-2" class="skill-not-selected" th:styleappend="${monster.s2}==null ? 'display: None' : 'display: block'">
                         <img th:if="${monster.s2}!=null" th:src="@{'/images/skills/'+${monster.s2.image}}">
                     </button>
-                    <button onclick="showSkillDescription(this.id)" id="skill-3" class="skill-not-selected" th:styleappend="${monster.s3}==null ? 'display: none' : 'display: block'">
+                    <button onclick="showSkillDescription(this.id)" id="skill-3" class="skill-not-selected" th:styleappend="${monster.s3}==null ? 'display: None' : 'display: block'">
                         <img th:if="${monster.s3}!=null" th:src="@{'/images/skills/'+${monster.s3.image}}">
                     </button>
-                    <button onclick="showSkillDescription(this.id)" id="skill-4" class="skill-not-selected" th:styleappend="${monster.s4}==null ? 'display: none' : 'display: block'">
+                    <button onclick="showSkillDescription(this.id)" id="skill-4" class="skill-not-selected" th:styleappend="${monster.s4}==null ? 'display: None' : 'display: block'">
                         <img th:if="${monster.s4}!=null" th:src="@{'/images/skills/'+${monster.s4.image}}">
                     </button>
-                    <button onclick="showSkillDescription(this.id)" id="leader-skill" class="skill-not-selected" th:styleappend="${monster.leader_skill}==null ? 'display: none' : 'display: block'">
+                    <button onclick="showSkillDescription(this.id)" id="leader-skill" class="skill-not-selected" th:styleappend="${monster.leader_skill}==null ? 'display: None' : 'display: block'">
                         <img th:if="${monster.leader_skill}!=null" th:src="@{'/images/skills'+${monster.leader_skill.image}}">
                     </button>
                 </div>
@@ -211,7 +211,7 @@
         </div>
     </div>
     <th:block th:if="${monsters.size()!=0}">
-        <div>
+        <div style="margin: 0px auto">
             <table>
                 <thead>
                         <td>Rune 1</td>
@@ -226,8 +226,9 @@
                 </thead>
                 <tbody>
                     <tr th:each="m : ${monsters}">
-                        <td>
-                            <th:block th:if="${m.rune1!=null}">
+
+                        <th:block th:if="${m.rune1!=null}">
+                            <td style="min-width: 150px;">
                                 <a th:href="@{'/runesBook/'+${m.rune1.idRune.idRune}}">
                                     <div class="rune" >
                                         <div class="rune-slot-image">
@@ -247,13 +248,15 @@
                                         </div>
                                     </div>
                                 </a>
-                            </th:block>
-                            <th:block th:unless="${m.rune1!=null}">
-                                none
-                            </th:block>
-                        </td>
-                        <td>
-                            <th:block th:if="${m.rune2!=null}">
+                            </td>
+                        </th:block>
+                        <th:block th:unless="${m.rune1!=null}">
+                            <td>
+                                None
+                            </td>
+                        </th:block>
+                        <th:block th:if="${m.rune2!=null}">
+                            <td style="min-width: 150px;">
                                 <a th:href="@{'/runesBook/'+${m.rune2.idRune.idRune}}">
                                     <div class="rune" >
                                         <div class="rune-slot-image">
@@ -273,13 +276,16 @@
                                         </div>
                                     </div>
                                 </a>
-                            </th:block>
-                            <th:block th:unless="${m.rune2!=null}">
-                                none
-                            </th:block>
-                        </td>
-                        <td>
-                            <th:block th:if="${m.rune3!=null}">
+                            </td>
+                        </th:block>
+                        <th:block th:unless="${m.rune2!=null}">
+                            <td>
+                                None
+                            </td>
+                        </th:block>
+
+                        <th:block th:if="${m.rune3!=null}">
+                            <td style="min-width: 150px;">
                                 <a th:href="@{'/runesBook/'+${m.rune3.idRune.idRune}}">
                                     <div class="rune" >
                                         <div class="rune-slot-image">
@@ -299,13 +305,15 @@
                                         </div>
                                     </div>
                                 </a>
-                            </th:block>
-                            <th:block th:unless="${m.rune3!=null}">
-                                none
-                            </th:block>
-                        </td>
-                        <td>
-                            <th:block th:if="${m.rune4!=null}">
+                            </td>
+                        </th:block>
+                        <th:block th:unless="${m.rune3!=null}">
+                            <td>
+                                None
+                            </td>
+                        </th:block>
+                        <th:block th:if="${m.rune4!=null}">
+                            <td style="min-width: 150px;">
                                 <a th:href="@{'/runesBook/'+${m.rune4.idRune.idRune}}">
                                     <div class="rune" >
                                         <div class="rune-slot-image">
@@ -325,13 +333,16 @@
                                         </div>
                                     </div>
                                 </a>
-                            </th:block>
-                            <th:block th:unless="${m.rune4!=null}">
-                                none
-                            </th:block>
-                        </td>
-                        <td>
-                            <th:block th:if="${m.rune5!=null}">
+                            </td>
+                        </th:block>
+                        <th:block th:unless="${m.rune4!=null}">
+                            <td>
+                                None
+                            </td>
+                        </th:block>
+
+                        <th:block th:if="${m.rune5!=null}">
+                            <td style="min-width: 150px;">
                                 <a th:href="@{'/runesBook/'+${m.rune5.idRune.idRune}}">
                                     <div class="rune" >
                                         <div class="rune-slot-image">
@@ -353,11 +364,12 @@
                                 </a>
                             </th:block>
                             <th:block th:unless="${m.rune5!=null}">
-                                none
+                                <td>
+                                    None
+                                </td>
                             </th:block>
-                        </td>
-                        <td>
-                            <th:block th:if="${m.rune6!=null}">
+                        <th:block th:if="${m.rune6!=null}">
+                            <td style="min-width: 150px;">
                                 <a th:href="@{'/runesBook/'+${m.rune6.idRune.idRune}}">
                                     <div class="rune" >
                                         <div class="rune-slot-image">
@@ -377,13 +389,15 @@
                                         </div>
                                     </div>
                                 </a>
-                            </th:block>
-                            <th:block th:unless="${m.rune6!=null}">
-                                none
-                            </th:block>
-                        </td>
-                        <td>
-                            <th:block th:if="${m.artifact1!=null}">
+                            </td>
+                        </th:block>
+                        <th:block th:unless="${m.rune6!=null}">
+                            <td>
+                                None
+                            </td>
+                        </th:block>
+                        <th:block th:if="${m.artifact1!=null}">
+                            <td style="min-width: 150px;">
                                 <a th:href="@{'/artifactsBook/'+${m.artifact1.idArtifact.idArtifact}}">
                                     <div class="artifact" >
                                         <div class="artifact-type-image">
@@ -403,13 +417,15 @@
                                         </div>
                                     </div>
                                 </a>
-                            </th:block>
-                            <th:block th:unless="${m.artifact1!=null}">
-                                none
-                            </th:block>
-                        </td>
-                        <td>
-                            <th:block th:if="${m.artifact2!=null}">
+                            </td>
+                        </th:block>
+                        <th:block th:unless="${m.artifact1!=null}">
+                            <td>
+                                None
+                            </td>
+                        </th:block>
+                        <th:block th:if="${m.artifact2!=null}">
+                            <td style="min-width: 150px;">
                                 <a th:href="@{'/artifactsBook/'+${m.artifact2.idArtifact.idArtifact}}">
                                     <div class="artifact" >
                                         <div class="artifact-type-image">
@@ -429,11 +445,14 @@
                                         </div>
                                     </div>
                                 </a>
+                            </td>
                             </th:block>
                             <th:block th:unless="${m.artifact2!=null}">
-                                none
+                                <td>
+                                    None
+                                </td>
                             </th:block>
-                        </td>
+
                         <td th:text="${m.jSON}"></td>
                     </tr>
                 </tbody>

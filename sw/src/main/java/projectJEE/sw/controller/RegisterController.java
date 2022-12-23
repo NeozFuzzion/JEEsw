@@ -37,6 +37,7 @@ public class RegisterController {
 
     @PostMapping("/register")
     public String registerUser(HttpServletRequest request, UserForm userForm, RedirectAttributes redirectAttributes) throws ServletException {
+
         if (userForm.getPassword().matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*]).{8,}$") && userRepository.findUserWithName(userForm.getUsername()).isEmpty() && userForm.getPassword().equals(userForm.getConfirmPassword())){
             User user = new User();
             user.setId(UUID.randomUUID());
@@ -48,8 +49,10 @@ public class RegisterController {
             request.login(userForm.getUsername(), userForm.getPassword());
             return ("/index");
         }
-        redirectAttributes.addFlashAttribute("message",
-                "Your password don't follow the requirement");
+        if (!userForm.getPassword().matches("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*]).{8,}$") || !userForm.getPassword().equals(userForm.getConfirmPassword()))
+            redirectAttributes.addFlashAttribute("messagep","Your password don't follow the requirement");
+        if (!userRepository.findUserWithName(userForm.getUsername()).isEmpty())
+            redirectAttributes.addFlashAttribute("messageu","This username is already taken");
         return ("redirect:/register");
 
     }

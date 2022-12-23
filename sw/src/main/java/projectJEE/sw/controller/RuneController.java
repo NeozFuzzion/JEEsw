@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import projectJEE.sw.dbEntity.*;
+import projectJEE.sw.dbRepository.MonsterRepository;
 import projectJEE.sw.dbRepository.RuneRepository;
 import projectJEE.sw.dbRepository.RuneSetRepository;
 import projectJEE.sw.dbRepository.UserRepository;
+import projectJEE.sw.model.MonsterId;
 import projectJEE.sw.model.RuneId;
 
 import javax.persistence.NamedQuery;
@@ -38,6 +40,9 @@ public class RuneController {
     RuneSetRepository runeSetRepository;
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    MonsterRepository monsterRepository;
 
     @GetMapping("/runes")
     public String runes(Model model) {
@@ -153,6 +158,10 @@ public class RuneController {
     public String runeBook(@PathVariable("id") long id, Model model){
         User user=userRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Rune rune = runeRepository.findFirstByIdRune(new RuneId(user,id));
+        if (rune.getOccupied_id()!=null){
+            Monster monster = rune.getOccupied_id();
+            model.addAttribute("monster",monster);
+        }
         model.addAttribute("rune",rune);
         model.addAttribute("format",new DecimalFormat("0.00"));
         return "/html/runesBook";

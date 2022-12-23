@@ -64,7 +64,7 @@ public class ExtractController {
                                    RedirectAttributes redirectAttributes) throws IOException, ParseException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
         if (file.isEmpty() || !Objects.requireNonNull(file.getOriginalFilename()).matches("^.*\\.json$")) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+            redirectAttributes.addFlashAttribute("message", "Please select a correct jSON file to upload");
             return "redirect:/uploadJSON";
         }
         User user =userRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());

@@ -147,6 +147,29 @@
                         </div>
                     </td>
                 </tr>
+                <th:block th:if="${rune.getOccupied_id()!=null}">
+                    <tr>
+                        <td>From</td>
+                        <td>
+                            <div>
+                                <p class="which-monster" th:text="${monster.gameMonster.name}"></p>
+                                <a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}">
+                                    <img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}">
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+                <th:block th:unless="${rune.getOccupied_id()!=null}">
+                    <tr>
+                        <td>From</td>
+                        <td>
+                            <div>
+                                <p style="color: #FFFFFF">Inventory</p>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
             </table>
 
         </div>
