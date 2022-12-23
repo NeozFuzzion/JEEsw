@@ -7,6 +7,7 @@
     <script type="text/javascript" src="/js/functions.js"></script>
     <script type="text/javascript" src="/js/monsterTypeImage.js"></script>
     <script type="text/javascript" src="/js/starsEventListener.js"></script>
+    <script src="/js/runesEventListener.js"></script>
 </head>
 <body>
 <div class="title">
@@ -40,10 +41,114 @@
         </div>
     </div>
     <div class="content">
-        <div class="rune-type-div">
-            <img class="rune-type" th:src="'/images/runes/'+${rune.set_id.image}">
+        <div class="monster-infos-side-left">
+            <div class="rune-slot-image">
+                <p class="rune-slot" th:text="${rune.slot_no}"></p>
+                <p class="rune-rang" th:text="${rune.rang}"></p>
+                <div class="rune-image-div">
+                    <img class="rune-image" src="">
+                </div>
+                <div class="rune-type-div">
+                    <img class="rune-type" th:src="'/images/runes/'+${rune.set_id.image}">
+                </div>
+                <p class="rune-upgrade" th:text="'+'+${rune.upgrade_curr}"></p>
+            </div>
         </div>
-        <p class="rune-upgrade" th:text="'+'+${rune.upgrade_curr}"></p>
+        <div class="rune-infos-side-right">
+            <table>
+                <tr>
+                    <td>Principal</td>
+                    <td>
+                        <div>
+                            <p th:text="${rune.statPri.name}"></p>
+                            <p th:text="${rune.pri}"></p>
+                        </div>
+                    </td>
+                </tr>
+                <th:block th:if="${rune.statInnate!=null}">
+                    <tr>
+                        <td>Innate</td>
+                        <td>
+                            <div>
+                                <p th:text="${rune.statInnate.name}"></p>
+                                <p th:text="${rune.innate}"></p>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+                <th:block th:if="${rune.subStat1!=null}">
+                    <tr>
+                        <td>Stat 1</td>
+                    <td>
+                        <div>
+                            <p th:text="${rune.subStat1.name}"></p>
+                            <p th:text="${rune.subStat1Value}"></p>
+                        </div>
+                    </td>
+                    </tr>
+                </th:block>
+                <th:block th:if="${rune.subStat2!=null}">
+                    <tr>
+                        <td>Stat 2</td>
+                    <td>
+                        <div>
+                            <p th:text="${rune.subStat2.name}"></p>
+                            <p th:text="${rune.subStat2Value}"></p>
+                        </div>
+                    </td>
+                    </tr>
+                </th:block>
+                <th:block th:if="${rune.subStat3!=null}">
+                    <tr>
+                        <td>Stat 3</td>
+                        <td>
+                            <div>
+                                <p th:text="${rune.subStat3.name}"></p>
+                                <p th:text="${rune.subStat3Value}"></p>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+
+                <th:block th:if="${rune.subStat4!=null}">
+                    <tr>
+                        <td>Stat 4</td>
+                        <td>
+                            <div>
+                                <p th:text="${rune.subStat4.name}"></p>
+                                <p th:text="${rune.subStat4Value}"></p>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+                <tr>
+                    <td>Efficiency</td>
+                    <td>
+                        <div>
+                            <p th:text="${format.format(rune.efficiency)} + '%'"></p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Efficiency Max Hero</td>
+                    <td>
+                        <div>
+                            <p th:text="${format.format(rune.effMaxHero)} + '%'"></p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Efficiency Max Legend</td>
+                    <td>
+                        <div>
+                            <p th:text="${format.format(rune.effMaxLegend)} + '%'"></p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
     </div>
 
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

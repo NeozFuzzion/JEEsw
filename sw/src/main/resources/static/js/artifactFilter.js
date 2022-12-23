@@ -89,7 +89,6 @@ function displayArtifacts(artifacts){
             "           <div class=\"artifact-type-image\">" +
             "               <p class=\"artifact-type\" >"+artifact['type']+"</p>" +
             "               <p class=\"artifact-rank\" >"+artifact['rang']+"</p>" +
-            "               <p class=\"artifact-restriction\" >"+artifact['restriction']+"</p>" +
             "               <div class=\"artifact-image-div\">" +
             "                 <img class=\"artifact-image\" src=\"\">" +
             "                </div>" +

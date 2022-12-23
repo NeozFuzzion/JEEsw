@@ -25,6 +25,7 @@ import projectJEE.sw.model.RuneId;
 
 import javax.persistence.NamedQuery;
 import java.lang.reflect.InvocationTargetException;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -153,6 +154,7 @@ public class RuneController {
         User user=userRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Rune rune = runeRepository.findFirstByIdRune(new RuneId(user,id));
         model.addAttribute("rune",rune);
+        model.addAttribute("format",new DecimalFormat("0.00"));
         return "/html/runesBook";
     }
 }

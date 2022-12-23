@@ -7,6 +7,7 @@
     <script type="text/javascript" src="/js/functions.js"></script>
     <script type="text/javascript" src="/js/monsterTypeImage.js"></script>
     <script type="text/javascript" src="/js/starsEventListener.js"></script>
+    <script src="/js/artifactsEventListener.js"></script>
 </head>
 <body>
 <div class="title">
@@ -40,18 +41,100 @@
         </div>
     </div>
     <div class="content">
-        <p class="rune-upgrade" th:text="'+'+${artifact.level}"></p>
-    </div>
-
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
-    <footer>
-        <div>
-            <p>DURANTEAU Damien - LANTA Axel - OUTREBON Edouard</p>
-            <p>CY Tech 2022</p>
+        <div class="artifact-infos-side-left">
+            <div class="artifact" >
+                <div class="artifact-type-image">
+                    <p class="artifact-type" th:text="${artifact.type}"></p>
+                    <p class="artifact-rank" th:text="${artifact.rang}"></p>
+                    <div class="artifact-image-div">
+                        <img class="artifact-image" src="">
+                    </div>
+                    <div class="artifact-restriction-div">
+                        <img class="artifact-restriction" th:src="'/images/artifacts/'+${#strings.toLowerCase(artifact.restriction)}+'.png'">
+                    </div>
+                    <p class="artifact-upgrade" th:text="'+'+${artifact.level}"></p>
+                </div>
+            </div>
         </div>
-    </footer>
+        <div class="artifact-infos-side-right">
+            <table>
+                <tr>
+                    <td>Principal</td>
+                    <td>
+                        <div>
+                            <p th:text="${artifact.statPri}"></p>
+                            <p th:text="${artifact.pri}"></p>
+                        </div>
+                    </td>
+                </tr>
+                <th:block th:if="${artifact.subStat1!=null}">
+                    <tr>
+                        <td>Stat 1</td>
+                        <td>
+                            <div>
+                                <p th:text="${artifact.subStat1.description}"></p>
+                                <p th:text="${artifact.subStat1Value}"></p>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+                <th:block th:if="${artifact.subStat2!=null}">
+                    <tr>
+                        <td>Stat 2</td>
+                        <td>
+                            <div>
+                                <p th:text="${artifact.subStat2.description}"></p>
+                                <p th:text="${artifact.subStat2Value}"></p>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+                <th:block th:if="${artifact.subStat3!=null}">
+                    <tr>
+                        <td>Stat 3</td>
+                        <td>
+                            <div>
+                                <p th:text="${artifact.subStat3.description}"></p>
+                                <p th:text="${artifact.subStat3Value}"></p>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+
+                <th:block th:if="${artifact.subStat4!=null}">
+                    <tr>
+                        <td>Stat 4</td>
+                        <td>
+                            <div>
+                                <p th:text="${artifact.subStat4.description}"></p>
+                                <p th:text="${artifact.subStat4Value}"></p>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+                <tr>
+                    <td>Efficiency</td>
+                    <td>
+                        <div>
+                            <p th:text="${format.format(artifact.efficiency)} + '%'"></p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<footer>
+    <div>
+        <p>DURANTEAU Damien - LANTA Axel - OUTREBON Edouard</p>
+        <p>CY Tech 2022</p>
+    </div>
+</footer>
 
 </body>
 </html>

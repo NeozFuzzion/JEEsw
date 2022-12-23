@@ -20,6 +20,7 @@ import projectJEE.sw.dbRepository.UserRepository;
 import projectJEE.sw.model.ArtifactId;
 import projectJEE.sw.model.RuneId;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -89,6 +90,7 @@ public class ArtifactsController {
         User user=userRepository.findUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Artifact artifact = artifactRepository.findFirstByIdArtifact(new ArtifactId(user,id));
         model.addAttribute("artifact",artifact);
+        model.addAttribute("format",new DecimalFormat("0.00"));
         return "/html/artifactsBook";
     }
 }
