@@ -47,7 +47,7 @@
 </div>
     <div class="content">
         <div class="book-div">
-            <div class="rune-slot-image book-slot-image">
+            <div style="scale: 1.6;margin-bottom: 40px;" class="rune-slot-image">
                 <p class="rune-slot" th:text="${rune.slot_no}"></p>
                 <p class="rune-rang" th:text="${rune.rang}"></p>
                 <div class="rune-image-div book-image-div">
@@ -154,8 +154,8 @@
                         <td class="rune-stat-left">
                             <div>
                                 <p class="which-monster" th:text="${monster.gameMonster.name}"></p>
-                                <a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}">
-                                    <img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}">
+                                <a  th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}">
+                                    <img style="scale: 0.7;" th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}">
                                 </a>
                             </div>
                         </td>

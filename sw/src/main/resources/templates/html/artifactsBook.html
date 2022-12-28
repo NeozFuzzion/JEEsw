@@ -48,13 +48,13 @@
     <div class="content">
         <div class="book-div">
 
-            <div class="artifact-type-image book-slot-image">
+            <div style="scale: 1.6;margin-bottom: 40px;" class="artifact-type-image">
                 <p class="artifact-type" th:text="${artifact.type}"></p>
                 <p class="artifact-rank" th:text="${artifact.rang}"></p>
-                <div class="artifact-image-div book-image-div">
+                <div class="artifact-image-div">
                     <img class="artifact-image" src="">
                 </div>
-                <div class="artifact-restriction-div book-type-div">
+                <div class="artifact-restriction-div">
                     <img class="artifact-restriction" th:src="'/images/artifacts/'+${#strings.toLowerCase(artifact.restriction)}+'.png'">
                 </div>
                 <p class="artifact-upgrade" th:text="'+'+${artifact.level}"></p>
@@ -124,8 +124,8 @@
                         <td class="rune-stat-left">
                             <div>
                                 <p class="which-monster" th:text="${monster.gameMonster.name}"></p>
-                                <a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}">
-                                    <img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}">
+                                <a  th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}">
+                                    <img style="scale: 0.7;" th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}">
                                 </a>
                             </div>
                         </td>

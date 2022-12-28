@@ -825,30 +825,10 @@ footer p {
     display: flex;
     flex-direction: column;
     width: 300px;
+    align-items: center;
 }
 
-.book-slot-image {
-    margin: 0px auto 15px auto;
-    width: 100px;
-    height: 100px;
-}
 
-.book-image-div,
-.book-type-div {
-    width: inherit;
-    height: inherit;
-    display: flex;
-}
-
-.book-image-div img {
-    scale: 70%;
-    margin: auto;
-}
-
-.book-type-div img {
-    scale: 40%;
-    margin: auto;
-}
 
 .book-table tr td div p{
     color: #FFFFFF;
