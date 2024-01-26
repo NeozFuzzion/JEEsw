@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Titre</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/js/functions.js"></script>
+    <script type="text/javascript" src="/js/monsterTypeImage.js"></script>
+    <script type="text/javascript" src="/js/starsEventListener.js"></script>
+    <script src="/js/runesEventListener.js"></script>
+    <script src="/js/artifactsEventListener.js"></script>
+</head>
+<body>
+<div class="title">
+    <h1>JEE : Summoners Wars Website</h1>
+</div>
+<div class="menu">
+    <div class="left-side">
+        <a class="button menu-button"><button onclick="showRightSide()"><ion-icon name="menu-outline"></ion-icon></button></a>
+        <a class="button home-button" href="/"><button><ion-icon name="home-outline"></ion-icon></button></a>
+        <a class="button rune-button a_page" href="/bestiary"><button><img src="/images/transcendance.png"></button></a>
+        <a class="button monster-button" href="/monsters"><button><img src="/images/monster.png"></button></a>
+        <a class="button rune-button" href="/runes"><button><img src="/images/rune.png"></button></a>
+        <a class="button artifact-button" href="/artifacts"><button><img src="/images/artefact.png"></button></a>
+        <a class="button gvo-team-button" href="/gvoteam"><button><img src="/images/battle.png"></button></a>
+        <a class="button upload-button" href="/uploadJSON"><button><ion-icon name="cloud-upload-outline"></ion-icon></button></a>
+        <div class="bottom-left">
+            <a th:if="${!isConnected}" class="button log-in-button" href="/login"><button><ion-icon name="log-in-outline"></ion-icon></button></a>
+            <a th:if="${isConnected}" class="button log-out-button" href="/logout"><button><ion-icon name="log-out-outline"></ion-icon></button></a>
+            <a th:if="${!isConnected}" class="button register-button" href="/register"><button><ion-icon name="person-add-outline"></ion-icon></button></a>
+        </div>
+    </div>
+    <div class="right-side">
+        <a class="button menu-button"><button><p>Menu</p></button></a>
+        <a class="button home-button" href="/"><button><p>Accueil</p></button></a>
+        <a class="button rune-button a_page" href="/bestiary"><button><p>Bestiaire</p></button></a>
+        <a class="button monster-button" href="/monsters"><button><p>Monstres</p></button></a>
+        <a class="button rune-button" href="/runes"><button><p>Runes</p></button></a>
+        <a class="button artifact-button" href="/artifacts"><button><p>Artefacts</p></button></a>
+        <a class="button gvo-team-button" href="/gvoteam"><button><p>Team Builder</p></button></a>
+        <a class="button upload-button" href="/uploadJSON"><button><p>Upload</p></button></a>
+        <div class="bottom-right">
+            <a th:if="${!isConnected}" class="button log-in-button" href="/login"><button><p>Connexion</p></button></a>
+            <a th:if="${isConnected}" class="button log-out-button" href="/logout"><button><p>Déconnexion</p></button></a>
+            <a th:if="${!isConnected}" class="button register-button" href="/register"><button><p>Inscription</p></button></a>
+        </div>
+    </div>
+</div>
+<div class="content" style="overflow: auto;">
+    <div class="monster-infos">
+        <div class="monster-infos-side-left">
+            <div class="monster">
+                <div class="monster-sub-infos">
+                    <p id="monster-type" th:text="${monster.element}"></p>
+                    <div class="monster-type-image"><img id="type-image" src=""></div>
+                    <h1 class="monster-name" th:text="${monster.name}"></h1>
+                    <p id="monster-stars" th:text="${monster.getNatural_stars()}"></p>
+                    <p id="awakening_level" th:text="${monster.getAwaken_lvl()}"></p>
+                    <div class="monster-stars-images"></div>
+                </div>
+                <div class="monster-image">
+                    <img th:src="@{'/images/monsters/' + ${monster.image}}">
+                </div>
+            </div>
+            <div class="monster-stats">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td class="left">HP</td>
+                            <td class="right" th:text="${monster.hp}"></td>
+                        </tr>
+                        <tr>
+                            <td class="left">ATK</td>
+                            <td class="right" th:text="${monster.atk}"></td>
+                        </tr>
+                        <tr>
+                            <td class="left">DEF</td>
+                            <td class="right" th:text="${monster.def}"></td>
+                        </tr>
+                        <tr>
+                            <td class="left">SPD</td>
+                            <td class="right" th:text="${monster.spd}"></td>
+                        </tr>
+                        <tr>
+                            <td class="left">CRI Rate</td>
+                            <td class="right"><p th:text="${monster.crate}"></p><p>%</p></td>
+                        </tr>
+                        <tr>
+                            <td class="left">CRI Dmg</td>
+                            <td class="right"><p th:text="${monster.cdmg}"></p><p>%</p></td>
+                        </tr>
+                        <tr>
+                            <td class="left">Resistance</td>
+                            <td class="right"><p th:text="${monster.res}"></p><p>%</p></td>
+                        </tr>
+                        <tr>
+                            <td class="left">Accuracy</td>
+                            <td class="right"><p th:text="${monster.acc}"></p><p>%</p></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="monster-infos-side-right">
+            <div class="monster-skills-infos">
+                <div class="monster-skills">
+                    <button onclick="showSkillDescription(this.id)" id="skill-1" class="skill-selected">
+                        <img th:src="@{'/images/skills/'+${monster.s1.image}}">
+                    </button>
+                    <button onclick="showSkillDescription(this.id)" id="skill-2" class="skill-not-selected" th:styleappend="${monster.s2}==null ? 'display: None' : 'display: block'">
+                        <img th:if="${monster.s2}!=null" th:src="@{'/images/skills/'+${monster.s2.image}}">
+                    </button>
+                    <button onclick="showSkillDescription(this.id)" id="skill-3" class="skill-not-selected" th:styleappend="${monster.s3}==null ? 'display: None' : 'display: block'">
+                        <img th:if="${monster.s3}!=null" th:src="@{'/images/skills/'+${monster.s3.image}}">
+                    </button>
+                    <button onclick="showSkillDescription(this.id)" id="skill-4" class="skill-not-selected" th:styleappend="${monster.s4}==null ? 'display: None' : 'display: block'">
+                        <img th:if="${monster.s4}!=null" th:src="@{'/images/skills/'+${monster.s4.image}}">
+                    </button>
+                    <button onclick="showSkillDescription(this.id)" id="leader-skill" class="skill-not-selected" th:styleappend="${monster.leader_skill}==null ? 'display: None' : 'display: block'">
+                        <img th:if="${monster.leader_skill}!=null" th:src="@{'/images/skills'+${monster.leader_skill.image}}">
+                    </button>
+                </div>
+                <div class="skill-infos">
+                    <div id="skill-1-description">
+                        <div class="skill-description">
+                            <h1 th:text="${monster.s1.name}"></h1>
+                            <p th:text="${monster.s1.description}"></p>
+                        </div>
+
+                        <table>
+                            <tr>
+                                <td>Multiplier</td>
+                                <td>Upgrades</td>
+                            </tr>
+                            <tr>
+                                <td th:text="${monster.s1.multiplier_formula}!='' ? ${monster.s1.multiplier_formula}: '∅'"></td>
+                                <td th:utext="${monster.s1.upgrades}!='[]' ? ${#strings.replace( #strings.escapeJava(ups1),'\n','&lt;br /&gt;')} : 'This skill can\'t be upgraded'"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="skill-2-description" th:if="${monster.s2}!=null">
+                        <div class="skill-description">
+                            <h1 th:text="${monster.s2.name}"></h1>
+                            <p th:text="${monster.s2.description}"></p>
+                        </div>
+
+                        <table>
+                            <tr>
+                                <td>Multiplier</td>
+                                <td>Upgrades</td>
+                            </tr>
+                            <tr>
+                                <td th:text="${monster.s2.multiplier_formula}!='' ? ${monster.s2.multiplier_formula}: '∅'"></td>
+                                <td th:utext="${monster.s2.upgrades}!='[]' ? ${#strings.replace( #strings.escapeJava(ups2),'\n','&lt;br /&gt;')} : 'This skill can\'t be upgraded'"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="skill-3-description" th:if="${monster.s3}!=null">
+                        <div class="skill-description">
+                            <h1 th:text="${monster.s3.name}"></h1>
+                            <p th:text="${monster.s3.description}"></p>
+                        </div>
+
+                        <table>
+                            <tr>
+                                <td>Multiplier</td>
+                                <td>Upgrades</td>
+                            </tr>
+                            <tr>
+                                <td th:text="${monster.s3.multiplier_formula}!='' ? ${monster.s3.multiplier_formula}: '∅'"></td>
+                                <td th:utext="${monster.s3.upgrades}!='[]' ? ${#strings.replace( #strings.escapeJava(ups3),'\n','&lt;br /&gt;')} : 'This skill can\'t be upgraded'"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="skill-4-description" th:if="${monster.s4}!=null">
+                        <div class="skill-description">
+                            <h1 th:text="${monster.s4.name}"></h1>
+                            <p th:text="${monster.s4.description}"></p>
+                        </div>
+
+                        <table>
+                            <tr>
+                                <td>Multiplier</td>
+                                <td>Upgrades</td>
+                            </tr>
+                            <tr>
+                                <td th:text="${monster.s4.multiplier_formula}!='' ? ${monster.s4.multiplier_formula}: '∅'"></td>
+                                <td th:utext="${monster.s4.upgrades}!='[]' ? ${#strings.replace( #strings.escapeJava(ups4),'\n','&lt;br /&gt;')} : 'This skill can\'t be upgraded'"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="leader-skill-description" th:if="${monster.leader_skill}!=null">
+                        <div class="skill-description">
+                            <h1>Leader Skill</h1>
+                        </div>
+                        <table>
+                            <tr>
+                                <td>Amount</td>
+                                <td>Area</td>
+                                <td>Effect</td>
+                            </tr>
+                            <tr>
+                                <td th:text="${monster.leader_skill.amount}+'%'"></td>
+                                <td th:text="${monster.leader_skill.area}"></td>
+                                <td th:text="${monster.leader_skill.attribute}"></td>
+                                <td th:if="${monster.leader_skill.element!=null}"
+                                    th:text="${monster.leader_skill.element}"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block th:if="${monsters.size()!=0}">
+        <div style="margin: 0px auto">
+            <table class="bestiary-monster-runes">
+                <thead>
+                        <td>Rune 1</td>
+                        <td>Rune 2</td>
+                        <td>Rune 3</td>
+                        <td>Rune 4</td>
+                        <td>Rune 5</td>
+                        <td>Rune 6</td>
+                        <td>Artifact 1</td>
+                        <td>Artifact 2</td>
+                        <td>json</td>
+                </thead>
+                <tbody>
+                    <tr th:each="m : ${monsters}">
+
+                        <th:block th:if="${m.rune1!=null}">
+                            <td style="min-width: 150px;">
+                                <a th:href="@{'/runesBook/'+${m.rune1.idRune.idRune}}">
+                                    <div class="rune" >
+                                        <div class="rune-slot-image">
+                                            <p class="rune-slot" th:text="${m.rune1.slot_no}"></p>
+                                            <p class="rune-rang" th:text="${m.rune1.rang}"></p>
+                                            <div class="rune-image-div">
+                                                <img class="rune-image" src="">
+                                            </div>
+                                            <div class="rune-type-div">
+                                                <img class="rune-type" th:src="'/images/runes/'+${m.rune1.set_id.image}">
+                                            </div>
+                                            <p class="rune-upgrade" th:text="'+'+${m.rune1.upgrade_curr}"></p>
+                                        </div>
+                                        <div class="rune-infos">
+                                            <p th:text="${m.rune1.pri} + ' ' + ${m.rune1.statPri.name}"></p>
+                                            <p th:if="${m.rune1.innate}!=null" th:text="${m.rune1?.innate} + ' ' +${m.rune1?.statInnate?.name} "></p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </td>
+                        </th:block>
+                        <th:block th:unless="${m.rune1!=null}">
+                            <td>
+                                None
+                            </td>
+                        </th:block>
+                        <th:block th:if="${m.rune2!=null}">
+                            <td style="min-width: 150px;">
+                                <a th:href="@{'/runesBook/'+${m.rune2.idRune.idRune}}">
+                                    <div class="rune" >
+                                        <div class="rune-slot-image">
+                                            <p class="rune-slot" th:text="${m.rune2.slot_no}"></p>
+                                            <p class="rune-rang" th:text="${m.rune2.rang}"></p>
+                                            <div class="rune-image-div">
+                                                <img class="rune-image" src="">
+                                            </div>
+                                            <div class="rune-type-div">
+                                                <img class="rune-type" th:src="'/images/runes/'+${m.rune2.set_id.image}">
+                                            </div>
+                                            <p class="rune-upgrade" th:text="'+'+${m.rune2.upgrade_curr}"></p>
+                                        </div>
+                                        <div class="rune-infos">
+                                            <p th:text="${m.rune2.pri} + ' ' + ${m.rune2.statPri.name}"></p>
+                                            <p th:if="${m.rune2.innate}!=null" th:text="${m.rune2?.innate} + ' ' +${m.rune2?.statInnate?.name} "></p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </td>
+                        </th:block>
+                        <th:block th:unless="${m.rune2!=null}">
+                            <td>
+                                None
+                            </td>
+                        </th:block>
+
+                        <th:block th:if="${m.rune3!=null}">
+                            <td style="min-width: 150px;">
+                                <a th:href="@{'/runesBook/'+${m.rune3.idRune.idRune}}">
+                                    <div class="rune" >
+                                        <div class="rune-slot-image">
+                                            <p class="rune-slot" th:text="${m.rune3.slot_no}"></p>
+                                            <p class="rune-rang" th:text="${m.rune3.rang}"></p>
+                                            <div class="rune-image-div">
+                                                <img class="rune-image" src="">
+                                            </div>
+                                            <div class="rune-type-div">
+                                                <img class="rune-type" th:src="'/images/runes/'+${m.rune3.set_id.image}">
+                                            </div>
+                                            <p class="rune-upgrade" th:text="'+'+${m.rune3.upgrade_curr}"></p>
+                                        </div>
+                                        <div class="rune-infos">
+                                            <p th:text="${m.rune3.pri} + ' ' + ${m.rune3.statPri.name}"></p>
+                                            <p th:if="${m.rune3.innate}!=null" th:text="${m.rune3?.innate} + ' ' +${m.rune3?.statInnate?.name} "></p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </td>
+                        </th:block>
+                        <th:block th:unless="${m.rune3!=null}">
+                            <td>
+                                None
+                            </td>
+                        </th:block>
+                        <th:block th:if="${m.rune4!=null}">
+                            <td style="min-width: 150px;">
+                                <a th:href="@{'/runesBook/'+${m.rune4.idRune.idRune}}">
+                                    <div class="rune" >
+                                        <div class="rune-slot-image">
+                                            <p class="rune-slot" th:text="${m.rune4.slot_no}"></p>
+                                            <p class="rune-rang" th:text="${m.rune4.rang}"></p>
+                                            <div class="rune-image-div">
+                                                <img class="rune-image" src="">
+                                            </div>
+                                            <div class="rune-type-div">
+                                                <img class="rune-type" th:src="'/images/runes/'+${m.rune4.set_id.image}">
+                                            </div>
+                                            <p class="rune-upgrade" th:text="'+'+${m.rune4.upgrade_curr}"></p>
+                                        </div>
+                                        <div class="rune-infos">
+                                            <p th:text="${m.rune4.pri} + ' ' + ${m.rune4.statPri.name}"></p>
+                                            <p th:if="${m.rune4.innate}!=null" th:text="${m.rune4?.innate} + ' ' +${m.rune4?.statInnate?.name} "></p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </td>
+                        </th:block>
+                        <th:block th:unless="${m.rune4!=null}">
+                            <td>
+                                None
+                            </td>
+                        </th:block>
+
+                        <th:block th:if="${m.rune5!=null}">
+                            <td style="min-width: 150px;">
+                                <a th:href="@{'/runesBook/'+${m.rune5.idRune.idRune}}">
+                                    <div class="rune" >
+                                        <div class="rune-slot-image">
+                                            <p class="rune-slot" th:text="${m.rune5.slot_no}"></p>
+                                            <p class="rune-rang" th:text="${m.rune5.rang}"></p>
+                                            <div class="rune-image-div">
+                                                <img class="rune-image" src="">
+                                            </div>
+                                            <div class="rune-type-div">
+                                                <img class="rune-type" th:src="'/images/runes/'+${m.rune5.set_id.image}">
+                                            </div>
+                                            <p class="rune-upgrade" th:text="'+'+${m.rune5.upgrade_curr}"></p>
+                                        </div>
+                                        <div class="rune-infos">
+                                            <p th:text="${m.rune5.pri} + ' ' + ${m.rune5.statPri.name}"></p>
+                                            <p th:if="${m.rune5.innate}!=null" th:text="${m.rune5?.innate} + ' ' +${m.rune5?.statInnate?.name} "></p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </th:block>
+                            <th:block th:unless="${m.rune5!=null}">
+                                <td>
+                                    None
+                                </td>
+                            </th:block>
+                        <th:block th:if="${m.rune6!=null}">
+                            <td style="min-width: 150px;">
+                                <a th:href="@{'/runesBook/'+${m.rune6.idRune.idRune}}">
+                                    <div class="rune" >
+                                        <div class="rune-slot-image">
+                                            <p class="rune-slot" th:text="${m.rune6.slot_no}"></p>
+                                            <p class="rune-rang" th:text="${m.rune6.rang}"></p>
+                                            <div class="rune-image-div">
+                                                <img class="rune-image" src="">
+                                            </div>
+                                            <div class="rune-type-div">
+                                                <img class="rune-type" th:src="'/images/runes/'+${m.rune6.set_id.image}">
+                                            </div>
+                                            <p class="rune-upgrade" th:text="'+'+${m.rune6.upgrade_curr}"></p>
+                                        </div>
+                                        <div class="rune-infos">
+                                            <p th:text="${m.rune6.pri} + ' ' + ${m.rune6.statPri.name}"></p>
+                                            <p th:if="${m.rune6.innate}!=null" th:text="${m.rune6?.innate} + ' ' +${m.rune6?.statInnate?.name} "></p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </td>
+                        </th:block>
+                        <th:block th:unless="${m.rune6!=null}">
+                            <td>
+                                None
+                            </td>
+                        </th:block>
+                        <th:block th:if="${m.artifact1!=null}">
+                            <td style="min-width: 150px;">
+                                <a th:href="@{'/artifactsBook/'+${m.artifact1.idArtifact.idArtifact}}">
+                                    <div class="artifact" >
+                                        <div class="artifact-type-image">
+                                            <p class="artifact-type" th:text="${m.artifact1.type}"></p>
+                                            <p class="artifact-rank" th:text="${m.artifact1.rang}"></p>
+                                            <div class="artifact-image-div">
+                                                <img class="artifact-image" src="">
+                                            </div>
+                                            <div class="artifact-restriction-div">
+                                                <img class="artifact-restriction" th:src="'/images/artifacts/'+${#strings.toLowerCase(m.artifact1.restriction)}+'.png'">
+                                            </div>
+                                            <p class="artifact-upgrade" th:text="'+'+${m.artifact1.level}"></p>
+                                        </div>
+                                        <div class="artifact-infos">
+                                            <p th:text="${m.artifact1.pri} + ' ' + ${m.artifact1.statPri}"></p>
+
+                                        </div>
+                                    </div>
+                                </a>
+                            </td>
+                        </th:block>
+                        <th:block th:unless="${m.artifact1!=null}">
+                            <td>
+                                None
+                            </td>
+                        </th:block>
+                        <th:block th:if="${m.artifact2!=null}">
+                            <td style="min-width: 150px;">
+                                <a th:href="@{'/artifactsBook/'+${m.artifact2.idArtifact.idArtifact}}">
+                                    <div class="artifact" >
+                                        <div class="artifact-type-image">
+                                            <p class="artifact-type" th:text="${m.artifact2.type}"></p>
+                                            <p class="artifact-rank" th:text="${m.artifact2.rang}"></p>
+                                            <div class="artifact-image-div">
+                                                <img class="artifact-image" src="">
+                                            </div>
+                                            <div class="artifact-restriction-div">
+                                                <img class="artifact-restriction" th:src="'/images/artifacts/'+${#strings.toLowerCase(m.artifact2.restriction)}+'.png'">
+                                            </div>
+                                            <p class="artifact-upgrade" th:text="'+'+${m.artifact2.level}"></p>
+                                        </div>
+                                        <div class="artifact-infos">
+                                            <p th:text="${m.artifact2.pri} + ' ' + ${m.artifact2.statPri}"></p>
+
+                                        </div>
+                                    </div>
+                                </a>
+                            </td>
+                            </th:block>
+                            <th:block th:unless="${m.artifact2!=null}">
+                                <td>
+                                    None
+                                </td>
+                            </th:block>
+
+                        <td th:text="${m.jSON}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </th:block>
+</div>
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<footer>
+    <div>
+        <p>DURANTEAU Damien - LANTA Axel - OUTREBON Edouard</p>
+        <p>CY Tech 2022</p>
+    </div>
+</footer>
+
+</body>
+</html>

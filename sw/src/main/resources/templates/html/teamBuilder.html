@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Titre</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/js/functions.js"></script>
+</head>
+<body>
+<div class="title">
+    <h1>JEE : Summoners Wars Website</h1>
+</div>
+<div class="menu">
+    <div class="left-side">
+        <a class="button menu-button"><button onclick="showRightSide()"><ion-icon name="menu-outline"></ion-icon></button></a>
+        <a class="button home-button" href="/"><button><ion-icon name="home-outline"></ion-icon></button></a>
+        <a class="button rune-button" href="/bestiary"><button><img src="/images/transcendance.png"></button></a>
+        <a class="button monster-button" href="/monsters"><button><img src="/images/monster.png"></button></a>
+        <a class="button rune-button" href="/runes"><button><img src="/images/rune.png"></button></a>
+        <a class="button artifact-button" href="/artifacts"><button><img src="/images/artefact.png"></button></a>
+        <a class="button gvo-team-button a_page" href="/gvoteam"><button><img src="/images/battle.png"></button></a>
+        <a class="button upload-button" href="/uploadJSON"><button><ion-icon name="cloud-upload-outline"></ion-icon></button></a>
+        <div class="bottom-left">
+            <a class="button log-out-button" href="/logout"><button><ion-icon name="log-out-outline"></ion-icon></button></a>
+        </div>
+    </div>
+    <div class="right-side">
+        <a class="button menu-button"><button><p>Menu</p></button></a>
+        <a class="button home-button" href="/"><button><p>Accueil</p></button></a>
+        <a class="button rune-button" href="/bestiary"><button><p>Bestiaire</p></button></a>
+        <a class="button monster-button" href="/monsters"><button><p>Monstres</p></button></a>
+        <a class="button rune-button" href="/runes"><button><p>Runes</p></button></a>
+        <a class="button artifact-button" href="/artifacts"><button><p>Artefacts</p></button></a>
+        <a class="button gvo-team-button a_page" href="/gvoteam"><button><p>Team Builder</p></button></a>
+        <a class="button upload-button" href="/uploadJSON"><button><p>Upload</p></button></a>
+        <div class="bottom-right">
+            <a class="button log-out-button" href="/logout"><button><p>Déconnexion</p></button></a>
+        </div>
+    </div>
+</div>
+<div class="content">
+    <form class="team-gvo-form" th:action="@{/gvoteambuilder}" th:object="${gvoteamform}" method="post">
+        <select name="monster1" id="monster1">
+            <option disabled selected>Choose a monster leader</option>
+            <option th:each="m : ${monster}" th:value="${m.idMonster}" th:text="${m.name}+ ' ('+${m.element}+')'"></option>
+        </select>
+        <select name="monster2" id="monster2">
+            <option disabled selected>Choose a monster</option>
+            <option th:each="m : ${monster}" th:value="${m.idMonster}" th:text="${m.name}+ ' ('+${m.element}+')'"></option>
+        </select>
+        <select name="monster3" id="monster3">
+            <option disabled selected>Choose a monster</option>
+            <option th:each="m : ${monster}" th:value="${m.idMonster}" th:text="${m.name}+ ' ('+${m.element}+')'"></option>
+        </select>
+        <button class="submit-gvo-team" type="submit" value="Submit">Submit</button>
+    </form>
+
+</div>
+<footer>
+    <div>
+        <p>DURANTEAU Damien - LANTA Axel - OUTREBON Edouard</p>
+        <p>CY Tech 2022</p>
+    </div>
+</footer>
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

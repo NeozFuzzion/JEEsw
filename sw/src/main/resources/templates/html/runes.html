@@ -5,6 +5,10 @@
   <title>Titre</title>
   <link rel="stylesheet" href="/css/style.css">
   <script type="text/javascript" src="/js/functions.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="js/runeFilter.js"></script>
+  <script src="js/runesEventListener.js"></script>
 </head>
 <body>
   <div class="title">
@@ -15,78 +19,130 @@
     <div class="left-side">
       <a class="button menu-button"><button onclick="showRightSide()"><ion-icon name="menu-outline"></ion-icon></button></a>
       <a class="button home-button" href="/"><button><ion-icon name="home-outline"></ion-icon></button></a>
+      <a class="button rune-button" href="/bestiary"><button><img src="/images/transcendance.png"></button></a>
       <a class="button monster-button" href="/monsters"><button><img src="/images/monster.png"></button></a>
       <a class="button rune-button a_page" href="/runes"><button><img src="/images/rune.png"></button></a>
       <a class="button artifact-button" href="/artifacts"><button><img src="/images/artefact.png"></button></a>
+      <a class="button gvo-team-button" href="/gvoteam"><button><img src="/images/battle.png"></button></a>
       <a class="button upload-button" href="/uploadJSON"><button><ion-icon name="cloud-upload-outline"></ion-icon></button></a>
+      <div class="bottom-left">
+        <a class="button log-out-button" href="/logout"><button><ion-icon name="log-out-outline"></ion-icon></button></a>
+      </div>
     </div>
     <div class="right-side">
       <a class="button menu-button"><button><p>Menu</p></button></a>
       <a class="button home-button" href="/"><button><p>Accueil</p></button></a>
+      <a class="button rune-button" href="/bestiary"><button><p>Bestiaire</p></button></a>
       <a class="button monster-button" href="/monsters"><button><p>Monstres</p></button></a>
       <a class="button rune-button a_page" href="/runes"><button><p>Runes</p></button></a>
       <a class="button artifact-button" href="/artifacts"><button><p>Artefacts</p></button></a>
+      <a class="button gvo-team-button" href="/gvoteam"><button><p>Team Builder</p></button></a>
       <a class="button upload-button" href="/uploadJSON"><button><p>Upload</p></button></a>
+      <div class="bottom-right">
+        <a class="button log-out-button" href="/logout"><button><p>Déconnexion</p></button></a>
+      </div>
     </div>
   </div>
 
-  <div class="content">
-    <table>
-      <thead>
-      <tr>
-        <th>Set</th>
-        <th>Slot</th>
-        <th>Rank</th>
-        <th>Class</th>
-        <th>Current upgrade</th>
-        <th>Main stat</th>
-        <th>Innate stat</th>
-        <th>Substat1</th>
-        <th>Substat2</th>
-        <th>Substat3</th>
-        <th>Substat4</th>
-        <th>Efficiency</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="rune : ${runes}">
-        <td><p th:text="${rune.set_id} "></p></td>
-        <td><p th:text="${rune.slot_no} "></p></td>
-        <td><p th:text="${rune.rang} "></p></td>
-        <td><p th:text="${rune.classe} "></p></td>
-        <td><p th:text="${rune.upgrade_curr} "></p></td>
-        <td><p  th:text="${rune.pri} + ' ' + ${rune.statPri.name}"></p></td>
-        <td>
-          <p th:if="${rune.innate}!=null" th:text="${rune?.innate} + ' ' +${rune?.statInnate?.name} "></p>
-          <p th:unless="${rune.innate}!=null" >0</p>
-        </td>
-        <td>
-          <p th:if="${rune.subStat1}!=null" th:text="${rune.subStat1Value} "></p>
-          <p th:unless="${rune.subStat1}!=null" >0</p>
-        </td>
-        <td>
-          <p th:if="${rune.subStat2}!=null" th:text="${rune.subStat2Value} "></p>
-          <p th:unless="${rune.subStat2}!=null" >0</p>
-        </td>
-        <td>
-          <p th:if="${rune.subStat3}!=null" th:text="${rune.subStat3Value} "></p>
-          <p th:unless="${rune.subStat3}!=null" >0</p>
-        </td>
-        <td>
-          <p th:if="${rune.subStat4}!=null" th:text="${rune.subStat4Value} "></p>
-          <p th:unless="${rune.subStat4}!=null" >0</p>
-        </td>
-       <td>
-          <p th:text="${rune.efficiency} "></p>
-       </td>
-      </tr>
-      </tbody>
-    </table>
   </div>
+  <div class="content">
+    <th:block th:if="${data}">
+      <div class="graph-efficiency">
+        <div class="graph-parameters">
+          <div class="graph-json-select">
+            <select name="jsonChosen" id="jsonChosen">
+              <option disabled selected>Choose a json</option>
+              <option th:each="json : ${jsons}" th:value="${json}" th:text="${json}"></option>
+            </select>
+          </div>
+          <div class="graph-range">
+            <div class="range-inputs">
+              <input type="range" name="nbRunes" id="nbRunes" value="400" min="50" max="1000" step="50">
+              <input type="text" id="rangeVal" disabled>
+            </div>
+          </div>
+          <div class="graph-set-select">
+            <select name="runeSet" id="runeSet">
+              <option disabled selected>Select a rune set</option>
+              <option value="0">All Runes</option>
+              <option value="1">Energy</option>
+              <option value="2">Guard</option>
+              <option value="3">Swift</option>
+              <option value="4">Blade</option>
+              <option value="5">Rage</option>
+              <option value="6">Focus</option>
+              <option value="7">Endure</option>
+              <option value="8">Fatal</option>
+              <option value="10">Despair</option>
+              <option value="11">Vampire</option>
+              <option value="13">Violent</option>
+              <option value="14">Nemesis</option>
+              <option value="15">Will</option>
+              <option value="16">Shield</option>
+              <option value="17">Revenge</option>
+              <option value="18">Destroy</option>
+              <option value="19">Fight</option>
+              <option value="20">Determination</option>
+              <option value="21">Enhance</option>
+              <option value="22">Accuracy</option>
+              <option value="23">Tolerance</option>
+            </select>
+          </div>
+          <div class="graph-ancient-select">
+            <select name="ancient" id="ancient">
+              <option value="0">Include all</option>
+              <option value="1">No ancient</option>
+              <option value="2">Only ancient</option>
+            </select>
+          </div>
+
+          <button id="submit-runes-filters" onclick="sortRune()">Submit</button>
+          <div class="missingParameter">
+
+          </div>
+        </div>
+
+        <canvas id="myChart" style="width:100%;max-width:1000px;max-height:500px"></canvas>
+
+      </div>
+
+      <script th:inline="javascript">
+        createChart([[${eff}]],[[${effMaxHero}]],[[${effMaxLegend}]],400,[[${jsons[0]}]]);
+      </script>
+
+      <div class="runes-display" id="runes-display">
+        <div th:each="rune : ${runes}">
+          <a th:href="@{'/runesBook/'+${rune.idRune.idRune}}">
+          <div class="rune" >
+            <div class="rune-slot-image">
+              <p class="rune-slot" th:text="${rune.slot_no}"></p>
+              <p class="rune-rang" th:text="${rune.rang}"></p>
+              <div class="rune-image-div">
+                <img class="rune-image" src="">
+              </div>
+              <div class="rune-type-div">
+                <img class="rune-type" th:src="'/images/runes/'+${rune.set_id.image}">
+              </div>
+              <p class="rune-upgrade" th:text="'+'+${rune.upgrade_curr}"></p>
+            </div>
+            <div class="rune-infos">
+              <p th:text="${rune.pri} + ' ' + ${rune.statPri.name}"></p>
+              <p th:if="${rune.innate}!=null" th:text="${rune?.innate} + ' ' +${rune?.statInnate?.name} "></p>
+            </div>
+          </div>
+          </a>
+        </div>
+      </div>
+    </th:block>
+    <th:block th:unless="${data}">
+      <p>Go farmer-la tu troll</p>
+    </th:block>
+  </div>
+
 
   <footer>
     <div>
-      <p>DURANTEAU Damien - LANTA Axel - OUTREBOND Edouard</p>
+      <p>DURANTEAU Damien - LANTA Axel - OUTREBON Edouard</p>
       <p>CY Tech 2022</p>
     </div>
   </footer>

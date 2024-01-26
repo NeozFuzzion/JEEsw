@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <title>Titre</title>
     <link rel="stylesheet" href="/css/style.css">
+
     <script type="text/javascript" src="/js/functions.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.0.1/dist/chart.umd.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/artifactFilter.js"></script>
+    <script src="js/runesEventListener.js"></script>
+    <script src="js/artifactsEventListener.js"></script>
 </head>
 <body>
     <div class="title">
@@ -15,24 +21,114 @@
         <div class="left-side">
             <a class="button menu-button"><button onclick="showRightSide()"><ion-icon name="menu-outline"></ion-icon></button></a>
             <a class="button home-button" href="/"><button><ion-icon name="home-outline"></ion-icon></button></a>
+            <a class="button rune-button" href="/bestiary"><button><img src="/images/transcendance.png"></button></a>
             <a class="button monster-button" href="/monsters"><button><img src="/images/monster.png"></button></a>
             <a class="button rune-button" href="/runes"><button><img src="/images/rune.png"></button></a>
             <a class="button artifact-button a_page" href="/artifacts"><button><img src="/images/artefact.png"></button></a>
+            <a class="button gvo-team-button" href="/gvoteam"><button><img src="/images/battle.png"></button></a>
             <a class="button upload-button" href="/uploadJSON"><button><ion-icon name="cloud-upload-outline"></ion-icon></button></a>
+            <div class="bottom-left">
+                <a class="button log-out-button" href="/logout"><button><ion-icon name="log-out-outline"></ion-icon></button></a>
+            </div>
         </div>
         <div class="right-side">
             <a class="button menu-button"><button><p>Menu</p></button></a>
             <a class="button home-button" href="/"><button><p>Accueil</p></button></a>
+            <a class="button rune-button" href="/bestiary"><button><p>Bestiaire</p></button></a>
             <a class="button monster-button" href="/monsters"><button><p>Monstres</p></button></a>
             <a class="button rune-button" href="/runes"><button><p>Runes</p></button></a>
             <a class="button artifact-button a_page" href="/artifacts"><button><p>Artefacts</p></button></a>
+            <a class="button gvo-team-button" href="/gvoteam"><button><p>Team Builder</p></button></a>
             <a class="button upload-button" href="/uploadJSON"><button><p>Upload</p></button></a>
+            <div class="bottom-right">
+                <a class="button log-out-button" href="/logout"><button><p>Déconnexion</p></button></a>
+            </div>
         </div>
     </div>
+    <div class="content">
+        <th:block th:if="${data}">
+            <div class="graph-efficiency">
+                <div class="graph-parameters">
+                    <div class="graph-json-select">
+                        <select name="jsonChosen" id="jsonChosen">
+                            <option disabled selected>Choose a json</option>
+                            <option th:each="json : ${jsons}" th:value="${json}" th:text="${json}"></option>
+                        </select>
+                    </div>
+                    <div class="graph-range">
+                        <div class="range-inputs">
+                            <input type="range" name="nbArtifacts" id="nbArtifacts" value="200" min="50" max="1000" step="50">
+                            <input type="text" id="rangeVal" disabled>
+                        </div>
+                    </div>
+                    <div class="graph-set-select">
+                        <select name="artifactType" id="artifactType">
+                            <option disabled selected>Select an artifact type</option>
+                            <option value="all">All artifacts</option>
+                            <option value="allAttributes">All attribute artifacts</option>
+                            <option value="allArchetypes">All archetype artifacts</option>
+                            <optgroup label="Attribute">
+                                <option value="Fire">Fire</option>
+                                <option value="Water">Water</option>
+                                <option value="Wind">Wind</option>
+                                <option value="Dark">Dark</option>
+                                <option value="Light">Light</option>
+                            </optgroup>
+                            <optgroup label="Archetype">
+                                <option value="Attack">Attack</option>
+                                <option value="Defense">Defense</option>
+                                <option value="HP">HP</option>
+                                <option value="Support">Support</option>
+                            </optgroup>
+                        </select>
+                    </div>
 
+                    <button id="submit-runes-filters" onclick="sortArtifact()">Submit</button>
+                    <div class="missingParameter">
+
+                    </div>
+                </div>
+
+                <canvas id="myChart" style="width:100%;max-width:1000px;max-height:500px"></canvas>
+            </div>
+
+            <div class="artifacts-display" id="artifacts-display">
+                <div th:each="artifact : ${artifacts}">
+                    <a th:href="@{'/artifactsBook/'+${artifact.idArtifact.idArtifact}}">
+                        <div class="artifact" >
+                            <div class="artifact-type-image">
+                                <p class="artifact-type" th:text="${artifact.type}"></p>
+                                <p class="artifact-rank" th:text="${artifact.rang}"></p>
+                                <div class="artifact-image-div">
+                                    <img class="artifact-image" src="">
+                                </div>
+                                <div class="artifact-restriction-div">
+                                    <img class="artifact-restriction" th:src="'/images/artifacts/'+${#strings.toLowerCase(artifact.restriction)}+'.png'">
+                                </div>
+                                <p class="artifact-upgrade" th:text="'+'+${artifact.level}"></p>
+                            </div>
+                            <div class="artifact-infos">
+                                <p th:text="${artifact.pri} + ' ' + ${artifact.statPri}"></p>
+
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+
+            <script th:inline="javascript">
+                createChart([[${eff}]],200,[[${jsons[0]}]]);
+            </script>
+        </th:block>
+        <th:block th:unless="${data}">
+            <p>Go farmer-la tu troll</p>
+        </th:block>
+    </div>
     <footer>
         <div>
-            <p>DURANTEAU Damien - LANTA Axel - OUTREBOND Edouard</p>
+            <p>DURANTEAU Damien - LANTA Axel - OUTREBON Edouard</p>
             <p>CY Tech 2022</p>
         </div>
     </footer>

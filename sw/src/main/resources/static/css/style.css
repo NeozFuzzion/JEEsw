@@ -4,7 +4,7 @@
     --right-side-menu-width: 150px;
 }
 
-h1, p, button {
+h1, p, input, button {
     all:initial;
 }
 
@@ -38,6 +38,7 @@ body {
     left: 0;
     bottom: 0;
     display: flex;
+    z-index: 20;
 }
 
 .left-side {
@@ -76,6 +77,13 @@ body {
     margin: auto;
 }
 
+.bottom-left,
+.bottom-right {
+    position: fixed;
+    bottom: 0;
+    margin-bottom: var(--footer-height);
+}
+
 .right-side {
     width: var(--right-side-menu-width);
     display: none;
@@ -96,10 +104,7 @@ body {
 .right-side a button p {
     color: #FFFFFF;
     font-size: 20px;
-    margin-top: auto;
-    margin-right: auto;
-    margin-left: 10px;
-    margin-bottom: auto;
+    margin: auto auto auto 10px;
 }
 
 .button .menu-button:hover {
@@ -112,8 +117,46 @@ body {
 
 .content {
     margin-left: var(--left-side-menu-width);
+    margin-bottom: calc(var(--footer-height) + 50px);
     display: flex;
     flex-direction: column;
+}
+
+.monster-json-select {
+    display: flex;
+    flex-direction: column;
+    margin: 0px auto;
+}
+
+.json-select-div  {
+    display: flex;
+}
+
+.json-select-div select {
+    font-size: 16px;
+    margin: 10px auto;
+    height: 40px;
+    cursor: pointer;
+    background-color: #13181e;
+    color: #FFFFFF;
+    border: none;
+}
+
+.submit-json {
+    font-size: 18px;
+    margin: auto 10px;
+    color: #FFFFFF;
+    height: 40px;
+    width: 100px;
+    background-color: #13181e;
+    text-align: center;
+    cursor: pointer;
+}
+
+.missingParameter {
+    margin: 0px auto;
+    color: #dc143c;
+    font-size: 16px;
 }
 
 .search-bar {
@@ -130,10 +173,7 @@ body {
 }
 
 .monster-grid {
-    margin-top: 25px;
-    margin-right: auto;
-    margin-left: auto;
-    margin-bottom: calc(50px + var(--footer-height));
+    margin: 25px auto calc(var(--footer-height) + 50px) auto;
     display: grid;
     min-width: 80%;
     grid-template-columns: repeat(auto-fill, 100px);
@@ -141,28 +181,588 @@ body {
     grid-gap: 10px;
 }
 
-.content table {
-    margin-top: 50px;
-    margin-right: auto;
-    margin-left: auto;
-    margin-bottom: calc(var(--footer-height) + 50px);
-    width: 80%;
-    border: 3px solid rgba(255, 255, 255, 0.25);
-    border-radius: 1px;
-    background-color: #13181e;
+.which-monster {
+    display: none;
 }
 
-.content table thead tr th {
-    border: 1px solid #d3af65;
+.monster-infos {
+    margin: 50px auto;
+    display: flex;
 }
 
-.content table tr td {
-    border: 1px solid #d3af65;
-    text-align: center;
+.monster-infos-side-left{
+    display: flex;
+    flex-direction: column;
+    margin: auto 25px;
 }
 
-.content table tr td p {
+.monster-infos-side-right{
+    display: flex;
+    margin: auto 25px;
+}
+
+.monster {
+    display: flex;
+    flex-direction: column;
+}
+
+.monster-image {
+    margin: 0px auto;
+}
+
+.monster-image img {
+    width: 150px;
+    height: 150px;
+}
+
+.monster-sub-infos {
+    margin: 25px auto;
+    display: flex;
+}
+
+#monster-type {
+    display: none;
+}
+
+.monster-type-image {
+    margin: 0px auto;
+    width: 50px;
+    height: 50px;
+    display: flex;
+}
+
+.monster-type-image img {
+    margin: auto 0px;
+    width: 40px;
+    height: 40px;
+}
+
+.monster-name {
     color: #FFFFFF;
+    font-size: 40px;
+    margin: auto;
+}
+
+.monster-stars-images {
+    padding-left: 10px;
+    margin: 0px auto;
+    height: 50px;
+    display: flex;
+}
+
+.monster-stars-images img {
+    margin: auto 0px;
+    width: 30px;
+    height: 30px;
+}
+
+#monster-stars {
+    display: none;
+}
+
+#awakening_level {
+    display: none;
+}
+
+.monster-stats {
+    margin: 25px auto;
+    display: flex;
+}
+
+.monster-stats table {
+    margin: 0px auto;
+    width: 250px;
+}
+
+.monster-stats table tr .left {
+    text-align: left;
+}
+
+.monster-stats table tr .right {
+    text-align: right;
+}
+
+.monster-stats table tr td {
+    font-size: 20px;
+}
+
+.monster-stats table tr td p {
+    font-size: 20px;
+    color: white;
+}
+
+.monster-skills-infos {
+    display: flex;
+}
+
+.monster-skills {
+    margin: auto 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.monster-skills button {
+    margin: 15px;
+}
+
+.monster-skills button img {
+    width: 75px;
+    height: 75px;
+}
+
+.skill-infos {
+    margin: auto 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.skill-infos div {
+    display: flex;
+    flex-direction: column;
+}
+
+.skill-description {
+    margin: 0px auto;
+    width: 450px;
+}
+
+.skill-infos div h1 {
+    margin: 0px auto;
+    font-size: 30px;
+    color: white;
+}
+
+.skill-infos div table {
+    margin: 10px auto;
+    table-layout: auto;
+    width: 100%;
+}
+
+.skill-infos div table tr td {
+    text-align: center;
+    font-size: 20px;
+}
+
+.skill-infos div p {
+    margin: 0px auto;
+    font-size: 20px;
+    color: white;
+    text-align: justify;
+}
+
+.skill-selected {
+    border: 3px solid rgba(255, 255, 255, 0.75);
+}
+
+.skill-not-selected{
+    border: 3px solid #20252b;
+}
+
+#skill-2-description,
+#skill-3-description,
+#skill-4-description,
+#leader-skill-description {
+    display: none;
+}
+
+.graph-efficiency {
+    margin: 50px auto;
+    display: flex;
+}
+
+.graph-parameters {
+    margin:auto 0px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.graph-json-select,
+.graph-set-select,
+.graph-ancient-select {
+    margin: 5px auto;
+    width: inherit;
+    display: flex;
+}
+
+.graph-json-select select,
+.graph-set-select select,
+.graph-ancient-select select {
+    font-size: 16px;
+    margin: 0px auto;
+    height: 40px;
+    width: 85%;
+    cursor: pointer;
+    background-color: #13181e;
+    color: #FFFFFF;
+    border: none;
+}
+
+.graph-range {
+    display: flex;
+    width: 100%;
+    margin: 5px auto;
+}
+
+.range-inputs {
+    margin: 0px auto;
+    display: flex;
+}
+
+.graph-range input[type="range"] {
+    margin: auto 10px;
+    border-radius: 5px;
+    background: white;
+    height: 5px;
+}
+
+.graph-range input[type="text"] {
+    margin: auto 10px;
+    font-size: 20px;
+    color: #FFFFFF;
+    width: 40px;
+    text-align: right;
+}
+
+#submit-runes-filters {
+    font-size: 18px;
+    margin: 5px auto;
+    color: #FFFFFF;
+    height: 40px;
+    background-color: #13181e;
+    width: 85%;
+    text-align: center;
+    cursor: pointer;
+}
+
+#submit-runes-filters:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+#myChart {
+    margin: 0px auto;
+    width: 85%;
+}
+
+.runes-display, .artifacts-display {
+    margin: 25px auto auto auto;
+    display: grid;
+    min-width: 80%;
+    grid-template-columns: repeat(auto-fill, 175px);
+    grid-auto-rows: 50px;
+    grid-gap: 10px;
+}
+
+.runes-display div a,
+.artifacts-display div a {
+    text-decoration: none;
+}
+
+.rune, .artifact {
+    display: flex;
+    background-color: #13181e;
+    border: 1px solid rgba(211, 175, 101, 0.5);
+    height: 50px;
+}
+
+.rune-slot-image {
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+
+.rune-image-div {
+    position: absolute;
+    display: flex;
+    z-index: 1;
+    width: inherit;
+    height: inherit;
+}
+
+.rune-image {
+    scale: 75%;
+    margin: auto;
+}
+
+.rune-type-div {
+    position: absolute;
+    display: flex;
+    z-index: 10;
+    width: inherit;
+    height: inherit;
+}
+
+.rune-type {
+    scale: 45%;
+}
+
+.rune-upgrade {
+    display: none;
+}
+
+.rune-upgrade p {
+    font-size: 10px;
+    color: white;
+}
+
+.rune-slot,
+.rune-rang {
+    display: none;
+}
+
+.rune-infos, .artifact-infos {
+    display: flex;
+    flex-direction: column;
+    margin: auto 5px;
+}
+
+.rune-infos p, .artifact-infos p {
+    color: white;
+    cursor: pointer;
+}
+
+
+.kek {
+    display: none;
+}
+
+.kek img{
+    width: 150px;
+    height: 150px;
+    margin: 50px auto 0px auto;
+}
+
+.upload-form {
+    margin: 50px auto;
+}
+
+.upload-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.upload-form form input[type="submit"]{
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 5px;
+    background-color: #13181e;
+    width: 75px;
+    height: 25px;
+    color: #FFFFFF;
+    text-align: center;
+    margin: 0px auto;
+}
+
+.upload-form form input[type="file"] {
+    margin: 0px auto 25px auto;
+    color: #FFFFFF;
+}
+.sub-title {
+    max-width: 100%;
+    height: 50px;
+    display: flex;
+}
+
+.sub-title h1 {
+    margin: 0px auto;
+    color: white;
+    font-size: 25px;
+}
+
+.login-infos {
+    margin: 150px auto 0px auto;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-infos form input[type="text"], .login-infos form input[type="password"] {
+    background-color: rgba(255, 255, 255, 0.25);
+    border: 1px solid #20252b;
+    height: 25px;
+    width: 100%;
+    color: #FFFFFF;
+    margin: 5px auto 10px auto;
+    width: 100%;
+}
+
+.login-infos form input[type="text"]:focus, .login-infos form input[type="password"]:focus {
+    border: 1px solid #d3af65;
+}
+
+.message {
+    margin: 15px auto 0px auto;
+    display: flex;
+}
+
+.message p {
+    margin: 0px auto;
+    color: #dc143c;
+    font-size: 15px;
+    width: auto;
+}
+
+.submit-log-in {
+    width: inherit;
+}
+
+.submit-log-in input[type="submit"]{
+    font-size: 18px;
+    margin: 25px auto;
+    color: #FFFFFF;
+    height: 40px;
+    background-color: #13181e;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.team-button {
+    margin: 50px auto 0px auto;
+    width: 150px;
+    height: 40px;
+    background-color: #13181e;
+    text-decoration: none;
+    display: flex;
+}
+
+.team-button:hover {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.team-button button {
+    margin: auto;
+}
+
+.team-button button p {
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+.team-button button p:hover {
+    cursor: pointer;
+}
+
+.team-display {
+    display: flex;
+    margin: 25px auto;
+}
+
+.team {
+    display: flex;
+    background-color: #13181e;
+    border: 1px solid rgba(211, 175, 101, 0.75);
+    width: 750px;
+}
+
+.team-monster {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    width: 30%;
+}
+
+.team-monster-image {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    margin: 0px auto;
+}
+
+.team-monster-image img {
+    width: 125px;
+    height: 125px;
+    margin: auto;
+}
+
+.team-monster-info {
+    display: flex;
+    margin: 0px auto;
+}
+
+.team-monster-type-image {
+    width: 40px;
+    height: 40px;
+    display: flex;
+}
+
+.team-monster-type-image img {
+    width: 30px;
+    height: 30px;
+    margin: auto;
+}
+
+.team-monster-info h1 {
+    color: #FFFFFF;
+    margin: auto 0px;
+    font-size: 20px;
+}
+
+.team-buttons {
+    display: flex;
+    flex-direction: column;
+    margin: auto 20px auto auto;
+    width: 10%;
+}
+
+.team-buttons a {
+    width: 40px;
+    height: 40px;
+    margin: 10px auto;
+    display: flex;
+}
+
+.update-team-button button,
+.delete-team-button button {
+    color: white;
+    background-color: rgba(211, 175, 101, 0.75);
+    width: inherit;
+    height: inherit;
+    margin: auto;
+    display: flex;
+    cursor: pointer;
+}
+
+.update-team-button button:hover {
+    background-color: #d3af65;
+}
+
+.delete-team-button button:hover {
+    background-color: rgba(220, 20, 60, 0.75);
+}
+
+.update-team-button button ion-icon,
+.delete-team-button button ion-icon {
+    width: 25px;
+    height: 25px;
+    margin: auto;
+}
+
+.team-gvo-form {
+    display: flex;
+    flex-direction: column;
+    margin: 50px auto;
+}
+
+.team-gvo-form select {
+    font-size: 16px;
+    margin: 10px auto;
+    height: 40px;
+    cursor: pointer;
+    background-color: #13181e;
+    color: #FFFFFF;
+    border: none;
+}
+
+.submit-gvo-team {
+    font-size: 18px;
+    margin: 25px auto;
+    color: #FFFFFF;
+    height: 40px;
+    width: 100%;
+    background-color: #13181e;
+    text-align: center;
+    cursor: pointer;
 }
 
 footer {
@@ -185,3 +785,129 @@ footer p {
     color: white;
     margin: 0px auto;
 }
+
+.artifact-type-image{
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+
+.artifact-rank, .artifact-upgrade, .artifact-type {
+    display : none;
+}
+
+.artifact-image-div{
+    position: absolute;
+    display: flex;
+    z-index: 1;
+    width: inherit;
+    height: inherit;
+}
+
+.artifact-restriction-div{
+    position: absolute;
+    display: flex;
+    z-index: 10;
+    width: inherit;
+    height: inherit;
+}
+
+.artifact-restriction{
+    scale:45%;
+}
+
+.artifact-image{
+    scale : 90%;
+}
+
+.book-div {
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.book-slot-image {
+    margin: 0px auto 15px auto;
+    width: 100px;
+    height: 100px;
+}
+
+.book-image-div,
+.book-type-div {
+    width: inherit;
+    height: inherit;
+    display: flex;
+}
+
+.book-image-div img {
+    scale: 70%;
+    margin: auto;
+}
+
+.book-type-div img {
+    scale: 40%;
+    margin: auto;
+}
+
+.book-table tr td div p{
+    color: #FFFFFF;
+}
+
+.rune-stat-left div,
+.artefact-stat-left div {
+    text-align: right;
+}
+.accueil-image{
+    width: 150px;
+    height: 150px;
+
+}
+
+.accueil-lien{
+    font-size: 20px;
+    margin: 10px auto;
+    height: 40px;
+    cursor: pointer;
+    background-color: #13181e;
+    color: #FFFFFF;
+    border: none;
+}
+
+.welcome, .accueil-login ,.accueil-bestiary ,.accueil-register {
+    display: flex;
+    flex-direction: column;
+    margin: 0px auto;
+    background-color: #13181e;
+}
+
+ .accueil-login a,.accueil-bestiary a,.accueil-register a{
+    display: flex;
+    flex-direction: column;
+    margin: 0px auto;
+    text-decoration: none;
+    background-color: #13181e;
+}
+
+.welcome p, .accueil-login a p,.accueil-bestiary a p,.accueil-register a p{
+    margin: 0px auto;
+
+}
+
+.accueil-grid{
+    display:grid;
+    grid-template-columns: repeat(2,50%);
+    grid-auto-rows: 200px;
+    grid-gap:25px;
+    margin:50px 1em;
+}
+
+.accueil-grid img {
+    padding: 15px;
+}
+
+.bestiary-monster-runes a{
+    text-decoration: none;
+}
+
+

@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>Titre</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/js/functions.js"></script>
+    <script src="js/monsterFilter.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
 <div class="title">
@@ -13,44 +16,87 @@
     <div class="left-side">
         <a class="button menu-button"><button onclick="showRightSide()"><ion-icon name="menu-outline"></ion-icon></button></a>
         <a class="button home-button" href="/"><button><ion-icon name="home-outline"></ion-icon></button></a>
+        <a class="button rune-button" href="/bestiary"><button><img src="/images/transcendance.png"></button></a>
         <a class="button monster-button a_page" href="/monsters"><button><img src="/images/monster.png"></button></a>
         <a class="button rune-button" href="/runes"><button><img src="/images/rune.png"></button></a>
         <a class="button artifact-button" href="/artifacts"><button><img src="/images/artefact.png"></button></a>
+        <a class="button gvo-team-button" href="/gvoteam"><button><img src="/images/battle.png"></button></a>
         <a class="button upload-button" href="/uploadJSON"><button><ion-icon name="cloud-upload-outline"></ion-icon></button></a>
+        <div class="bottom-left">
+            <a class="button log-out-button" href="/logout"><button><ion-icon name="log-out-outline"></ion-icon></button></a>
+        </div>
     </div>
     <div class="right-side">
         <a class="button menu-button"><button><p>Menu</p></button></a>
         <a class="button home-button" href="/"><button><p>Accueil</p></button></a>
+        <a class="button rune-button" href="/bestiary"><button><p>Bestiaire</p></button></a>
         <a class="button monster-button a_page" href="/monsters"><button><p>Monstres</p></button></a>
         <a class="button rune-button" href="/runes"><button><p>Runes</p></button></a>
-        <a class="button artifact-button" href="/ar"><button><p>Artefacts</p></button></a>
+        <a class="button artifact-button" href="/artifacts"><button><p>Artefacts</p></button></a>
+        <a class="button gvo-team-button" href="/gvoteam"><button><p>Team Builder</p></button></a>
         <a class="button upload-button" href="/uploadJSON"><button><p>Upload</p></button></a>
+        <div class="bottom-right">
+            <a class="button log-out-button" href="/logout"><button><p>Déconnexion</p></button></a>
+        </div>
     </div>
 </div>
 <div class="content">
-    <span th:each="monster : ${nat5}">
-        <p><a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}"></a></p>
-    </span>
-    <span th:each="monster : ${nat4}">
-        <p><a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}"></a></p>
-    </span>
-    <span th:each="monster : ${nat3}">
-        <p><a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}"><img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}"></a></p>
-    </span>
+    <th:block th:if="${data}">
+
+    <div class="monster-json-select">
+        <div class="json-select-div">
+            <select name="jsonChosen" id="jsonChosen">
+                <option disabled selected>Choose a json</option>
+                <option th:each="json : ${jsons}" th:value="${json}" th:text="${json}"></option>
+            </select>
+            <button class="submit-json" onclick="filterMonster()">Submit</button>
+        </div>
+        <p class="missingParameter"></p>
+    </div>
+
+
     <div class="search-bar">
-        <input type="text">
+        <input id="search-monsters-bar" type="text" placeholder="Search Monster" onkeyup="searchMonster()">
     </div>
     <div class="monster-grid">
-        <div th:each="monster : ${monsters}">
-            <img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}">
-        </div>
+        <span class="monster-grid-image" th:each="monster : ${nat5}">
+            <div>
+                <p class="which-monster" th:text="${monster.gameMonster.name}"></p>
+                <a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}">
+                    <img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}">
+                </a>
+            </div>
+        </span>
+        <span class="monster-grid-image" th:each="monster : ${nat4}">
+            <div>
+                <p class="which-monster" th:text="${monster.gameMonster.name}"></p>
+                <a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}">
+                    <img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}">
+                </a>
+            </div>
+        </span>
+        <span class="monster-grid-image" th:each="monster : ${a2}">
+            <div>
+                <p class="which-monster" th:text="${monster.gameMonster.name}"></p>
+                <a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}">
+                    <img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}">
+                </a>
+            </div>
+        </span>
     </div>
+    </th:block>
+    <th:block th:unless="${data}">
+        <p>Aucun json</p>
+    </th:block>
 </div>
     <footer>
         <div>
-            <p>DURANTEAU Damien - LANTA Axel - OUTREBOND Edouard</p>
+            <p>DURANTEAU Damien - LANTA Axel - OUTREBON Edouard</p>
             <p>CY Tech 2022</p>
         </div>
     </footer>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

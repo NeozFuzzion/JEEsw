@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Titre</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/js/functions.js"></script>
+    <script type="text/javascript" src="/js/monsterTypeImage.js"></script>
+    <script type="text/javascript" src="/js/starsEventListener.js"></script>
+    <script src="/js/runesEventListener.js"></script>
+</head>
+<body>
+<div class="title">
+    <h1>JEE : Summoners Wars Website</h1>
+</div>
+<div class="menu">
+    <div class="left-side">
+        <a class="button menu-button"><button onclick="showRightSide()"><ion-icon name="menu-outline"></ion-icon></button></a>
+        <a class="button home-button a_page" href="/"><button><ion-icon name="home-outline"></ion-icon></button></a>
+        <a class="button rune-button" href="/bestiary"><button><img src="/images/transcendance.png"></button></a>
+        <a class="button monster-button" href="/monsters"><button><img src="/images/monster.png"></button></a>
+        <a class="button rune-button" href="/runes"><button><img src="/images/rune.png"></button></a>
+        <a class="button artifact-button" href="/artifacts"><button><img src="/images/artefact.png"></button></a>
+        <a class="button gvo-team-button" href="/gvoteam"><button><img src="/images/battle.png"></button></a>
+        <a class="button upload-button" href="/uploadJSON"><button><ion-icon name="cloud-upload-outline"></ion-icon></button></a>
+        <div class="bottom-left">
+            <a  class="button log-in-button" href="/login"><button><ion-icon name="log-in-outline"></ion-icon></button></a>
+            <a class="button log-out-button" href="/logout"><button><ion-icon name="log-out-outline"></ion-icon></button></a>
+            <a class="button register-button" href="/register"><button><ion-icon name="person-add-outline"></ion-icon></button></a>
+        </div>
+    </div>
+    <div class="right-side">
+        <a class="button menu-button"><button><p>Menu</p></button></a>
+        <a class="button home-button a_page" href="/"><button><p>Accueil</p></button></a>
+        <a class="button rune-button" href="/bestiary"><button><p>Bestiaire</p></button></a>
+        <a class="button monster-button" href="/monsters"><button><p>Monstres</p></button></a>
+        <a class="button rune-button" href="/runes"><button><p>Runes</p></button></a>
+        <a class="button artifact-button" href="/artifacts"><button><p>Artefacts</p></button></a>
+        <a class="button gvo-team-button" href="/gvoteam"><button><p>Team Builder</p></button></a>
+        <a class="button upload-button" href="/uploadJSON"><button><p>Upload</p></button></a>
+        <div class="bottom-right">
+            <a class="button log-in-button" href="/login"><button><p>Connexion</p></button></a>
+            <a class="button log-out-button" href="/logout"><button><p>Déconnexion</p></button></a>
+            <a class="button register-button" href="/register"><button><p>Inscription</p></button></a>
+        </div>
+    </div>
+</div>
+    <div class="content">
+        <div class="book-div">
+            <div class="rune-slot-image book-slot-image">
+                <p class="rune-slot" th:text="${rune.slot_no}"></p>
+                <p class="rune-rang" th:text="${rune.rang}"></p>
+                <div class="rune-image-div book-image-div">
+                    <img class="rune-image" src="">
+                </div>
+                <div class="rune-type-div book-type-div">
+                    <img class="rune-type" th:src="'/images/runes/'+${rune.set_id.image}">
+                </div>
+                <p class="rune-upgrade" th:text="'+'+${rune.upgrade_curr}"></p>
+            </div>
+            <table class="book-table">
+                <tr>
+                    <td>Principal</td>
+                    <td class="rune-stat-left">
+                        <div>
+                            <p th:text="${rune.statPri.name}"></p>
+                            <p th:text="${rune.pri}"></p>
+                        </div>
+                    </td>
+                </tr>
+                <th:block th:if="${rune.statInnate!=null}">
+                    <tr>
+                        <td>Innate</td>
+                        <td class="rune-stat-left">
+                            <div>
+                                <p th:text="${rune.statInnate.name}"></p>
+                                <p th:text="${rune.innate}"></p>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+                <th:block th:if="${rune.subStat1!=null}">
+                    <tr>
+                        <td>Stat 1</td>
+                    <td class="rune-stat-left">
+                        <div>
+                            <p th:text="${rune.subStat1.name}"></p>
+                            <p th:text="${rune.subStat1Value}"></p>
+                        </div>
+                    </td>
+                    </tr>
+                </th:block>
+                <th:block th:if="${rune.subStat2!=null}">
+                    <tr>
+                        <td>Stat 2</td>
+                    <td class="rune-stat-left">
+                        <div>
+                            <p th:text="${rune.subStat2.name}"></p>
+                            <p th:text="${rune.subStat2Value}"></p>
+                        </div>
+                    </td>
+                    </tr>
+                </th:block>
+                <th:block th:if="${rune.subStat3!=null}">
+                    <tr>
+                        <td>Stat 3</td>
+                        <td class="rune-stat-left">
+                            <div>
+                                <p th:text="${rune.subStat3.name}"></p>
+                                <p th:text="${rune.subStat3Value}"></p>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+
+                <th:block th:if="${rune.subStat4!=null}">
+                    <tr>
+                        <td>Stat 4</td>
+                        <td class="rune-stat-left">
+                            <div>
+                                <p th:text="${rune.subStat4.name}"></p>
+                                <p th:text="${rune.subStat4Value}"></p>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+                <tr>
+                    <td>Efficiency</td>
+                    <td class="rune-stat-left">
+                        <div>
+                            <p th:text="${format.format(rune.efficiency)} + '%'"></p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Efficiency Max Hero</td>
+                    <td class="rune-stat-left">
+                        <div>
+                            <p th:text="${format.format(rune.effMaxHero)} + '%'"></p>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Efficiency Max Legend</td>
+                    <td class="rune-stat-left">
+                        <div>
+                            <p th:text="${format.format(rune.effMaxLegend)} + '%'"></p>
+                        </div>
+                    </td>
+                </tr>
+                <th:block th:if="${rune.getOccupied_id()!=null}">
+                    <tr>
+                        <td>From</td>
+                        <td class="rune-stat-left">
+                            <div>
+                                <p class="which-monster" th:text="${monster.gameMonster.name}"></p>
+                                <a th:href="@{'/bestiary/'+${monster.gameMonster.idMonster}}">
+                                    <img th:src="@{'/images/monsters/' + ${monster.gameMonster.image}}">
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+                <th:block th:unless="${rune.getOccupied_id()!=null}">
+                    <tr>
+                        <td>From</td>
+                        <td class="rune-stat-left">
+                            <div>
+                                <p style="color: #FFFFFF">Inventory</p>
+                            </div>
+                        </td>
+                    </tr>
+                </th:block>
+            </table>
+
+        </div>
+    </div>
+
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+<footer>
+    <div>
+        <p>DURANTEAU Damien - LANTA Axel - OUTREBON Edouard</p>
+        <p>CY Tech 2022</p>
+    </div>
+</footer>
+
+</body>
+</html>

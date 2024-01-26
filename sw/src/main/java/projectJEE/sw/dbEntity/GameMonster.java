@@ -1,5 +1,7 @@
 package projectJEE.sw.dbEntity;
 
+import org.json.simple.JSONObject;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +13,8 @@ public class GameMonster {
     @Column
     private String name;
 
+    @Column
+    private boolean obtainable;
     @Column
     private long hp;
 
@@ -188,6 +192,14 @@ public class GameMonster {
         return archetype;
     }
 
+    public boolean isObtainable() {
+        return obtainable;
+    }
+
+    public void setObtainable(boolean obtainable) {
+        this.obtainable = obtainable;
+    }
+
     public boolean isFusion_food() {
         return fusion_food;
     }
@@ -325,6 +337,13 @@ public class GameMonster {
                 ", archetype='" + archetype + '\'' +
                 ", fusion_food=" + fusion_food +
                 '}';
+    }
+    public JSONObject toJSON(){
+        JSONObject json = new JSONObject();
+        json.put("id",idMonster);
+        json.put("name",name);
+        json.put("image",image);
+        return json;
     }
 
 }

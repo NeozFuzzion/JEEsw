@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Titre</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/js/functions.js"></script>
 </head>
 <body>
 <div class="title">
@@ -13,110 +14,97 @@
     <div class="left-side">
         <a class="button menu-button"><button onclick="showRightSide()"><ion-icon name="menu-outline"></ion-icon></button></a>
         <a class="button home-button" href="/"><button><ion-icon name="home-outline"></ion-icon></button></a>
-        <a class="button monster-button a_page" href="/monsters"><button><img src="/images/monster.png"></button></a>
+        <a class="button rune-button a_page" href="/bestiary"><button><img src="/images/transcendance.png"></button></a>
+        <a class="button monster-button" href="/monsters"><button><img src="/images/monster.png"></button></a>
         <a class="button rune-button" href="/runes"><button><img src="/images/rune.png"></button></a>
         <a class="button artifact-button" href="/artifacts"><button><img src="/images/artefact.png"></button></a>
+        <a class="button gvo-team-button" href="/gvoteam"><button><img src="/images/battle.png"></button></a>
         <a class="button upload-button" href="/uploadJSON"><button><ion-icon name="cloud-upload-outline"></ion-icon></button></a>
+        <div class="bottom-left">
+            <a th:if="${!isConnected}" class="button log-in-button" href="/login"><button><ion-icon name="log-in-outline"></ion-icon></button></a>
+            <a th:if="${isConnected}" class="button log-out-button" href="/logout"><button><ion-icon name="log-out-outline"></ion-icon></button></a>
+            <a th:if="${!isConnected}" class="button register-button" href="/register"><button><ion-icon name="person-add-outline"></ion-icon></button></a>
+        </div>
     </div>
     <div class="right-side">
         <a class="button menu-button"><button><p>Menu</p></button></a>
         <a class="button home-button" href="/"><button><p>Accueil</p></button></a>
-        <a class="button monster-button a_page" href="/monsters"><button><p>Monstres</p></button></a>
+        <a class="button rune-button a_page" href="/bestiary"><button><p>Bestiaire</p></button></a>
+        <a class="button monster-button" href="/monsters"><button><p>Monstres</p></button></a>
         <a class="button rune-button" href="/runes"><button><p>Runes</p></button></a>
-        <a class="button artifact-button" href="/ar"><button><p>Artefacts</p></button></a>
+        <a class="button artifact-button" href="/artifacts"><button><p>Artefacts</p></button></a>
+        <a class="button gvo-team-button" href="/gvoteam"><button><p>Team Builder</p></button></a>
         <a class="button upload-button" href="/uploadJSON"><button><p>Upload</p></button></a>
+        <div class="bottom-right">
+            <a th:if="${!isConnected}" class="button log-in-button" href="/login"><button><p>Connexion</p></button></a>
+            <a th:if="${isConnected}" class="button log-out-button" href="/logout"><button><p>Déconnexion</p></button></a>
+            <a th:if="${!isConnected}" class="button register-button" href="/register"><button><p>Inscription</p></button></a>
+        </div>
     </div>
 </div>
+<div class="content">
+    <div class="search-bar">
+        <input id="search-monsters-bar" type="text" placeholder="Search Monster" onkeyup="searchMonster()">
+    </div>
+    <div class="monster-grid">
+      <span class="monster-grid-image" th:each="monster : ${nat5}">
+          <div>
+            <p class="which-monster" th:text="${monster.name}"></p>
+            <a th:href="@{'/bestiary/'+${monster.idMonster}}">
+              <img th:src="@{'/images/monsters/' + ${monster.image}}">
+            </a>
+          </div>
+      </span>
+        <span class="monster-grid-image" th:each="monster : ${nat4}">
+          <div>
+            <p class="which-monster" th:text="${monster.name}"></p>
+            <a th:href="@{'/bestiary/'+${monster.idMonster}}">
+              <img th:src="@{'/images/monsters/' + ${monster.image}}">
+            </a>
+          </div>
+      </span>
+        <span class="monster-grid-image" th:each="monster : ${a2}">
+          <div>
+            <p class="which-monster" th:text="${monster.name}"></p>
+            <a th:href="@{'/bestiary/'+${monster.idMonster}}">
+              <img th:src="@{'/images/monsters/' + ${monster.image}}">
+            </a>
+          </div>
+      </span>
+        <span class="monster-grid-image" th:each="monster : ${nat3}">
+          <div>
+            <p class="which-monster" th:text="${monster.name}"></p>
+            <a th:href="@{'/bestiary/'+${monster.idMonster}}">
+              <img th:src="@{'/images/monsters/' + ${monster.image}}">
+            </a>
+          </div>
+      </span>
+        <span class="monster-grid-image" th:each="monster : ${nat2}">
+          <div>
+            <p class="which-monster" th:text="${monster.name}"></p>
+            <a th:href="@{'/bestiary/'+${monster.idMonster}}">
+              <img th:src="@{'/images/monsters/' + ${monster.image}}">
+            </a>
+          </div>
+      </span>
+        <span class="monster-grid-image" th:each="monster : ${nat1}">
+          <div>
+            <p class="which-monster" th:text="${monster.name}"></p>
+            <a th:href="@{'/bestiary/'+${monster.idMonster}}">
+              <img th:src="@{'/images/monsters/' + ${monster.image}}">
+            </a>
+          </div>
+      </span>
+    </div>
+</div>
+<footer>
+    <div>
+        <p>DURANTEAU Damien - LANTA Axel - OUTREBON Edouard</p>
+        <p>CY Tech 2022</p>
+    </div>
+</footer>
 
-    <h1 th:text="${monster.name}"></h1>
-    <p><img th:src="@{'/images/monsters/' + ${monster.image}}"></p>
-    <p th:text="${monster.element}"></p>
-    <table>
-        <thead>
-        <tr>
-            <th>Health Points</th>
-            <th>Attack</th>
-            <th>Defense</th>
-            <th>Speed</th>
-            <th>Crit Rate</th>
-            <th>Crit Damage</th>
-            <th>Resistance</th>
-            <th>Accuracy</th>
-        </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td th:text="${monster.hp}"></td>
-                <td th:text="${monster.atk}"></td>
-                <td th:text="${monster.def}"></td>
-                <td th:text="${monster.spd}"></td>
-                <td th:text="${monster.crate}"></td>
-                <td th:text="${monster.cdmg}"></td>
-                <td th:text="${monster.res}"></td>
-                <td th:text="${monster.acc}"></td>
-            </tr>
-        </tbody>
-    </table>
-    <table>
-        <thead>
-            <tr>
-                <th>Skill</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Multiplier</th>
-                <th>Upgrades</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><img th:src="@{'/images/skills/'+${monster.s1.image}}"></td>
-                <td th:text="${monster.s1.name}"></td>
-                <td th:text="${monster.s1.description}"></td>
-                <td th:text="${monster.s1.multiplier_formula}"></td>
-                <td th:text="${monster.s1.upgrades}"></td>
-            </tr>
-            <tr th:if="${monster.s2}!=null">
-                <td><img th:src="@{'/images/skills/'+${monster.s2.image}}"></td>
-                <td th:text="${monster.s2.name}"></td>
-                <td th:text="${monster.s2.description}"></td>
-                <td th:text="${monster.s2.multiplier_formula}"></td>
-                <td th:text="${monster.s2.upgrades}"></td>
-            </tr>
-            <tr th:if="${monster.s3}!=null">
-                <td><img th:src="@{'/images/skills/'+${monster.s3.image}}"></td>
-                <td th:text="${monster.s3.name}"></td>
-                <td th:text="${monster.s3.description}"></td>
-                <td th:text="${monster.s3.multiplier_formula}"></td>
-                <td th:text="${monster.s3.upgrades}"></td>
-            </tr >
-            <tr th:if="${monster.s4}!=null">
-                <td><img th:src="@{'/images/skills/'+${monster.s4.image}}"></td>
-                <td th:text="${monster.s4.name}"></td>
-                <td th:text="${monster.s4.description}"></td>
-                <td th:text="${monster.s4.multiplier_formula}"></td>
-                <td th:text="${monster.s4.upgrades}"></td>
-            </tr>
-        </tbody>
-    </table>
-    <table th:if="${monster.leader_skill}!=null">
-        <thead>
-            <tr>
-                <th>Amount</th>
-                <th>Area</th>
-                <th>Attribute</th>
-                <th>Element</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><img th:src="@{'/images/skills'+${monster.leader_skill.image}}"></td>
-                <td th:text="${monster.leader_skill.amount}"></td>
-                <td th:text="${monster.leader_skill.area}"></td>
-                <td th:text="${monster.leader_skill.attribute}"></td>
-                <td th:text="${monster.leader_skill.element}"></td>
-            </tr>
-        </tbody>
-    </table>
-
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

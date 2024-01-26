@@ -1,13 +1,70 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Titre</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="/js/functions.js"></script>
+</head>
+
 <body>
+    <div class="title">
+        <h1>JEE : Summoners Wars Website</h1>
+    </div>
+    <div class="menu">
+        <div class="left-side">
+            <a class="button menu-button"><button onclick="showRightSide()"><ion-icon name="menu-outline"></ion-icon></button></a>
+            <a class="button home-button" href="/"><button><ion-icon name="home-outline"></ion-icon></button></a>
+            <a class="button rune-button" href="/bestiary"><button><img src="/images/transcendance.png"></button></a>
+            <a class="button monster-button" href="/monsters"><button><img src="/images/monster.png"></button></a>
+            <a class="button rune-button" href="/runes"><button><img src="/images/rune.png"></button></a>
+            <a class="button artifact-button" href="/artifacts"><button><img src="/images/artefact.png"></button></a>
+            <a class="button gvo-team-button" href="/gvoteam"><button><img src="/images/battle.png"></button></a>
+            <a class="button upload-button a_page" href="/uploadJSON"><button><ion-icon name="cloud-upload-outline"></ion-icon></button></a>
+            <div class="bottom-left">
+                <a class="button log-out-button" href="/logout"><button><ion-icon name="log-out-outline"></ion-icon></button></a>
+            </div>
+        </div>
+        <div class="right-side">
+            <a class="button menu-button"><button><p>Menu</p></button></a>
+            <a class="button home-button" href="/"><button><p>Accueil</p></button></a>
+            <a class="button rune-button" href="/bestiary"><button><p>Bestiaire</p></button></a>
+            <a class="button monster-button" href="/monsters"><button><p>Monstres</p></button></a>
+            <a class="button rune-button" href="/runes"><button><p>Runes</p></button></a>
+            <a class="button artifact-button" href="/artifacts"><button><p>Artefacts</p></button></a>
+            <a class="button gvo-team-button" href="/gvoteam"><button><p>Team Builder</p></button></a>
+            <a class="button upload-button a_page" href="/uploadJSON"><button><p>Upload</p></button></a>
+            <div class="bottom-right">
+                <a class="button log-out-button" href="/logout"><button><p>Déconnexion</p></button></a>
+            </div>
+        </div>
+    </div>
 
-<img src="/images/kek.gif" alt="BIG oof">
-<form method="POST" action="/upload" enctype="multipart/form-data">
-    <input type="file" name="file" /><br/><br/>
-    <input type="submit" value="Submit" />
-</form>
+    <div class="content">
 
+        <div class="kek">
+            <img src="/images/kek.gif" alt="BIG oof">
+        </div>
 
+        <div class="upload-form">
+            <form method="POST" action="/upload" enctype="multipart/form-data">
+                <input type="file" name="file" /><br/><br/>
+                <input onclick="showKEK()" type="submit" value="Upload " />
+            </form>
+            <p style="color: #dc143c" th:if="${message!=null}"
+               th:text="${message}"></p>
+        </div>
+    </div>
+
+    <footer>
+        <div>
+            <p>DURANTEAU Damien - LANTA Axel - OUTREBON Edouard</p>
+            <p>CY Tech 2022</p>
+        </div>
+    </footer>
+
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

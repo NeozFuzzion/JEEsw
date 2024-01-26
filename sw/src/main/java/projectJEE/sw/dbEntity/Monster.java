@@ -1,11 +1,16 @@
 package projectJEE.sw.dbEntity;
 
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
+import projectJEE.sw.model.MonsterId;
+
 import javax.persistence.*;
 
 @Entity
 public class Monster {
-    @Id    @Column
-    private long idMonster;
+    @EmbeddedId
+    private MonsterId idMonster;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_game", nullable = false)
@@ -14,44 +19,66 @@ public class Monster {
     @Column
     private String skills;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rune1")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumnsOrFormulas(value = {
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "user_id", referencedColumnName = "user_id")),
+            @JoinColumnOrFormula(column = @JoinColumn(name = "rune1", referencedColumnName = "idRune"))})
     private Rune rune1;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rune2")
+    @JoinColumnsOrFormulas(value = {
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "user_id", referencedColumnName = "user_id")),
+            @JoinColumnOrFormula(column = @JoinColumn(name = "rune2", referencedColumnName = "idRune"))})
     private Rune rune2;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rune3")
+    @JoinColumnsOrFormulas(value = {
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "user_id", referencedColumnName = "user_id")),
+            @JoinColumnOrFormula(column = @JoinColumn(name = "rune3", referencedColumnName = "idRune"))})
     private Rune rune3;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rune4")
+    @JoinColumnsOrFormulas(value = {
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "user_id", referencedColumnName = "user_id")),
+            @JoinColumnOrFormula(column = @JoinColumn(name = "rune4", referencedColumnName = "idRune"))})
     private Rune rune4;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rune5")
+    @JoinColumnsOrFormulas(value = {
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "user_id", referencedColumnName = "user_id")),
+            @JoinColumnOrFormula(column = @JoinColumn(name = "rune5", referencedColumnName = "idRune"))})
     private Rune rune5;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rune6")
+    @JoinColumnsOrFormulas(value = {
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "user_id", referencedColumnName = "user_id")),
+            @JoinColumnOrFormula(column = @JoinColumn(name = "rune6", referencedColumnName = "idRune"))})
     private Rune rune6;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "artifact1")
+    @JoinColumnsOrFormulas(value = {
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "user_id", referencedColumnName = "user_id")),
+            @JoinColumnOrFormula(column = @JoinColumn(name = "artifact1", referencedColumnName = "idArtifact"))})
     private Artifact artifact1;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "artifact2")
+    @JoinColumnsOrFormulas(value = {
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "user_id", referencedColumnName = "user_id")),
+            @JoinColumnOrFormula(column = @JoinColumn(name = "artifact2", referencedColumnName = "idArtifact"))})
     private Artifact artifact2;
 
     @Column
     private long unit_level;
 
+    @Column
+    private String jSON;
 
-    public long getIdMonster(Long unit_id) {
-        return idMonster;
+    public String getjSON() {
+        return jSON;
+    }
+
+    public void setjSON(String jSON) {
+        this.jSON = jSON;
     }
 
     public GameMonster getGameMonster() {
@@ -98,7 +125,12 @@ public class Monster {
         return artifact2;
     }
 
-    public void setIdMonster(long idMonster) {
+    public MonsterId getIdMonster() {
+        return idMonster;
+    }
+
+
+    public void setIdMonster(MonsterId idMonster) {
         this.idMonster = idMonster;
     }
 
@@ -161,4 +193,5 @@ public class Monster {
                 ", unit_level=" + unit_level +
                 '}';
     }
+
 }

@@ -1,19 +1,26 @@
 package projectJEE.sw.dbEntity;
 
 
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinColumnsOrFormulas;
+import org.hibernate.annotations.JoinFormula;
+import org.json.simple.JSONObject;
+import projectJEE.sw.model.RuneId;
+
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 public class Rune {
-    @Id @Column
-    private Long idRune;
+    @EmbeddedId
+    private RuneId idRune;
 
     @Column
     private Long occupied_type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "occupied_id")
+    @JoinColumnsOrFormulas(value = {
+            @JoinColumnOrFormula(formula = @JoinFormula(value = "user_id", referencedColumnName = "user_id")),
+            @JoinColumnOrFormula(column = @JoinColumn(name = "occupied_id", referencedColumnName = "idMonster"))})
     private Monster occupied_id;
 
     @Column
@@ -25,8 +32,9 @@ public class Rune {
     @Column
     private int classe;
 
-    @Column
-    private int set_id;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "set_id", nullable = false)
+    private RuneSet set_id;
 
     @Column
     private int upgrade_curr;
@@ -100,12 +108,27 @@ public class Rune {
     @Column
     private float efficiency;
 
+    @Column
+    private float effMaxHero;
 
-    public Long getIdRune() {
-        return idRune;
+    @Column
+    private float effMaxLegend;
+
+    @Column
+    private String jSON;
+
+    public String getjSON() {
+        return jSON;
     }
 
-    public void setIdRune(Long idRune) {
+    public void setjSON(String jSON) {
+        this.jSON = jSON;
+    }
+
+    public RuneId getIdRune() {
+        return idRune;
+    }
+    public void setIdRune(RuneId idRune) {
         this.idRune = idRune;
     }
 
@@ -149,11 +172,11 @@ public class Rune {
         this.classe = classe;
     }
 
-    public int getSet_id() {
+    public RuneSet getSet_id() {
         return set_id;
     }
 
-    public void setSet_id(int set_id) {
+    public void setSet_id(RuneSet set_id) {
         this.set_id = set_id;
     }
 
@@ -333,12 +356,42 @@ public class Rune {
         this.efficiency = efficiency;
     }
 
+    public float getEffMaxHero() {
+        return effMaxHero;
+    }
+
+    public void setEffMaxHero(float effMaxHero) {
+        this.effMaxHero = effMaxHero;
+    }
+
+    public float getEffMaxLegend() {
+        return effMaxLegend;
+    }
+
+    public void setEffMaxLegend(float effMaxLegend) {
+        this.effMaxLegend = effMaxLegend;
+    }
+
+    public JSONObject toJSON(){
+        JSONObject json = new JSONObject();
+        json.put("id",idRune.getIdRune());
+        json.put("set_id",set_id.toJSON());
+        json.put("slot_no",slot_no);
+        json.put("rang",rang);
+        json.put("upgrade_curr",upgrade_curr);
+        json.put("pri",pri);
+        json.put("statPri",statPri.toJSON());
+        if(statInnate!=null){
+            json.put("innate",innate);
+            json.put("statInnate",statInnate.toJSON());
+        }
+
+        return json;
+    }
+
     @Override
     public String toString() {
-        return "Rune{" +
-                "idRune=" + idRune +
-                ", occupied_type=" + occupied_type +
-                ", occupied_id=" + occupied_id +
+        return
                 ", slot_no=" + slot_no +
                 ", rang=" + rang +
                 ", classe=" + classe +
